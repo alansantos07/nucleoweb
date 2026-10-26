@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Núcleo de Automação de Processo</title>
+<meta name="description" content="Automação fiscal e contábil para escritórios de contabilidade: portais do governo, Domínio, gestão de processos fiscais, planejamento tributário e gestão interna do escritório.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B3D91'/%3E%3Cpath d='M18 46V18h6l16 18V18h6v28h-6L24 28v18z' fill='%23fff'/%3E%3Ccircle cx='48' cy='48' r='6' fill='%2316A34A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#0B3D91; --azul-esc:#082C6B; --azul-claro:#EAF1FB; --azul-borda:#C9D9F2;
+  --verde:#16A34A; --verde-esc:#128A3E; --verde-claro:#E8F6EE;
+  --texto:#111111; --texto2:#4B5563; --texto3:#6B7280; --linha:#E5E7EB;
+  --fundo:#FFFFFF; --fundo2:#F7F9FC; --sombra:0 10px 30px rgba(11,61,145,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fundo);color:var(--texto);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--azul)}
+img,svg{max-width:100%}
+.cx{max-width:1160px;margin:0 auto;padding:0 20px}
+section{padding:84px 0;scroll-margin-top:64px}
+.sec-alt{background:var(--fundo2)}
+.rot{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--verde-esc);margin-bottom:10px}
+h1,h2,h3{margin:0;line-height:1.2;letter-spacing:-.02em}
+h2{font-size:clamp(26px,3.4vw,38px);font-weight:800;margin-bottom:14px}
+.sub{color:var(--texto2);font-size:18px;max-width:720px;margin:0 0 40px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:.15s;font-family:inherit}
+.btn-v{background:var(--verde);color:#fff}.btn-v:hover{background:var(--verde-esc)}
+.btn-a{background:var(--azul);color:#fff}.btn-a:hover{background:var(--azul-esc)}
+.btn-c{background:#fff;color:var(--azul);border-color:var(--azul-borda)}.btn-c:hover{border-color:var(--azul)}
+.btn[aria-disabled=true]{opacity:.55;pointer-events:none}
+
+/* topo */
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--linha)}
+.topo{display:flex;align-items:center;gap:20px;height:64px}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--texto);font-weight:800;font-size:16px;white-space:nowrap}
+.marca small{display:block;font-weight:500;font-size:11px;color:var(--texto3);letter-spacing:.02em}
+nav.menu{display:flex;gap:4px;margin-left:auto}
+nav.menu a{padding:8px 12px;border-radius:9px;text-decoration:none;color:var(--texto2);font-weight:600;font-size:14px}
+nav.menu a:hover{background:var(--azul-claro);color:var(--azul)}
+.topo .btn{padding:9px 16px;font-size:14px}
+.bt-menu{display:none;margin-left:auto;background:none;border:1px solid var(--linha);border-radius:10px;padding:8px 11px;font-size:18px;cursor:pointer}
+@media (max-width:920px){
+  nav.menu{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:#fff;border-bottom:1px solid var(--linha);padding:10px 16px}
+  nav.menu.aberto{display:flex}
+  .bt-menu{display:block}
+  .topo .btn-area{display:none}
+}
+
+/* hero */
+.hero{padding:72px 0 80px;background:radial-gradient(900px 400px at 85% 0%,#DCE8FA 0%,transparent 70%),radial-gradient(600px 300px at 0% 100%,#E3F5EA 0%,transparent 70%)}
+.hero-g{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.selo{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--azul-borda);font-size:13px;font-weight:600;color:var(--azul);margin-bottom:20px}
+.selo i{width:8px;height:8px;border-radius:50%;background:var(--verde);display:inline-block}
+.hero h1{font-size:clamp(34px,5vw,54px);font-weight:800;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--azul)}
+.hero p.lead{font-size:19px;color:var(--texto2);margin:0 0 30px;max-width:560px}
+.acoes{display:flex;flex-wrap:wrap;gap:12px}
+.hero .nota{margin-top:16px;font-size:13px;color:var(--texto3)}
+.nums{display:flex;flex-wrap:wrap;gap:28px;margin-top:40px}
+.nums b{display:block;font-size:28px;font-weight:800;color:var(--azul)}
+.nums span{font-size:13px;color:var(--texto3)}
+
+/* janela ilustrativa */
+.janela{background:#fff;border:1px solid var(--linha);border-radius:16px;box-shadow:0 30px 60px rgba(11,61,145,.15);overflow:hidden}
+.jan-topo{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--linha);background:#FAFBFD;font-size:12px;color:var(--texto3)}
+.jan-topo i{width:10px;height:10px;border-radius:50%;background:#E5E7EB;display:inline-block}
+.jan-topo span{margin-left:8px;font-weight:600}
+.jan-corpo{display:grid;grid-template-columns:120px 1fr;min-height:330px}
+.jan-lat{background:var(--azul);color:#DCE6F7;padding:14px 10px;font-size:12px;display:flex;flex-direction:column;gap:6px}
+.jan-lat div{padding:7px 8px;border-radius:7px}
+.jan-lat .at{background:rgba(255,255,255,.16);color:#fff;font-weight:700}
+.jan-main{padding:16px;display:flex;flex-direction:column;gap:10px}
+.jan-abas{display:flex;gap:6px;flex-wrap:wrap}
+.jan-abas span{font-size:11px;padding:4px 9px;border-radius:999px;background:var(--azul-claro);color:var(--azul);font-weight:600}
+.jan-abas span.at{background:var(--azul);color:#fff}
+.tarefa{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--linha);border-radius:10px;font-size:12.5px}
+.tarefa .ic{width:30px;height:30px;border-radius:8px;background:var(--azul-claro);display:grid;place-items:center;font-size:15px;flex:none}
+.tarefa b{display:block;font-size:12.5px}
+.tarefa small{color:var(--texto3)}
+.tarefa .ok{margin-left:auto;font-size:11px;font-weight:700;color:#fff;background:var(--verde);padding:4px 10px;border-radius:8px;white-space:nowrap}
+.barra{height:8px;border-radius:9px;background:#EEF2F7;overflow:hidden}.barra i{display:block;height:100%;background:var(--verde);border-radius:9px}
+@media (max-width:920px){.hero-g{grid-template-columns:1fr}.jan-corpo{grid-template-columns:96px 1fr}}
+
+/* módulos */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border:1px solid var(--linha);border-radius:16px;padding:26px;box-shadow:var(--sombra)}
+.card .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--azul-claro);margin-bottom:16px}
+.card h3{font-size:19px;margin-bottom:8px}
+.card p{color:var(--texto2);margin:0 0 12px;font-size:15px}
+.card ul{margin:0;padding-left:18px;color:var(--texto2);font-size:14px}
+.card li{margin:4px 0}
+.selo-breve{display:inline-block;font-size:11px;font-weight:700;color:var(--azul);background:var(--azul-claro);padding:3px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
+@media (max-width:920px){.grid3{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.grid3{grid-template-columns:1fr}}
+
+/* automações */
+.filtros{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.filtros button{font-family:inherit;border:1px solid var(--azul-borda);background:#fff;color:var(--azul);padding:8px 14px;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer}
+.filtros button.at{background:var(--azul);border-color:var(--azul);color:#fff}
+.lista-auto{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.auto{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--linha);border-radius:12px;padding:14px 16px}
+.auto .ic{width:36px;height:36px;border-radius:9px;background:var(--azul-claro);display:grid;place-items:center;font-size:18px;flex:none}
+.auto b{display:block;font-size:15px}
+.auto p{margin:3px 0 6px;color:var(--texto2);font-size:13.5px}
+.auto small{color:var(--texto3);font-size:12px}
+.etq{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:6px}
+.etq.d{background:var(--verde-claro);color:var(--verde-esc)}.etq.b{background:var(--azul-claro);color:var(--azul)}
+@media (max-width:760px){.lista-auto{grid-template-columns:1fr}}
+
+/* novidades */
+.nov-g{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:start}
+.versao{background:#fff;border:1px solid var(--linha);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.versao summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;gap:12px;align-items:center}
+.versao summary::-webkit-details-marker{display:none}
+.versao summary .v{font-size:12px;font-weight:700;color:var(--azul);background:var(--azul-claro);padding:4px 9px;border-radius:7px;white-space:nowrap}
+.versao summary b{font-size:15px}
+.versao summary small{display:block;color:var(--texto3);font-weight:500;font-size:12.5px}
+.versao summary .seta{margin-left:auto;color:var(--texto3);transition:.2s}
+.versao[open] summary .seta{transform:rotate(180deg)}
+.versao ul{margin:0;padding:0 24px 18px 40px;color:var(--texto2);font-size:14.5px}
+.versao li{margin:7px 0}
+.breve{background:var(--azul);color:#fff;border-radius:16px;padding:24px}
+.breve h3{font-size:18px;margin-bottom:12px}
+.breve ul{margin:0;padding-left:18px;font-size:14px;color:#DCE6F7}
+.breve li{margin:8px 0}
+@media (max-width:920px){.nov-g{grid-template-columns:1fr}}
+
+/* planos */
+.planos{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+.plano{position:relative;background:#fff;border:1px solid var(--linha);border-radius:18px;padding:26px 22px;display:flex;flex-direction:column;box-shadow:var(--sombra)}
+.plano.dest{border:2px solid var(--verde)}
+.plano .tag{position:absolute;top:-12px;left:22px;background:var(--verde);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+.plano h3{font-size:20px}
+.plano .desc{color:var(--texto2);font-size:14px;min-height:44px;margin:8px 0 14px}
+.plano .preco{font-size:28px;font-weight:800;color:var(--azul)}
+.plano .preco small{font-size:14px;font-weight:600;color:var(--texto3)}
+.plano ul{list-style:none;padding:0;margin:18px 0 22px;font-size:14px;flex:1}
+.plano li{display:flex;gap:8px;margin:8px 0;color:var(--texto2)}
+.plano li.nao{color:#9CA3AF;text-decoration:line-through}
+.plano li .m{flex:none;font-weight:800;color:var(--verde)}
+.plano li.nao .m{color:#9CA3AF}
+.plano .sep{height:1px;background:var(--linha);margin:6px 0}
+.obs-planos{margin-top:22px;font-size:13.5px;color:var(--texto3)}
+@media (max-width:1060px){.planos{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.planos{grid-template-columns:1fr}}
+
+/* download */
+.dl{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.dl .card h3{margin-bottom:14px}
+.passos{counter-reset:p;list-style:none;padding:0;margin:0}
+.passos li{counter-increment:p;position:relative;padding:0 0 18px 44px;color:var(--texto2);font-size:15px}
+.passos li::before{content:counter(p);position:absolute;left:0;top:-2px;width:30px;height:30px;border-radius:50%;background:var(--azul-claro);color:var(--azul);font-weight:800;display:grid;place-items:center;font-size:14px}
+.passos b{color:var(--texto)}
+.req{list-style:none;padding:0;margin:0 0 18px}
+.req li{padding:9px 0;border-bottom:1px solid var(--linha);font-size:14.5px;color:var(--texto2);display:flex;gap:10px}
+.req li:last-child{border-bottom:0}
+.hash{font-family:Consolas,monospace;font-size:11.5px;color:var(--texto3);word-break:break-all;background:var(--fundo2);border-radius:8px;padding:8px 10px;margin-top:14px}
+.aviso{background:#FFF7E6;border:1px solid #F5D9A8;color:#7A4B00;border-radius:12px;padding:12px 14px;font-size:13.5px;margin-top:14px}
+@media (max-width:860px){.dl{grid-template-columns:1fr}}
+
+/* área do cliente */
+.cliente{display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center}
+.login{background:#fff;border:1px solid var(--linha);border-radius:18px;padding:28px;box-shadow:var(--sombra);position:relative}
+.login h3{font-size:20px;margin-bottom:4px}
+.login p{margin:0 0 18px;color:var(--texto3);font-size:14px}
+.login label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}
+.login input{width:100%;padding:11px 12px;border:1px solid var(--linha);border-radius:10px;font-size:15px;font-family:inherit;background:#F9FAFB}
+.login .btn{width:100%;margin-top:18px}
+.faixa-breve{display:flex;gap:10px;align-items:center;background:var(--azul-claro);color:var(--azul);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:600;margin-top:16px}
+.lista-ok{list-style:none;padding:0;margin:18px 0 0}
+.lista-ok li{display:flex;gap:10px;margin:10px 0;color:var(--texto2)}
+.lista-ok li b{color:var(--verde);flex:none}
+@media (max-width:920px){.cliente{grid-template-columns:1fr}}
+
+/* faq / contato */
+.faq details{border-bottom:1px solid var(--linha);padding:16px 0}
+.faq summary{cursor:pointer;font-weight:700;font-size:16px}
+.faq p{color:var(--texto2);margin:10px 0 0}
+.contato{background:linear-gradient(135deg,var(--azul),#1554B8);color:#fff;border-radius:22px;padding:44px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.contato h2{color:#fff;margin-bottom:6px}
+.contato p{margin:0;color:#DCE6F7}
+.contato .btn-c{background:#fff}
+footer{padding:30px 0 40px;color:var(--texto3);font-size:13px}
+footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(17,17,17,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal.aberto{display:flex}
+.modal .caixa{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.25)}
+.modal h3{font-size:20px;margin-bottom:8px}
+.modal p{color:var(--texto2);margin:0 0 18px}
+.modal .acoes{justify-content:flex-end}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="cx topo">
+    <a class="marca" href="#inicio">
+      <svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg>
+      <span>Núcleo<small>de Automação de Processo</small></span>
+    </a>
+    <nav class="menu" id="menu">
+      <a href="#recursos">Recursos</a>
+      <a href="#automacoes">Automações</a>
+      <a href="#novidades">Novidades</a>
+      <a href="#planos">Planos</a>
+      <a href="#download">Download</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a class="btn btn-a btn-area" href="#area-cliente">👤 Área do Cliente</a>
+    <button class="bt-menu" id="btMenu" aria-label="Abrir menu">☰</button>
+  </div>
+</header>
+
+<main id="inicio">
+<!-- HERO -->
+<section class="hero">
+  <div class="cx hero-g">
+    <div>
+      <div class="selo"><i></i> <span id="seloVersao">Versão atual</span></div>
+      <h1>O braço direito <em>automatizado</em> do seu escritório contábil</h1>
+      <p class="lead">Baixe notas e relatórios nos portais do governo, importe no Domínio, acompanhe as rotinas fiscais de cada empresa, faça planejamento tributário e organize a gestão interna do escritório — tudo num só sistema.</p>
+      <div class="acoes">
+        <a class="btn btn-v" href="#download">⬇ Baixar o Núcleo</a>
+        <a class="btn btn-c" href="#planos">Ver planos e preços</a>
+      </div>
+      <div class="nota">Windows 10 ou 11 · Atualização automática · Dados do escritório na nuvem</div>
+      <div class="nums">
+        <div><b id="nAuto">—</b><span>automações prontas</span></div>
+        <div><b>4</b><span>núcleos de gestão</span></div>
+        <div><b id="nVersoes">—</b><span>atualizações publicadas</span></div>
+      </div>
+    </div>
+    <div class="janela" aria-hidden="true">
+      <div class="jan-topo"><i></i><i></i><i></i><span>Núcleo de Automação de Processo</span></div>
+      <div class="jan-corpo">
+        <div class="jan-lat">
+          <div>🏢 Empresas</div><div class="at">⚙ Automação</div><div>📊 Fiscal</div><div>🏛 Interno</div>
+        </div>
+        <div class="jan-main">
+          <div class="jan-abas"><span>Início</span><span class="at">Federal</span><span>Estadual</span><span>Municipal</span><span>Domínio</span></div>
+          <div class="tarefa"><div class="ic">📥</div><div><b>Download de NF-e de Entrada</b><small>Distribuição DF-e · 38 empresas</small></div><span class="ok">Executar</span></div>
+          <div class="tarefa"><div class="ic">🧾</div><div><b>Download de NFS-e (Portal Nacional)</b><small>1.194 XML · 0 falhas</small></div><span class="ok">Executar</span></div>
+          <div class="tarefa"><div class="ic">📦</div><div><b>Importação de NFS-e no Domínio</b><small>13 empresas · 689 notas</small></div><span class="ok">Executar</span></div>
+          <div style="font-size:12px;color:#6B7280;margin-top:4px">Rotinas fiscais de setembro</div>
+          <div class="barra"><i style="width:78%"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECURSOS -->
+<section id="recursos">
+  <div class="cx">
+    <span class="rot">Recursos</span>
+    <h2>Tudo o que o escritório faz todo mês, num lugar só</h2>
+    <p class="sub">O Núcleo é organizado em núcleos de trabalho. Cada escritório tem o seu banco de dados, os seus usuários e as suas permissões.</p>
+    <div class="grid3">
+      <div class="card"><div class="ic">⚙</div><h3>Núcleo de Automação</h3><p>Robôs que fazem o trabalho repetitivo nos portais do governo e no Domínio.</p>
+        <ul><li>NF-e, NFS-e, CT-e e NFCom pelos canais oficiais</li><li>ISS.net, Agenci@Net, CCC e Portal Nacional</li><li>Importação de XML no Domínio com relatório gerencial</li></ul></div>
+      <div class="card"><div class="ic">📊</div><h3>Núcleo Fiscal</h3><p>Controle das rotinas fiscais de cada empresa, mês a mês.</p>
+        <ul><li>Gestão de processos: documentação, escrituração, apuração e declarações</li><li>Envio de guias e documentos ao cliente por e-mail</li><li>Planejamento tributário com apresentação em PDF</li></ul></div>
+      <div class="card"><div class="ic">🏛</div><h3>Núcleo Interno</h3><p>A gestão do próprio escritório.</p>
+        <ul><li>Comercial: atendimento, propostas e contratos</li><li>Financeiro: contas, fluxo de caixa e régua de cobrança</li><li>Marketing, RH e metas da diretoria</li></ul></div>
+      <div class="card"><div class="ic">🏢</div><h3>Cadastro de Empresas</h3><p>A base que alimenta todas as automações.</p>
+        <ul><li>Atualização pela Receita Federal e pelo Cadastro Centralizado (DF-e)</li><li>Regimes, responsáveis, sócios e pastas por empresa</li></ul></div>
+      <div class="card"><div class="ic">🔐</div><h3>Segurança e controle</h3><p>Cada pessoa vê só o que pode.</p>
+        <ul><li>Login, perfis e permissões por usuário</li><li>Senhas nunca guardadas em texto</li><li>Backup automático diário dos dados</li></ul></div>
+      <div class="card"><div class="ic">🌐</div><h3>Núcleo Web <span class="selo-breve">Em breve</span></h3><p>Acesso pelo navegador, de qualquer lugar.</p>
+        <ul><li>Área do cliente com login</li><li>Painéis e relatórios on-line</li><li>Robôs continuam rodando no computador do escritório</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMAÇÕES -->
+<section id="automacoes" class="sec-alt">
+  <div class="cx">
+    <span class="rot">Automações</span>
+    <h2>Automações disponíveis</h2>
+    <p class="sub">Lista atualizada a cada nova versão. As marcadas "Em breve" já estão no roteiro de desenvolvimento.</p>
+    <div class="filtros" id="filtros"></div>
+    <div class="lista-auto" id="listaAuto"></div>
+  </div>
+</section>
+
+<!-- NOVIDADES -->
+<section id="novidades">
+  <div class="cx">
+    <span class="rot">Novidades</span>
+    <h2>O que mudou nas últimas versões</h2>
+    <p class="sub">O Núcleo se atualiza sozinho: na próxima vez que você entrar, a versão nova já está disponível.</p>
+    <div class="nov-g">
+      <div id="listaVersoes"></div>
+      <div class="breve"><h3>🚀 Em breve</h3><ul id="listaBreve"></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section id="planos" class="sec-alt">
+  <div class="cx">
+    <span class="rot">Planos e preços</span>
+    <h2>Escolha o plano do seu escritório</h2>
+    <p class="sub">Todos os planos incluem o Cadastro de Empresas, o Núcleo Fiscal, o Núcleo Interno, as atualizações e o backup dos dados.</p>
+    <div class="planos" id="listaPlanos"></div>
+    <p class="obs-planos">Valores mensais por escritório. Implantação e treinamento combinados na contratação. Fale com a gente para um período de teste.</p>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download">
+  <div class="cx">
+    <span class="rot">Download</span>
+    <h2>Baixe e comece a usar</h2>
+    <p class="sub">Um único arquivo, sem instalação. Para entrar é preciso que o seu escritório esteja cadastrado — fale com a gente para liberar o acesso.</p>
+    <div class="dl">
+      <div class="card">
+        <h3>📥 Núcleo para Windows</h3>
+        <p id="dlInfo" style="color:var(--texto2)">—</p>
+        <a class="btn btn-v" id="btDownload" href="#">⬇ Baixar NucleoAutomacaoProcesso.exe</a>
+        <div class="hash" id="dlHash" hidden></div>
+        <div class="aviso">O Windows pode mostrar "O Windows protegeu o computador" no primeiro uso. Clique em <b>Mais informações</b> e depois em <b>Executar assim mesmo</b>.</div>
+      </div>
+      <div class="card">
+        <h3>Como começar</h3>
+        <ol class="passos">
+          <li><b>Contrate um plano</b> ou peça um período de teste — cadastramos o seu escritório e o primeiro administrador.</li>
+          <li><b>Baixe o arquivo</b> e salve numa pasta do computador (ou numa pasta da rede do escritório).</li>
+          <li><b>Abra o Núcleo</b> e entre com o CNPJ do escritório, o usuário e a senha recebidos.</li>
+          <li><b>Cadastre as empresas</b> e os usuários da equipe — e comece a rodar as automações.</li>
+        </ol>
+        <ul class="req">
+          <li>🖥 Windows 10 ou 11 (64 bits) e internet</li>
+          <li>🌐 Google Chrome para as automações em sites</li>
+          <li>🔑 Certificado digital A1 para os canais oficiais (NF-e, CT-e, NFS-e)</li>
+          <li>📘 Sistema Domínio instalado para as automações do Domínio</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÁREA DO CLIENTE -->
+<section id="area-cliente" class="sec-alt">
+  <div class="cx cliente">
+    <div>
+      <span class="rot">Área do Cliente</span>
+      <h2>O Núcleo também no navegador</h2>
+      <p class="sub" style="margin-bottom:0">Estamos preparando a versão web do Núcleo. Em breve, os clientes vão poder entrar por aqui, de qualquer computador, com o mesmo usuário e senha do sistema.</p>
+      <ul class="lista-ok">
+        <li><b>✔</b> Acompanhar as rotinas fiscais e os documentos do mês</li>
+        <li><b>✔</b> Painéis, relatórios e planejamentos tributários on-line</li>
+        <li><b>✔</b> Os robôs continuam rodando com segurança no computador do escritório</li>
+      </ul>
+    </div>
+    <form class="login" id="formLogin" autocomplete="off">
+      <h3>Entrar no Núcleo</h3>
+      <p>Acesso exclusivo para clientes.</p>
+      <label for="lCnpj">CNPJ do escritório</label>
+      <input id="lCnpj" inputmode="numeric" placeholder="00.000.000/0000-00">
+      <label for="lUsu">Usuário ou e-mail</label>
+      <input id="lUsu" placeholder="seu.usuario">
+      <label for="lSenha">Senha</label>
+      <input id="lSenha" type="password" placeholder="••••••••">
+      <button class="btn btn-a" type="submit">Entrar</button>
+      <div class="faixa-breve">⏳ Acesso web em preparação — por enquanto use o Núcleo para Windows.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="duvidas">
+  <div class="cx" style="max-width:860px">
+    <span class="rot">Dúvidas</span>
+    <h2>Perguntas frequentes</h2>
+    <div class="faq">
+      <details><summary>Preciso instalar alguma coisa?</summary><p>Não. O Núcleo é um único arquivo para Windows. As atualizações chegam sozinhas: quando há versão nova, o próprio sistema avisa e se atualiza.</p></details>
+      <details><summary>Onde ficam os dados do meu escritório?</summary><p>Cada escritório tem o seu próprio banco de dados na nuvem, separado dos demais, com backup automático diário. Os certificados digitais ficam só no computador de quem os cadastrou, com a senha protegida pelo Windows.</p></details>
+      <details><summary>O robô resolve captcha ou burla verificações dos sites?</summary><p>Não. O Núcleo usa os canais oficiais sempre que existem e respeita todas as verificações de segurança dos portais. A escolha do certificado digital é sempre feita por você.</p></details>
+      <details><summary>Funciona para escritórios de qualquer estado?</summary><p>As automações federais (NF-e, CT-e, NFS-e nacional, Cadastro Centralizado) valem para todo o Brasil. As estaduais e municipais começaram pelo Distrito Federal, e novos estados entram conforme a demanda dos clientes.</p></details>
+      <details><summary>Posso mudar de plano depois?</summary><p>Sim. A mudança vale na hora, sem reinstalar nada.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato" style="padding-top:20px">
+  <div class="cx">
+    <div class="contato">
+      <div><h2>Vamos automatizar o seu escritório?</h2><p>Fale com a gente para conhecer o Núcleo, pedir um período de teste ou contratar.</p></div>
+      <div class="acoes" id="botoesContato"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="cx"><span id="rodapeNome">Núcleo de Automação de Processo</span><span id="rodapeGerado"></span></div></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTit">
+  <div class="caixa">
+    <h3 id="modalTit">Área do Cliente em breve</h3>
+    <p>O acesso pelo navegador está em preparação. Por enquanto, use o Núcleo para Windows com o mesmo CNPJ, usuário e senha.</p>
+    <div class="acoes"><a class="btn btn-c" href="#download" id="modalDl">Baixar o Núcleo</a><button class="btn btn-a" id="modalOk" type="button">Entendi</button></div>
+  </div>
+</div>
+
+<script src="dados.js"></script>
+<script>
+(function () {
+  var D = window.NUCLEO || {};
+  function el(tag, cls, texto) { var e = document.createElement(tag); if (cls) e.className = cls; if (texto != null) e.textContent = texto; return e; }
+  function $(id) { return document.getElementById(id); }
+
+  // menu no celular
+  $("btMenu").onclick = function () { $("menu").classList.toggle("aberto"); };
+  Array.prototype.forEach.call(document.querySelectorAll("#menu a"), function (a) { a.onclick = function () { $("menu").classList.remove("aberto"); }; });
+
+  // versão e números
+  var dl = D.download || {};
+  if (dl.versao) $("seloVersao").textContent = "Versão " + dl.versao + (dl.data ? " · " + dl.data.split(" ")[0] : "");
+  $("nAuto").textContent = D.total_automacoes || "—";
+  $("nVersoes").textContent = (D.versoes || []).length ? "+" + (D.versoes || []).length : "—";
+
+  // download
+  var bt = $("btDownload");
+  if (dl.publico && dl.url) {
+    bt.href = dl.url;
+    $("dlInfo").textContent = "Versão " + dl.versao + (dl.data ? ", publicada em " + dl.data : "") + ". O mesmo arquivo serve para todos os computadores do escritório.";
+    if (dl.sha256) { $("dlHash").hidden = false; $("dlHash").textContent = "SHA-256: " + dl.sha256; }
+  } else {
+    bt.textContent = "Solicitar acesso ao download";
+    bt.href = "#contato";
+    $("dlInfo").textContent = "O download é liberado para escritórios cadastrados. Fale com a gente.";
+  }
+
+  // automações
+  var grupos = D.automacoes || [], atual = "";
+  function desenharAuto() {
+    var lista = $("listaAuto"); lista.innerHTML = "";
+    grupos.forEach(function (g) {
+      if (atual && g.categoria !== atual) return;
+      g.itens.slice().sort(function (a, b) { return (b.disponivel - a.disponivel); }).forEach(function (t) {
+        var c = el("div", "auto"); c.appendChild(el("div", "ic", t.icone || "⚙"));
+        var tx = el("div"); var b = el("b", null, t.nome);
+        b.appendChild(el("span", "etq " + (t.disponivel ? "d" : "b"), t.disponivel ? "Disponível" : "Em breve"));
+        tx.appendChild(b); tx.appendChild(el("p", null, t.descricao));
+        tx.appendChild(el("small", null, g.categoria + (t.uf ? " · " + t.uf : "") + " · " + t.portal));
+        c.appendChild(tx); lista.appendChild(c);
+      });
+    });
+  }
+  function filtro(nome, valor) {
+    var b = el("button", valor === atual ? "at" : "", nome); b.type = "button";
+    b.onclick = function () { atual = valor; Array.prototype.forEach.call($("filtros").children, function (x) { x.className = ""; }); b.className = "at"; desenharAuto(); };
+    $("filtros").appendChild(b);
+  }
+  filtro("Todas", "");
+  grupos.forEach(function (g) { filtro(g.categoria + " (" + g.itens.length + ")", g.categoria); });
+  desenharAuto();
+
+  // novidades
+  (D.versoes || []).forEach(function (v, i) {
+    var d = el("details", "versao"); if (i === 0) d.open = true;
+    var s = el("summary"); s.appendChild(el("span", "v", v.data ? v.data.split(" ")[0] : v.versao));
+    var t = el("div"); t.appendChild(el("b", null, v.titulo || ("Versão " + v.versao))); t.appendChild(el("small", null, "Versão " + v.versao));
+    s.appendChild(t); s.appendChild(el("span", "seta", "▾")); d.appendChild(s);
+    var ul = el("ul"); (v.itens || []).forEach(function (it) { ul.appendChild(el("li", null, it)); }); d.appendChild(ul);
+    $("listaVersoes").appendChild(d);
+  });
+  (D.em_breve || []).forEach(function (it) { $("listaBreve").appendChild(el("li", null, it)); });
+
+  // planos
+  (D.planos || []).forEach(function (p) {
+    var c = el("div", "plano" + (p.destaque ? " dest" : ""));
+    if (p.destaque) c.appendChild(el("span", "tag", "Mais escolhido"));
+    c.appendChild(el("h3", null, p.personalizado ? "Sob medida" : p.nome));
+    c.appendChild(el("div", "desc", p.descricao));
+    var pr = el("div", "preco", p.preco); if (p.tem_preco) pr.appendChild(el("small", null, " /mês")); c.appendChild(pr);
+    var ul = el("ul");
+    if (p.personalizado) {
+      ["Módulos escolhidos um a um", "Limites sob medida", "Para redes e grupos de escritórios"].forEach(function (x) { var li = el("li"); li.appendChild(el("span", "m", "✔")); li.appendChild(el("span", null, x)); ul.appendChild(li); });
+    } else {
+      p.limites.forEach(function (x) { var li = el("li"); li.appendChild(el("span", "m", "✔")); li.appendChild(el("span", null, x)); ul.appendChild(li); });
+      ul.appendChild(el("li", "sep"));
+      p.modulos.forEach(function (m) { var li = el("li", m.incluso ? "" : "nao"); li.appendChild(el("span", "m", m.incluso ? "✔" : "—")); li.appendChild(el("span", null, m.nome)); ul.appendChild(li); });
+    }
+    c.appendChild(ul);
+    var b = el("a", "btn " + (p.destaque ? "btn-v" : "btn-c"), p.personalizado ? "Montar o meu plano" : "Contratar"); b.href = "#contato";
+    c.appendChild(b); $("listaPlanos").appendChild(c);
+  });
+
+  // contato
+  var assunto = encodeURIComponent("Quero conhecer o " + (D.nome || "Núcleo"));
+  if (D.whatsapp) { var w = el("a", "btn btn-v", "💬 WhatsApp"); w.href = "https://wa.me/" + D.whatsapp + "?text=" + assunto; w.target = "_blank"; w.rel = "noopener"; $("botoesContato").appendChild(w); }
+  if (D.email) { var m = el("a", "btn btn-c", "✉ " + D.email); m.href = "mailto:" + D.email + "?subject=" + assunto; $("botoesContato").appendChild(m); }
+
+  if (D.nome) $("rodapeNome").textContent = "© " + new Date().getFullYear() + " " + D.nome;
+  if (D.gerado_em) $("rodapeGerado").textContent = "Página atualizada em " + D.gerado_em;
+
+  // área do cliente: em breve
+  function abrir() { $("modal").classList.add("aberto"); $("modalOk").focus(); }
+  function fechar() { $("modal").classList.remove("aberto"); }
+  $("formLogin").onsubmit = function (e) { e.preventDefault(); abrir(); };
+  $("modalOk").onclick = fechar; $("modalDl").onclick = fechar;
+  $("modal").onclick = function (e) { if (e.target === this) fechar(); };
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") fechar(); });
+})();
+</script>
+</body>
+</html>
