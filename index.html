@@ -426,7 +426,7 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
   var dl = D.download || {};
   if (dl.versao) $("seloVersao").textContent = "Versão " + dl.versao + (dl.data ? " · " + dl.data.split(" ")[0] : "");
   $("nAuto").textContent = D.total_automacoes || "—";
-  $("nVersoes").textContent = (D.versoes || []).length ? "+" + (D.versoes || []).length : "—";
+  $("nVersoes").textContent = D.total_versoes || (D.versoes || []).length || "—";
 
   // download
   var bt = $("btDownload");

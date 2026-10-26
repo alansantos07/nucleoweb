@@ -87,6 +87,7 @@ window.NUCLEO = {
    ]
   }
  ],
+ "total_versoes": 45,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -501,5 +502,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "26/10/2026 09:01"
+ "gerado_em": "26/10/2026 09:09"
 };
