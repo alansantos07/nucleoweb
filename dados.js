@@ -7,11 +7,22 @@ window.NUCLEO = {
  "download": {
   "publico": false,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.23.1644",
-  "data": "23/10/2026 16:44",
-  "sha256": ""
+  "versao": "2026.10.26.0840",
+  "data": "26/10/2026 08:40",
+  "sha256": "a84a8d65f549d6f4987e5eb95b69484b58e0d0d1f9af056c0fc04f3f035362a3"
  },
  "versoes": [
+  {
+   "versao": "2026.10.26.0840",
+   "data": "26/10/2026 08:40",
+   "titulo": "Login mais seguro",
+   "itens": [
+    "O usuário e a senha agora são conferidos no Banco Central do Núcleo antes de liberar o acesso aos dados do escritório. A senha continua sem sair do computador: vai só um resumo protegido dela.",
+    "Depois de 5 tentativas com a senha errada, aquele usuário fica bloqueado por 10 minutos.",
+    "A partir do segundo acesso, o login fica mais rápido (uma consulta só ao Central).",
+    "Sem internet, o Núcleo continua entrando pela última cópia do cadastro, como antes."
+   ]
+  },
   {
    "versao": "2026.10.23.1644",
    "data": "23/10/2026 16:44",
@@ -72,22 +83,9 @@ window.NUCLEO = {
     "Cenários de planejamento: cada atividade (CNPJ) do cenário agora tem as suas receitas — produtos e serviços do cadastro de regras de Tributação, com o % de cada uma na atividade. A simulação monta uma linha por receita, já com as alíquotas da regra.",
     "Comparação entre cenários sem limitação: dá para comparar com cenários de QUALQUER planejamento (agrupados por planejamento, com filtro de setor). Na Análise, o cenário de outro planejamento aparece como \"#002 · Cenário 1\"."
    ]
-  },
-  {
-   "versao": "2026.10.21.2339",
-   "data": "21/10/2026 23:39",
-   "titulo": "Propostas e contratos: status padronizados, bloqueio depois do aceite e assinaturas",
-   "itens": [
-    "Status iguais para proposta e contrato, com cores: Em edição (cinza), Gerado (azul), Enviado (roxo), Aceito (verde), Recusado (vermelho) e Encerrado (cinza-escuro) — nos selos, nas listas e na legenda.",
-    "O status acompanha o fluxo: gerar o PDF marca como Gerado, preparar o e-mail pergunta se marca como Enviado, e o botão \"Status ▾\" mostra só as mudanças possíveis.",
-    "Aceito = bloqueado para edição (🔒): fica só a visualização dos dados, o PDF e o histórico. A trava também vale na gravação, mesmo que alguém tente alterar por outro caminho.",
-    "Contrato: só passa a gerar honorários no Financeiro depois de ACEITO. No contrato aceito ainda dá para suspender/reativar o faturamento, anexar o PDF assinado (\"📎 Documento ▾\") e encerrar.",
-    "Novo \"✍ Assinaturas\": escolha quem assina (cliente, escritório, responsável técnico, testemunhas, outros), o rótulo, nome e documento de cada um, quantas por linha e cidade/data — no modelo (padrão) ou só naquela proposta/contrato.",
-    "Os documentos antigos foram convertidos: Rascunho → Em edição, Enviada/Em negociação → Enviado, Aceita/Ativo → Aceito (Suspenso → Aceito com faturamento suspenso)."
-   ]
   }
  ],
- "total_versoes": 45,
+ "total_versoes": 46,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -502,5 +500,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "26/10/2026 09:09"
+ "gerado_em": "26/10/2026 09:53"
 };
