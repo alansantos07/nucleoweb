@@ -5,7 +5,7 @@ window.NUCLEO = {
  "email": "alansantos.fiscal@gmail.com",
  "whatsapp": "",
  "download": {
-  "publico": false,
+  "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
   "versao": "2026.10.26.0840",
   "data": "26/10/2026 08:40",
@@ -500,5 +500,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "26/10/2026 09:53"
+ "gerado_em": "26/10/2026 10:02"
 };
