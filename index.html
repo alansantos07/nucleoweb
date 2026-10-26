@@ -213,7 +213,7 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
       <a href="#download">Download</a>
       <a href="#contato">Contato</a>
     </nav>
-    <a class="btn btn-a btn-area" href="#area-cliente">👤 Área do Cliente</a>
+    <a class="btn btn-a btn-area" href="portal/">👤 Área do Cliente</a>
     <button class="bt-menu" id="btMenu" aria-label="Abrir menu">☰</button>
   </div>
 </header>
@@ -352,26 +352,21 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
   <div class="cx cliente">
     <div>
       <span class="rot">Área do Cliente</span>
-      <h2>O Núcleo também no navegador</h2>
-      <p class="sub" style="margin-bottom:0">Estamos preparando a versão web do Núcleo. Em breve, os clientes vão poder entrar por aqui, de qualquer computador, com o mesmo usuário e senha do sistema.</p>
+      <h2>Portal do Cliente</h2>
+      <p class="sub" style="margin-bottom:0">As empresas atendidas pelo seu escritório acompanham tudo pelo navegador, de qualquer lugar, com e-mail e senha.</p>
       <ul class="lista-ok">
-        <li><b>✔</b> Acompanhar as rotinas fiscais e os documentos do mês</li>
-        <li><b>✔</b> Painéis, relatórios e planejamentos tributários on-line</li>
-        <li><b>✔</b> Os robôs continuam rodando com segurança no computador do escritório</li>
+        <li><b>✔</b> Guias de impostos do mês com valor, vencimento e o PDF para pagar</li>
+        <li><b>✔</b> Honorários com a nota fiscal e o código do boleto ou PIX</li>
+        <li><b>✔</b> Dados da empresa e o contato do escritório</li>
+        <li><b>✔</b> Só o que o escritório publicar — e sem poder alterar nada</li>
       </ul>
     </div>
-    <form class="login" id="formLogin" autocomplete="off">
-      <h3>Entrar no Núcleo</h3>
-      <p>Acesso exclusivo para clientes.</p>
-      <label for="lCnpj">CNPJ do escritório</label>
-      <input id="lCnpj" inputmode="numeric" placeholder="00.000.000/0000-00">
-      <label for="lUsu">Usuário ou e-mail</label>
-      <input id="lUsu" placeholder="seu.usuario">
-      <label for="lSenha">Senha</label>
-      <input id="lSenha" type="password" placeholder="••••••••">
-      <button class="btn btn-a" type="submit">Entrar</button>
-      <div class="faixa-breve">⏳ Acesso web em preparação — por enquanto use o Núcleo para Windows.</div>
-    </form>
+    <div class="login">
+      <h3>Já é cliente?</h3>
+      <p>Entre com o e-mail e a senha que o seu escritório de contabilidade enviou.</p>
+      <a class="btn btn-a" href="portal/">Entrar no Portal do Cliente</a>
+      <div class="faixa-breve">🔒 No primeiro acesso você cria a sua própria senha.</div>
+    </div>
   </div>
 </section>
 
@@ -385,6 +380,7 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
       <details><summary>Onde ficam os dados do meu escritório?</summary><p>Cada escritório tem o seu próprio banco de dados na nuvem, separado dos demais, com backup automático diário. Os certificados digitais ficam só no computador de quem os cadastrou, com a senha protegida pelo Windows.</p></details>
       <details><summary>O robô resolve captcha ou burla verificações dos sites?</summary><p>Não. O Núcleo usa os canais oficiais sempre que existem e respeita todas as verificações de segurança dos portais. A escolha do certificado digital é sempre feita por você.</p></details>
       <details><summary>Funciona para escritórios de qualquer estado?</summary><p>As automações federais (NF-e, CT-e, NFS-e nacional, Cadastro Centralizado) valem para todo o Brasil. As estaduais e municipais começaram pelo Distrito Federal, e novos estados entram conforme a demanda dos clientes.</p></details>
+      <details><summary>Como os meus clientes acessam o Portal do Cliente?</summary><p>No Núcleo, em Empresas → 🌐 Portal, o escritório libera o acesso de cada empresa (e-mail e senha provisória) e publica as guias, os honorários e os dados. A empresa entra pela Área do Cliente desta página.</p></details>
       <details><summary>Posso mudar de plano depois?</summary><p>Sim. A mudança vale na hora, sem reinstalar nada.</p></details>
     </div>
   </div>
@@ -402,14 +398,6 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 </main>
 
 <footer><div class="cx"><span id="rodapeNome">Núcleo de Automação de Processo</span><span id="rodapeGerado"></span></div></footer>
-
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTit">
-  <div class="caixa">
-    <h3 id="modalTit">Área do Cliente em breve</h3>
-    <p>O acesso pelo navegador está em preparação. Por enquanto, use o Núcleo para Windows com o mesmo CNPJ, usuário e senha.</p>
-    <div class="acoes"><a class="btn btn-c" href="#download" id="modalDl">Baixar o Núcleo</a><button class="btn btn-a" id="modalOk" type="button">Entendi</button></div>
-  </div>
-</div>
 
 <script src="dados.js"></script>
 <script>
@@ -504,13 +492,6 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
   if (D.nome) $("rodapeNome").textContent = "© " + new Date().getFullYear() + " " + D.nome;
   if (D.gerado_em) $("rodapeGerado").textContent = "Página atualizada em " + D.gerado_em;
 
-  // área do cliente: em breve
-  function abrir() { $("modal").classList.add("aberto"); $("modalOk").focus(); }
-  function fechar() { $("modal").classList.remove("aberto"); }
-  $("formLogin").onsubmit = function (e) { e.preventDefault(); abrir(); };
-  $("modalOk").onclick = fechar; $("modalDl").onclick = fechar;
-  $("modal").onclick = function (e) { if (e.target === this) fechar(); };
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") fechar(); });
 })();
 </script>
 </body>

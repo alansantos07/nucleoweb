@@ -9,7 +9,7 @@ window.NUCLEO = {
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
   "versao": "2026.10.26.0840",
   "data": "26/10/2026 08:40",
-  "sha256": "a84a8d65f549d6f4987e5eb95b69484b58e0d0d1f9af056c0fc04f3f035362a3"
+  "sha256": ""
  },
  "versoes": [
   {
@@ -500,5 +500,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "26/10/2026 10:02"
+ "gerado_em": "26/10/2026 10:34"
 };
