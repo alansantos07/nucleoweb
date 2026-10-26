@@ -7,11 +7,22 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.26.0840",
-  "data": "26/10/2026 08:40",
-  "sha256": ""
+  "versao": "2026.10.26.1029",
+  "data": "26/10/2026 10:29",
+  "sha256": "a0c2dd92ec71abf5c1a4c0066f019aa7eeada95d7d82b399b8f6a8c38e85503f"
  },
  "versoes": [
+  {
+   "versao": "2026.10.26.1029",
+   "data": "26/10/2026 10:29",
+   "titulo": "Núcleo Web: Portal do Cliente",
+   "itens": [
+    "Novo em Empresas → \"🌐 Portal\": libere o Portal do Cliente para cada empresa (e-mail e senha provisória, com o texto do convite pronto para enviar) e publique o que ela pode ver.",
+    "A empresa entra pelo navegador (Área do Cliente da página do Núcleo), cria a própria senha no 1º acesso e vê, só para consulta: as guias de impostos com valor, vencimento e o PDF; os honorários com a NFS-e e o código do boleto/PIX; e os dados da empresa e o contato do escritório.",
+    "Entram no portal as tarefas da Gestão de Processos marcadas para enviar ao cliente (dos últimos 6 meses) e as contas a receber da empresa no Financeiro. Um mesmo e-mail pode ver várias empresas.",
+    "Publicar de novo só envia os PDFs novos. Acesso desativado some do portal na hora."
+   ]
+  },
   {
    "versao": "2026.10.26.0840",
    "data": "26/10/2026 08:40",
@@ -68,24 +79,9 @@ window.NUCLEO = {
     "O % de cada produto ou serviço é da receita do CNPJ. Os cenários já cadastrados continuam valendo (cada CNPJ antigo vira um CNPJ com uma atividade).",
     "Não lembra o código? Aperte F2: no campo do CNAE abre a lista dos CNAEs cadastrados; em qualquer outro lugar do cartão abre a lista de produtos e serviços (dá para marcar vários de uma vez) para o CNAE destacado. Os botões 🔍 F2 e 🔍 Lista (F2) fazem o mesmo."
    ]
-  },
-  {
-   "versao": "2026.10.22.1800",
-   "data": "22/10/2026 18:00",
-   "titulo": "Planejamento Tributário: escolha o tipo de comparação",
-   "itens": [
-    "Núcleo Fiscal → Planejamento → Nova simulação: o 1º passo agora é escolher o que o estudo vai comparar — Empresas, Cenários ou Regimes. O restante do Início aparece depois da escolha.",
-    "Comparação entre empresas: cada CNPJ do cenário lado a lado (faturamento, folha, tributos, carga) e o melhor regime que cada uma poderia adotar, com a economia por mês.",
-    "Comparação entre cenários: o cenário escolhido × outros cenários do planejamento (mesma receita) × uma hipótese de variação da receita e da folha (ex.: +20% de faturamento).",
-    "Comparação entre regimes: a estrutura no Simples, no Presumido e no Real. O regime que a empresa não pode adotar (receita acima do limite, CNAE impeditivo no Simples) aparece com o motivo e não concorre a melhor.",
-    "Página 4 (Análises) muda conforme a comparação: uma coluna por empresa, por cenário ou por regime, uma linha por tributo (ICMS, ISS, PIS, COFINS, IRPJ, CSLL, INSS/CPP, DAS), total e carga em destaque e a melhor opção marcada. O botão \"Memorial de cálculo\" de cada coluna abre embaixo a conta passo a passo.",
-    "O Resultado abre com a comparação escolhida, e o gráfico de barras acompanha o tipo.",
-    "Cenários de planejamento: cada atividade (CNPJ) do cenário agora tem as suas receitas — produtos e serviços do cadastro de regras de Tributação, com o % de cada uma na atividade. A simulação monta uma linha por receita, já com as alíquotas da regra.",
-    "Comparação entre cenários sem limitação: dá para comparar com cenários de QUALQUER planejamento (agrupados por planejamento, com filtro de setor). Na Análise, o cenário de outro planejamento aparece como \"#002 · Cenário 1\"."
-   ]
   }
  ],
- "total_versoes": 46,
+ "total_versoes": 47,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -500,5 +496,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "26/10/2026 10:34"
+ "gerado_em": "26/10/2026 14:50"
 };
