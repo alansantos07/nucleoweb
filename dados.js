@@ -7,11 +7,22 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.29.1350",
-  "data": "29/10/2026 13:50",
-  "sha256": "f533e2d02e1a1a77c44c263faaa7e04a0502aff95e2b28a2885aec6ae1e1d574"
+  "versao": "2026.10.29.1501",
+  "data": "29/10/2026 15:01",
+  "sha256": "94256e71dddd6d16cfa48074322086e8cda1b2396006102e2e481674b6d540af"
  },
  "versoes": [
+  {
+   "versao": "2026.10.29.1501",
+   "data": "29/10/2026 15:01",
+   "titulo": "Importar empresas de Excel ou TXT",
+   "itens": [
+    "Empresas → ⋯ → Importar empresas: traga o cadastro de uma planilha Excel (.xlsx) ou de um arquivo de texto (.txt/.csv). Tem planilha modelo com instruções e as listas das Classificações.",
+    "Você escolhe quais colunas importar (CNPJ e Razão Social são obrigatórios) e confere, antes de gravar, linha a linha o que entra, o que entra com aviso e o que não entra — e por quê.",
+    "CNPJ já cadastrado nunca é sobrescrito; CNPJ inválido, repetido no arquivo ou código do Domínio já usado ficam de fora. No fim, relatório em Excel e atalho para atualizar o cadastro das importadas.",
+    "Empresas → ⋯ → Exportar / imprimir empresas: Excel ou PDF do seu jeito — escolha as empresas (lista atual, selecionadas ou todas, com filtros próprios), as colunas e a ordem delas, ordenação e agrupamento. No PDF: título, orientação, letra, cor, logomarca e dados do escritório, zebrado, total e rodapé com \"Página X de Y\", com pré-visualização na tela e botão Imprimir."
+   ]
+  },
   {
    "versao": "2026.10.29.1350",
    "data": "29/10/2026 13:50",
@@ -68,21 +79,9 @@ window.NUCLEO = {
     "A partir do segundo acesso, o login fica mais rápido (uma consulta só ao Central).",
     "Sem internet, o Núcleo continua entrando pela última cópia do cadastro, como antes."
    ]
-  },
-  {
-   "versao": "2026.10.23.1644",
-   "data": "23/10/2026 16:44",
-   "titulo": "Planejamento Tributário: apresentação para o cliente e acompanhamento",
-   "itens": [
-    "Na página Resultado da simulação, o botão \"📄 Apresentação para o cliente (PDF)\" gera o relatório do planejamento com a logomarca, o papel timbrado e o cabeçalho/rodapé do escritório: capa, sumário executivo (situação atual × opção recomendada e a economia por mês e em 12 meses), premissas, análise comparativa tributo a tributo, gráficos, memorial de cálculo, recomendação, cronograma de implementação, ressalvas e aceite.",
-    "Novo em ⚙ Configurações: \"Modelo de Apresentação do Planejamento\" — escolha as seções que saem no PDF, a ordem, os títulos e os textos (com formatação e campos como {{cliente_nome}} e {{economia_anual}}), o layout da página e o cronograma padrão de implantação.",
-    "Ao gerar a apresentação, o planejamento entra no acompanhamento: Planejamento → \"📈 Acompanhamento\" mostra todos, com a implantação (%), a próxima etapa, as etapas atrasadas e a economia prevista × realizada.",
-    "O acompanhamento de cada planejamento tem o cronograma (prazos, responsável, situação), a economia mês a mês (os tributos pagos podem ser buscados na Gestão de Processos do Núcleo Fiscal), as reuniões e registros com o cliente, o histórico e o relatório de acompanhamento em PDF.",
-    "Menu do Núcleo Fiscal reorganizado: Painel | Gestão de Processos | Planejamento Tributário | Gestão Tributária. Em Planejamento Tributário ficam as páginas Cenário Atual (empresas e o cenário/regime em vigor), Simulações e Acompanhamento."
-   ]
   }
  ],
- "total_versoes": 50,
+ "total_versoes": 51,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -497,5 +496,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "29/10/2026 14:00"
+ "gerado_em": "29/10/2026 16:23"
 };
