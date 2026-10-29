@@ -7,11 +7,23 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.26.1029",
-  "data": "26/10/2026 10:29",
-  "sha256": "a0c2dd92ec71abf5c1a4c0066f019aa7eeada95d7d82b399b8f6a8c38e85503f"
+  "versao": "2026.10.29.1003",
+  "data": "29/10/2026 10:03",
+  "sha256": "c8205c4d1a32f40fa0bbafc85dd0a5bdae9b6f5d1f7faf01b67e32906f57abcc"
  },
  "versoes": [
+  {
+   "versao": "2026.10.29.1003",
+   "data": "29/10/2026 10:03",
+   "titulo": "Tudo no banco do escritório (nada só no computador)",
+   "itens": [
+    "Certificados digitais: o arquivo .pfx e a senha agora ficam no banco do escritório, criptografados. Cadastrou em um computador, vale em todos — não precisa mais cadastrar de novo em cada máquina.",
+    "E-mail de envio e Banco Inter passam a ser do escritório: configure uma vez e todos os computadores usam.",
+    "Download de NF-e e de CT-e: o controle da SEFAZ (última consulta, notas pendentes) e os XML baixados ficam no banco. Outro computador continua de onde parou, sem o bloqueio de 1 hora da SEFAZ; se dois computadores tentarem o mesmo CNPJ ao mesmo tempo, o segundo pula aquele CNPJ e avisa.",
+    "Download de XML pela Agenci@Net: os pedidos que ficaram aguardando a SEFAZ podem ser baixados em qualquer computador (\"Baixar pendentes\").",
+    "Na primeira vez que cada computador entrar nesta versão, o que estava só nele sobe para o banco sozinho."
+   ]
+  },
   {
    "versao": "2026.10.26.1029",
    "data": "26/10/2026 10:29",
@@ -67,21 +79,9 @@ window.NUCLEO = {
     "A página Análises compara os cenários com esses valores — o resultado é o da estrutura que você montou.",
     "Os blocos das empresas na Receita ganharam o visual novo (CNPJ n em azul, regime num selo)."
    ]
-  },
-  {
-   "versao": "2026.10.22.2148",
-   "data": "22/10/2026 21:48",
-   "titulo": "Cenários de planejamento com visual novo",
-   "itens": [
-    "⚙ Configurações → Cenários de Planejamento Tributário: cada cenário virou um cartão mais limpo — CENÁRIO n | nome | Apagar. Clique em \"CENÁRIO n\" para recolher (fica só o nome) ou abrir; há também \"Abrir todos\" e \"Recolher todos\".",
-    "Nova estrutura: CNPJ (limite de faturamento, período e regime) → CNAE (atividade) → produtos e serviços com o %. Um CNPJ pode ter várias atividades, e cada atividade várias receitas.",
-    "Botões + CNPJ, + CNAE e + PRODUTO no pé do cartão: entram no CNPJ/CNAE destacado (clique no CNPJ ou no CNAE para escolher). Despesas, funcionários e observação do CNPJ ficam em \"detalhes\".",
-    "O % de cada produto ou serviço é da receita do CNPJ. Os cenários já cadastrados continuam valendo (cada CNPJ antigo vira um CNPJ com uma atividade).",
-    "Não lembra o código? Aperte F2: no campo do CNAE abre a lista dos CNAEs cadastrados; em qualquer outro lugar do cartão abre a lista de produtos e serviços (dá para marcar vários de uma vez) para o CNAE destacado. Os botões 🔍 F2 e 🔍 Lista (F2) fazem o mesmo."
-   ]
   }
  ],
- "total_versoes": 47,
+ "total_versoes": 48,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -496,5 +496,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "26/10/2026 14:50"
+ "gerado_em": "29/10/2026 10:37"
 };
