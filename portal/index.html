@@ -17,16 +17,22 @@ body{margin:0;background:var(--fundo);color:var(--texto);font-family:Inter,syste
 button,input{font-family:inherit}
 .oculto{display:none!important}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:10px;border:0;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none}
-.btn-a{background:var(--azul);color:#fff}.btn-a:hover{background:var(--azul-esc)}
-.btn-v{background:var(--verde);color:#fff}.btn-v:hover{background:var(--verde-esc)}
+.btn-a{background:var(--azul);color:var(--sobre-azul,#fff)}.btn-a:hover{background:var(--azul-esc)}
+.btn-v{background:var(--verde);color:var(--sobre-verde,#fff)}.btn-v:hover{background:var(--verde-esc)}
 .btn-c{background:#fff;color:var(--azul);border:1px solid var(--azul-borda)}.btn-c:hover{border-color:var(--azul)}
 .btn-p{padding:6px 10px;font-size:12.5px;border-radius:8px}
 .btn:disabled{opacity:.6;cursor:wait}
 /* login */
-.login-tela{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(800px 400px at 90% 0%,#DCE8FA,transparent 70%),radial-gradient(600px 300px at 0% 100%,#E3F5EA,transparent 70%),var(--fundo)}
-.cartao-login{width:100%;max-width:400px;background:#fff;border:1px solid var(--linha);border-radius:18px;padding:30px;box-shadow:0 20px 50px rgba(11,61,145,.12)}
+.login-tela{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(800px 400px at 90% 0%,var(--azul-claro),transparent 70%),radial-gradient(600px 300px at 0% 100%,var(--verde-claro),transparent 70%),var(--fundo)}
+.cartao-login{width:100%;max-width:400px;background:#fff;border:1px solid var(--linha);border-radius:18px;padding:30px;box-shadow:0 20px 50px rgba(17,24,39,.10)}
 .marca{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;color:var(--texto);text-decoration:none}
 .marca small{display:block;font-weight:500;font-size:11px;color:var(--texto3)}
+.marca b{font-weight:800}.marca-ic{display:inline-flex;align-items:center}.marca-ic img{max-height:40px;max-width:120px;display:block}
+.contatos-login{margin-top:14px;padding-top:12px;border-top:1px solid var(--linha);display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:12.5px;color:var(--texto2)}
+.contatos-login a{color:var(--azul);text-decoration:none;font-weight:600}
+.rodape-esc{margin-top:8px;text-align:center;font-size:11.5px;color:var(--texto3)}
+.tec{margin-top:10px;text-align:center;font-size:11px;color:#9CA3AF}
+.btn-zap{background:#25D366;color:#fff}.btn-zap:hover{filter:brightness(.92)}
 .cartao-login h1{font-size:22px;margin:22px 0 4px}
 .cartao-login p.sub{margin:0 0 18px;color:var(--texto3);font-size:14px}
 label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}
@@ -85,6 +91,9 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 @media (max-width:900px){.cards{grid-template-columns:1fr 1fr}.dados{grid-template-columns:1fr}}
 @media (max-width:700px){
   .topo .emp{display:none}
+  .topo{gap:8px;padding:0 12px}.zap-tx{display:none}
+  .topo .marca > span:last-child{display:none}.topo .marca-ic img{max-width:90px;max-height:32px}
+  #selEmpresa{max-width:150px;min-width:0}
   table,thead,tbody,tr,td{display:block}thead{display:none}
   tr{border-bottom:1px solid var(--linha);padding:10px 14px}tr:last-child{border-bottom:0}
   td{border:0;padding:3px 0}td.num{text-align:left}
@@ -97,9 +106,9 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 <!-- LOGIN -->
 <section class="login-tela" id="telaLogin">
   <form class="cartao-login" id="formLogin" autocomplete="on">
-    <a class="marca" href="../"><svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg><span>Núcleo<small>Portal do Cliente</small></span></a>
+    <a class="marca" href="../"><span class="marca-ic"><svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg></span><span><b class="marca-nome">Núcleo</b><small class="marca-sub">Portal do Cliente</small></span></a>
     <h1>Entrar</h1>
-    <p class="sub">Acesso para as empresas clientes do seu escritório de contabilidade.</p>
+    <p class="sub" id="subLogin">Acesso para as empresas clientes do seu escritório de contabilidade.</p>
     <label for="email">E-mail</label>
     <input id="email" type="email" autocomplete="username" required placeholder="voce@empresa.com.br">
     <label for="senha">Senha</label>
@@ -108,13 +117,16 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     <button class="btn btn-a" id="btEntrar" type="submit">Entrar</button>
     <div class="msg" id="msgLogin"></div>
     <div class="rodape-login">Seus dados são protegidos: a senha nunca sai do seu computador.</div>
+    <div class="contatos-login oculto" id="contatosLogin"></div>
+    <div class="rodape-esc oculto" id="rodapeLogin"></div>
+    <div class="tec oculto" id="tecLogin">Tecnologia Núcleo</div>
   </form>
 </section>
 
 <!-- TROCA DE SENHA -->
 <section class="login-tela oculto" id="telaSenha">
   <form class="cartao-login" id="formSenha">
-    <a class="marca" href="../"><svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg><span>Núcleo<small>Portal do Cliente</small></span></a>
+    <a class="marca" href="../"><span class="marca-ic"><svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg></span><span><b class="marca-nome">Núcleo</b><small class="marca-sub">Portal do Cliente</small></span></a>
     <h1>Crie a sua senha</h1>
     <p class="sub">É o seu primeiro acesso (ou o escritório gerou uma senha provisória). Escolha uma senha só sua.</p>
     <label for="nova1">Nova senha</label>
@@ -130,9 +142,10 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 <!-- PORTAL -->
 <div id="telaPortal" class="oculto">
   <header><div class="topo">
-    <a class="marca" href="#"><svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg><span>Núcleo<small>Portal do Cliente</small></span></a>
+    <a class="marca" href="#"><span class="marca-ic"><svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg></span><span><b class="marca-nome">Núcleo</b><small class="marca-sub">Portal do Cliente</small></span></a>
     <select id="selEmpresa" class="oculto" aria-label="Empresa"></select>
     <div class="emp"><b id="topoEmpresa">—</b><span id="topoEscritorio"></span></div>
+    <a class="btn btn-zap btn-p oculto" id="btZap" target="_blank" rel="noopener" title="Falar com o escritório">💬<span class="zap-tx"> Falar com o escritório</span></a>
     <button class="btn btn-c btn-p" id="btSair">Sair</button>
   </div></header>
   <main>
@@ -167,6 +180,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 (function () {
   var URL_CENTRAL = (window.PORTAL || {}).central || "";
   var CHAVE_SESSAO = "nucleo_portal";
+  var CHAVE_MARCA = "nucleo_portal_marca";
   var estado = { sessao: null, email: "", acessos: [], acesso: null, dados: null, sal: "", senhaAtual: "" };
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, texto) { var e = document.createElement(tag); if (cls) e.className = cls; if (texto != null) e.textContent = texto; return e; }
@@ -192,6 +206,82 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
   function salGuardado(email) { try { return localStorage.getItem("nucleo_portal_sal_" + email) || ""; } catch (e) { return ""; } }
   function guardarSal(email, sal) { try { localStorage.setItem("nucleo_portal_sal_" + email, sal); } catch (e) {} }
 
+  // ------------------------------------------------- marca do escritório
+  // ?e=<endereço> no link traz a marca já na tela de entrada; depois do login vale a do escritório da empresa.
+  function lerLocal(k) { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } }
+  function guardarLocal(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function rgb(c) { return [1, 3, 5].map(function (i) { return parseInt(c.substr(i, 2), 16); }); }
+  function mistura(c, alvo, q) {
+    var a = rgb(c), b = rgb(alvo);
+    return "#" + a.map(function (x, i) { var v = Math.round(x + (b[i] - x) * q); return (v < 16 ? "0" : "") + v.toString(16); }).join("");
+  }
+  function lum(c) {
+    return rgb(c).map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); })
+      .reduce(function (s, v, i) { return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0);
+  }
+  function sobre(c) { return 1.05 / (lum(c) + 0.05) >= 3 ? "#fff" : "#111"; }
+  function corOk(c) { return /^#[0-9a-fA-F]{6}$/.test(c || ""); }
+  function linkZap(num, texto) {
+    var d = String(num).replace(/\D/g, ""); if (d.length <= 11) d = "55" + d;
+    return "https://wa.me/" + d + (texto ? "?text=" + encodeURIComponent(texto) : "");
+  }
+  function aplicarMarca(m) {
+    var r = document.documentElement.style;
+    var cor = m && corOk(m.cor) ? m.cor : "#0B3D91", cor2 = m && corOk(m.cor2) ? m.cor2 : "#16A34A";
+    r.setProperty("--azul", cor); r.setProperty("--azul-esc", mistura(cor, "#000000", 0.2));
+    r.setProperty("--azul-claro", mistura(cor, "#FFFFFF", 0.9)); r.setProperty("--azul-borda", mistura(cor, "#FFFFFF", 0.75));
+    r.setProperty("--verde", cor2); r.setProperty("--verde-esc", mistura(cor2, "#000000", 0.2));
+    r.setProperty("--verde-claro", mistura(cor2, "#FFFFFF", 0.9));
+    r.setProperty("--sobre-azul", sobre(cor)); r.setProperty("--sobre-verde", sobre(cor2));
+    var nome = (m && m.nome) || "Núcleo", sub = m ? (m.subtitulo || "") : "Portal do Cliente";
+    Array.prototype.forEach.call(document.querySelectorAll(".marca-nome"), function (x) { x.textContent = nome; });
+    Array.prototype.forEach.call(document.querySelectorAll(".marca-sub"), function (x) { x.textContent = sub; });
+    Array.prototype.forEach.call(document.querySelectorAll(".marca-ic"), function (x) {
+      if (!x.dataset.padrao) x.dataset.padrao = x.innerHTML;
+      if (m && m.logo) { x.innerHTML = ""; var i = el("img"); i.src = m.logo; i.alt = nome; x.appendChild(i); }
+      else if (m) {
+        x.innerHTML = '<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8"/><text x="17" y="23" text-anchor="middle" font-size="17" font-weight="800" font-family="Inter,sans-serif"></text></svg>';
+        x.querySelector("rect").setAttribute("fill", cor);
+        var tx = x.querySelector("text"); tx.setAttribute("fill", sobre(cor)); tx.textContent = nome.charAt(0).toUpperCase();
+      }
+      else x.innerHTML = x.dataset.padrao;
+    });
+    document.title = m && m.nome ? m.nome + " — " + (m.subtitulo || "Portal do Cliente") : "Portal do Cliente";
+    var ic = document.querySelector("link[rel=icon]");
+    if (!ic.dataset.padrao) ic.dataset.padrao = ic.href;
+    ic.href = m && m.logo ? m.logo : ic.dataset.padrao;
+    $("subLogin").textContent = (m && m.boas_vindas) || "Acesso para as empresas clientes do seu escritório de contabilidade.";
+    var c = $("contatosLogin"); c.innerHTML = "";
+    if (m) {
+      if (m.telefone) c.appendChild(el("span", null, "📞 " + m.telefone));
+      if (m.whatsapp) { var z = el("a", null, "💬 WhatsApp"); z.href = linkZap(m.whatsapp); z.target = "_blank"; z.rel = "noopener"; c.appendChild(z); }
+      if (m.email) { var e = el("a", null, "✉ " + m.email); e.href = "mailto:" + m.email; c.appendChild(e); }
+      if (m.site) { var s = el("a", null, "🌐 Site"); s.href = /^https?:/i.test(m.site) ? m.site : "https://" + m.site; s.target = "_blank"; s.rel = "noopener"; c.appendChild(s); }
+    }
+    c.classList.toggle("oculto", !c.children.length);
+    $("rodapeLogin").textContent = (m && m.rodape) || ""; $("rodapeLogin").classList.toggle("oculto", !(m && m.rodape));
+    $("tecLogin").classList.toggle("oculto", !m);
+    var bz = $("btZap");
+    if (m && m.whatsapp) { bz.href = linkZap(m.whatsapp, "Olá! Sou cliente e estou usando o portal."); bz.classList.remove("oculto"); }
+    else bz.classList.add("oculto");
+  }
+  function marcaDoAcesso() {
+    var a = estado.acessos.filter(function (x) { return x.acesso === estado.acesso; })[0];
+    return a && estado.marcas ? estado.marcas[a.escritorio] || null : null;
+  }
+  var endereco = (new URLSearchParams(location.search).get("e") || "").trim().toLowerCase();
+  (function () {
+    var guardada = lerLocal(CHAVE_MARCA);
+    if (guardada && guardada.marca && (!endereco || guardada.endereco === endereco)) aplicarMarca(guardada.marca);
+    if (endereco && URL_CENTRAL) {
+      chamar({ acao: "portal_web_marca", endereco: endereco }).then(function (d) {
+        if (!d.marca) return;
+        guardarLocal(CHAVE_MARCA, { endereco: endereco, marca: d.marca });
+        if (!estado.sessao) aplicarMarca(d.marca);
+      }).catch(function () {});
+    }
+  })();
+
   // ------------------------------------------------------------ login
   $("mostrar").onchange = function () { $("senha").type = this.checked ? "text" : "password"; };
   $("esqueci").onclick = function (e) { e.preventDefault(); msgLogin("Peça uma senha provisória nova ao seu escritório de contabilidade.", "ok"); };
@@ -214,10 +304,10 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     }
     tentar(0).then(function (d) {
       guardarSal(email, sal);
-      estado.sessao = d.sessao; estado.email = d.email; estado.acessos = d.acessos; estado.sal = sal;
+      estado.sessao = d.sessao; estado.email = d.email; estado.acessos = d.acessos; estado.sal = sal; estado.marcas = d.marcas || {};
       estado.acesso = d.acessos[0] && d.acessos[0].acesso;
       if (d.trocar_senha) { estado.senhaAtual = senha; mostrar("telaSenha"); $("nova1").focus(); return; }
-      guardar(CHAVE_SESSAO, { sessao: d.sessao, email: d.email, acessos: d.acessos, acesso: estado.acesso });
+      guardar(CHAVE_SESSAO, { sessao: d.sessao, email: d.email, acessos: d.acessos, acesso: estado.acesso, marcas: estado.marcas });
       abrirPortal();
     }).catch(function (err) { msgLogin(err.message); $("senha").value = ""; })
       .then(function () { bt.disabled = false; bt.textContent = "Entrar"; });
@@ -237,7 +327,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       return chamar({ acao: "portal_web_senha", sessao: estado.sessao, resumo_atual: r[0], novo_hash: r[1], novo_sal: novoSal });
     }).then(function () {
       guardarSal(estado.email, novoSal); estado.senhaAtual = "";
-      guardar(CHAVE_SESSAO, { sessao: estado.sessao, email: estado.email, acessos: estado.acessos, acesso: estado.acesso });
+      guardar(CHAVE_SESSAO, { sessao: estado.sessao, email: estado.email, acessos: estado.acessos, acesso: estado.acesso, marcas: estado.marcas });
       toast("Senha criada ✔"); abrirPortal();
     }).catch(function (err) { m.textContent = err.message === "SESSAO_EXPIRADA" ? "O tempo acabou. Entre de novo." : err.message; })
       .then(function () { bt.disabled = false; bt.textContent = "Salvar e entrar"; });
@@ -253,7 +343,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
   $("btAtualizar").onclick = function () { carregar(); };
   $("selEmpresa").onchange = function () {
     estado.acesso = this.value;
-    guardar(CHAVE_SESSAO, { sessao: estado.sessao, email: estado.email, acessos: estado.acessos, acesso: estado.acesso });
+    guardar(CHAVE_SESSAO, { sessao: estado.sessao, email: estado.email, acessos: estado.acessos, acesso: estado.acesso, marcas: estado.marcas });
     carregar();
   };
 
@@ -268,6 +358,8 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
   function carregar() {
     var a = estado.acessos.filter(function (x) { return x.acesso === estado.acesso; })[0] || {};
     $("topoEmpresa").textContent = a.nome || "—"; $("topoEscritorio").textContent = a.escritorio_nome || "";
+    var m = marcaDoAcesso();
+    if (m) { aplicarMarca(m); guardarLocal(CHAVE_MARCA, { endereco: endereco, marca: m }); }
     $("titulo").textContent = "Olá, " + (a.nome || "");
     $("subtitulo").textContent = "Carregando...";
     chamar({ acao: "portal_web_dados", sessao: estado.sessao, acesso: estado.acesso }).then(function (d) {
@@ -426,7 +518,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 
   // sessão aberta nesta aba do navegador
   var s = ler(CHAVE_SESSAO);
-  if (s && s.sessao) { estado.sessao = s.sessao; estado.email = s.email; estado.acessos = s.acessos || []; estado.acesso = s.acesso; abrirPortal(); }
+  if (s && s.sessao) { estado.sessao = s.sessao; estado.email = s.email; estado.acessos = s.acessos || []; estado.acesso = s.acesso; estado.marcas = s.marcas || {}; abrirPortal(); }
   else { mostrar("telaLogin"); $("email").focus(); }
 })();
 </script>
