@@ -397,8 +397,9 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
   function baixar(doc, bt) {
     bt.disabled = true; var antes = bt.textContent; bt.textContent = "Baixando...";
     chamar({ acao: "portal_web_arquivo", sessao: estado.sessao, acesso: estado.acesso, sha1: doc.sha1 }).then(function (d) {
-      var blob = new Blob([deB64(d.conteudo)], { type: "application/pdf" });
-      var url = URL.createObjectURL(blob), a = el("a"); a.href = url; a.download = d.nome || doc.nome || "documento.pdf";
+      var nomeArq = d.nome || doc.nome || "documento.pdf";
+      var blob = new Blob([deB64(d.conteudo)], { type: /\.zip$/i.test(nomeArq) ? "application/zip" : "application/pdf" });
+      var url = URL.createObjectURL(blob), a = el("a"); a.href = url; a.download = nomeArq;
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
     }).catch(function (err) { toast("Não foi possível baixar: " + err.message); })
       .then(function () { bt.disabled = false; bt.textContent = antes; });
@@ -423,7 +424,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     $("cAPagar").textContent = moeda(soma(aPagar, "valor")); $("cAPagarTx").textContent = aPagar.length + " guia(s)";
     $("cVencidos").textContent = venc.length ? moeda(soma(venc, "valor")) : "Nenhum"; $("cVencidosTx").textContent = venc.length ? venc.length + " guia(s) — fale com o escritório" : "Tudo em dia ✔";
     $("cHon").textContent = honAberto.length ? moeda(soma(honAberto, "saldo")) : "Nenhum"; $("cHonTx").textContent = honAberto.length + " em aberto";
-    $("cDocs").textContent = (d.documentos || []).length; $("cDocsTx").textContent = "PDF(s) para baixar";
+    $("cDocs").textContent = (d.documentos || []).length; $("cDocsTx").textContent = "arquivo(s) para baixar";
     $("avisoPub").textContent = "Informações publicadas pelo escritório em " + (d.publicado_em || "—") + ".";
     // competências
     var comps = []; guias.forEach(function (g) { if (comps.indexOf(g.competencia) < 0) comps.push(g.competencia); });
@@ -465,6 +466,12 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     });
     box.appendChild(t);
   }
+  function docDoTipo(h, tipo) { return (h.documentos || []).filter(function (x) { return x.tipo === tipo; })[0]; }
+  function botaoDoc(box, doc, texto, cls) {
+    if (!doc) return;
+    var b = el("button", "btn " + (cls || "btn-c") + " btn-p", texto); b.title = doc.nome;
+    b.onclick = function () { baixar(doc, b); }; box.appendChild(b);
+  }
   function desenharHon() {
     var box = $("listaHon"); box.innerHTML = "";
     var lista = estado.dados.honorarios || [];
@@ -480,12 +487,15 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       var nf = el("div", "acoes-cel");
       if (h.nfse) {
         nf.appendChild(el("span", null, "NFS-e " + (h.nfse.numero || "")));
+        botaoDoc(nf, docDoTipo(h, "danfse"), "⬇ DANFSe");
+        botaoDoc(nf, docDoTipo(h, "xml"), "⬇ XML");
         var bc = el("button", "btn btn-c btn-p", "Copiar chave"); bc.onclick = function () { copiar(h.nfse.chave, "Chave da NFS-e copiada ✔"); }; nf.appendChild(bc);
         var lk = el("a", "btn btn-c btn-p", "Consultar"); lk.href = "https://www.nfse.gov.br/ConsultaPublica/"; lk.target = "_blank"; lk.rel = "noopener"; lk.title = "Consulta pública da NFS-e (cole a chave)"; nf.appendChild(lk);
       } else nf.appendChild(el("span", "sub-cel", "—"));
       cel(tr, "Nota fiscal", nf);
       var pg = el("div", "acoes-cel");
       if (h.boleto && h.situacao !== "Recebido") {
+        botaoDoc(pg, docDoTipo(h, "boleto"), "⬇ Boleto (PDF)", "btn-v");
         if (h.boleto.linha_digitavel) { var bl = el("button", "btn btn-v btn-p", "Copiar código do boleto"); bl.onclick = function () { copiar(h.boleto.linha_digitavel, "Código de barras copiado ✔"); }; pg.appendChild(bl); }
         if (h.boleto.pix) { var bp = el("button", "btn btn-v btn-p", "Copiar PIX"); bp.onclick = function () { copiar(h.boleto.pix, "PIX copia e cola copiado ✔"); }; pg.appendChild(bp); }
       } else pg.appendChild(el("span", "sub-cel", h.situacao === "Recebido" ? "Pago ✔" : "—"));
