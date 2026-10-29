@@ -7,11 +7,24 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.29.1118",
-  "data": "29/10/2026 11:18",
-  "sha256": "434f9d4c55cb5191c5f3091eb2ee0d5eeadc408c427c2216c53e6db7c8f95c0a"
+  "versao": "2026.10.29.1350",
+  "data": "29/10/2026 13:50",
+  "sha256": "f533e2d02e1a1a77c44c263faaa7e04a0502aff95e2b28a2885aec6ae1e1d574"
  },
  "versoes": [
+  {
+   "versao": "2026.10.29.1350",
+   "data": "29/10/2026 13:50",
+   "titulo": "Colunas da lista de empresas do seu jeito",
+   "itens": [
+    "Empresas → ☷ Colunas: agora são até 10 colunas, e CNPJ, Cód. Domínio e Empresa deixaram de ser fixas (podem sair da lista ou mudar de lugar).",
+    "Novo quadro \"Ordem das colunas\" no topo da janela: use ◀ ▶ para mudar a posição de cada coluna e ✕ para tirar.",
+    "Página Empresas com indicadores no topo: total, matrizes, filiais, Simples Nacional, CNPJ ativo, CNPJ com restrição e não consultadas na Receita. Eles acompanham a busca, e clicar num cartão filtra a lista.",
+    "Os botões Colunas, Atualizar, Pastas e Portal foram para o menu ⋯ ao lado de \"+ Nova empresa\".",
+    "Botão direito na lista de empresas: Abrir, Selecionar todas (Ctrl+A), Limpar seleção e Excluir (tecla Delete). A exclusão pede para digitar EXCLUIR e guarda uma cópia no banco para recuperar; exige a permissão nova \"Excluir o cadastro inteiro da empresa\" (Administrador e Supervisor).",
+    "Novo: Solicitações de melhoria (⚙ Configurações → Novidades e Versões → aba 💡). Descreva a sua ideia (tipo, módulo, categoria e prioridade), apoie (👍) as dos colegas do escritório — as mais apoiadas sobem no ranking — e acompanhe a resposta do Núcleo: em análise, aprovada, em desenvolvimento, concluída."
+   ]
+  },
   {
    "versao": "2026.10.29.1118",
    "data": "29/10/2026 11:18",
@@ -67,20 +80,9 @@ window.NUCLEO = {
     "O acompanhamento de cada planejamento tem o cronograma (prazos, responsável, situação), a economia mês a mês (os tributos pagos podem ser buscados na Gestão de Processos do Núcleo Fiscal), as reuniões e registros com o cliente, o histórico e o relatório de acompanhamento em PDF.",
     "Menu do Núcleo Fiscal reorganizado: Painel | Gestão de Processos | Planejamento Tributário | Gestão Tributária. Em Planejamento Tributário ficam as páginas Cenário Atual (empresas e o cenário/regime em vigor), Simulações e Acompanhamento."
    ]
-  },
-  {
-   "versao": "2026.10.22.2342",
-   "data": "22/10/2026 23:42",
-   "titulo": "Simulação: página Análises com visual novo",
-   "itens": [
-    "Um cartão por opção comparada (empresa, cenário ou regime), com o total no topo e a melhor em verde com \"✔ MELHOR OPÇÃO\". Vale para os 3 tipos de simulação.",
-    "Cada cartão traz os tributos consolidados — ICMS, ISS, PIS, COFINS, IRPJ, CSLL e INSS (CPP) — com o % de carga e o valor. No Simples, o DAS é aberto em cada tributo pela partilha do Anexo/faixa.",
-    "Título em destaque com o tipo de análise e uma faixa verde com a conclusão (ex.: economia por mês e por ano da melhor opção).",
-    "\"Visualizar detalhes\" abre uma janela por cima com os tributos e o memorial de cálculo, sem poluir a página."
-   ]
   }
  ],
- "total_versoes": 49,
+ "total_versoes": 50,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -495,5 +497,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "29/10/2026 11:31"
+ "gerado_em": "29/10/2026 14:00"
 };
