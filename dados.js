@@ -7,11 +7,21 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.29.1003",
-  "data": "29/10/2026 10:03",
-  "sha256": "c8205c4d1a32f40fa0bbafc85dd0a5bdae9b6f5d1f7faf01b67e32906f57abcc"
+  "versao": "2026.10.29.1118",
+  "data": "29/10/2026 11:18",
+  "sha256": "434f9d4c55cb5191c5f3091eb2ee0d5eeadc408c427c2216c53e6db7c8f95c0a"
  },
  "versoes": [
+  {
+   "versao": "2026.10.29.1118",
+   "data": "29/10/2026 11:18",
+   "titulo": "Suporte para quem esqueceu a senha",
+   "itens": [
+    "\"Esqueci minha senha\" na tela de login abre a janela de Suporte: mostra o passo a passo para recuperar o acesso e permite enviar um pedido informando o CNPJ do escritório e o usuário ou e-mail.",
+    "O pedido avisa por e-mail os Administradores do escritório e o suporte do Núcleo, com um número de protocolo. Por segurança, a senha nunca é enviada por e-mail.",
+    "Proprietário do Núcleo: ⚙ Configurações → Pedidos de Suporte lista os pedidos de todos os escritórios (filtro por situação, escritório e busca) e registra o atendimento (Aberto, Em atendimento, Resolvido, resposta e histórico). O menu mostra quantos estão em aberto."
+   ]
+  },
   {
    "versao": "2026.10.29.1003",
    "data": "29/10/2026 10:03",
@@ -68,20 +78,9 @@ window.NUCLEO = {
     "Título em destaque com o tipo de análise e uma faixa verde com a conclusão (ex.: economia por mês e por ano da melhor opção).",
     "\"Visualizar detalhes\" abre uma janela por cima com os tributos e o memorial de cálculo, sem poluir a página."
    ]
-  },
-  {
-   "versao": "2026.10.22.2227",
-   "data": "22/10/2026 22:27",
-   "titulo": "Simulação: cada cenário comparado com as suas receitas e custos",
-   "itens": [
-    "Comparação entre cenários: as páginas Receita e Custos e Despesas mostram um cartão para cada cenário (o da simulação e os marcados no Início), no mesmo visual dos Cenários de planejamento. Clique no cenário para abrir as empresas, atividades e receitas dele, exatamente como foram configuradas.",
-    "Em cada cenário comparado você distribui a mesma receita bruta entre os CNPJs e as receitas (ex.: 30 mil no SCM e 20 mil nos livros) e ajusta os custos. O cartão fechado mostra receita, total devido e carga.",
-    "A página Análises compara os cenários com esses valores — o resultado é o da estrutura que você montou.",
-    "Os blocos das empresas na Receita ganharam o visual novo (CNPJ n em azul, regime num selo)."
-   ]
   }
  ],
- "total_versoes": 48,
+ "total_versoes": 49,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -496,5 +495,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "29/10/2026 10:37"
+ "gerado_em": "29/10/2026 11:31"
 };
