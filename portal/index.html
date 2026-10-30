@@ -78,6 +78,13 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .acoes-cel{display:flex;flex-wrap:wrap;gap:6px}
 .sub-cel{display:block;color:var(--texto3);font-size:12px}
 .vazio{padding:28px;text-align:center;color:var(--texto3)}
+.grupo-tit{padding:12px 16px 6px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--azul);background:#FAFBFD;border-bottom:1px solid var(--linha)}
+.dia{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:46px;height:46px;border-radius:10px;background:var(--azul-claro);color:var(--azul);font-weight:800;line-height:1.05}
+.dia small{font-size:10.5px;font-weight:700;text-transform:uppercase}
+.dia.passado{background:#F3F4F6;color:var(--texto3)}
+@media (min-width:701px){#listaObr table,#listaDocs table{table-layout:fixed}
+#listaObr th:nth-child(1){width:90px}#listaObr th:nth-child(3){width:140px}#listaObr th:nth-child(4){width:170px}
+#listaDocs th:nth-child(2){width:130px}#listaDocs th:nth-child(3){width:240px}#listaDocs th:nth-child(4){width:150px}}
 .dados{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .dados .painel{padding:18px 20px}
 .dados h3{margin:0 0 10px;font-size:15px}
@@ -158,7 +165,9 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     </div>
     <div class="abas" role="tablist">
       <button class="at" data-aba="guias">🧾 Impostos e guias</button>
+      <button data-aba="obrigacoes">📅 Obrigações</button>
       <button data-aba="honorarios">💼 Honorários</button>
+      <button data-aba="documentos">📄 Documentos</button>
       <button data-aba="empresa">🏢 Dados da empresa</button>
     </div>
     <div id="abaGuias" class="painel">
@@ -166,6 +175,11 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       <div id="listaGuias"></div>
     </div>
     <div id="abaHonorarios" class="painel oculto"><div id="listaHon"></div></div>
+    <div id="abaObrigacoes" class="painel oculto">
+      <div class="filtro">Datas de entrega e pagamento das obrigações da empresa acompanhadas pelo escritório.</div>
+      <div id="listaObr"></div>
+    </div>
+    <div id="abaDocumentos" class="painel oculto"><div id="listaDocs"></div></div>
     <div id="abaEmpresa" class="dados oculto">
       <div class="painel"><h3>Dados da empresa</h3><div id="dadosEmpresa"></div></div>
       <div class="painel"><h3>Seu escritório de contabilidade</h3><div id="dadosEscritorio"></div></div>
@@ -409,7 +423,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     var d = estado.dados;
     if (!d) {
       $("subtitulo").textContent = "O escritório ainda não publicou informações para esta empresa.";
-      ["listaGuias", "listaHon", "dadosEmpresa", "dadosEscritorio"].forEach(function (i) { $(i).innerHTML = '<div class="vazio">Nada publicado ainda.</div>'; });
+      ["listaGuias", "listaHon", "listaObr", "listaDocs", "dadosEmpresa", "dadosEscritorio"].forEach(function (i) { $(i).innerHTML = '<div class="vazio">Nada publicado ainda.</div>'; });
       ["cAPagar", "cVencidos", "cHon", "cDocs"].forEach(function (i) { $(i).textContent = "—"; });
       $("avisoPub").textContent = ""; return;
     }
@@ -433,7 +447,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     comps.forEach(function (c) { var o = el("option", null, c); o.value = c; sel.appendChild(o); });
     sel.value = comps.indexOf(atual) >= 0 ? atual : (comps[0] || "");
     sel.onchange = desenharGuias;
-    desenharGuias(); desenharHon(); desenharEmpresa();
+    desenharGuias(); desenharHon(); desenharEmpresa(); desenharObr(); desenharDocs();
   }
 
   function tabela(cols) {
@@ -503,6 +517,59 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
     });
     box.appendChild(t);
   }
+  var MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+  var MESES_LONGOS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  function desenharObr() {
+    var box = $("listaObr"); box.innerHTML = "";
+    var lista = estado.dados.obrigacoes || [];
+    if (!lista.length) { box.appendChild(el("div", "vazio", "Nenhuma obrigação publicada.")); return; }
+    var mesAtual = null, t = null;
+    lista.forEach(function (o) {
+      var d = data(o.prazo), chave = d ? d.getFullYear() + "-" + d.getMonth() : "";
+      if (chave !== mesAtual) {
+        mesAtual = chave;
+        box.appendChild(el("div", "grupo-tit", d ? "Vencimentos de " + MESES_LONGOS[d.getMonth()] + " de " + d.getFullYear() : "Sem data"));
+        t = tabela([["Dia"], ["Obrigação"], ["Competência"], ["Situação"]]); box.appendChild(t);
+      }
+      var tr = el("tr");
+      var dia = el("span", "dia" + (d && d < hoje() ? " passado" : ""));
+      dia.appendChild(document.createTextNode(d ? String(d.getDate()).padStart(2, "0") : "—"));
+      dia.appendChild(el("small", null, d ? MESES[d.getMonth()] : ""));
+      cel(tr, "Dia", dia);
+      var n = el("div"); n.appendChild(el("b", null, o.curto || o.tarefa)); if (o.categoria) n.appendChild(el("span", "sub-cel", o.categoria + (o.tarefa && o.tarefa !== o.curto ? " · " + o.tarefa : "")));
+      cel(tr, "Obrigação", n); cel(tr, "Competência", o.competencia);
+      var cls = o.situacao === "Concluída" ? "s-pago" : o.situacao === "Em andamento" ? "s-hoje" : "s-aberto";
+      cel(tr, "Situação", el("span", "sel " + cls, o.situacao === "Concluída" ? "Concluída ✔" : o.situacao));
+      t.tBodies[0].appendChild(tr);
+    });
+  }
+  function desenharDocs() {
+    var box = $("listaDocs"); box.innerHTML = "";
+    var lista = estado.dados.documentos_cliente || [];
+    if (!lista.length) { box.appendChild(el("div", "vazio", "Nenhum documento publicado.")); return; }
+    var cats = [];
+    lista.forEach(function (d) { if (cats.indexOf(d.categoria) < 0) cats.push(d.categoria); });
+    cats.forEach(function (c) {
+      box.appendChild(el("div", "grupo-tit", c));
+      var t = tabela([["Documento"], ["Data"], ["Validade"], ["Arquivo"]]);
+      lista.filter(function (d) { return d.categoria === c; }).forEach(function (d) {
+        var tr = el("tr");
+        var n = el("div"); n.appendChild(el("b", null, d.titulo)); if (d.observacao) n.appendChild(el("span", "sub-cel", d.observacao));
+        cel(tr, "Documento", n); cel(tr, "Data", d.data || "—");
+        var v = el("div");
+        if (d.validade) {
+          v.appendChild(document.createTextNode(d.validade + " "));
+          var s = d.situacao_validade || "";
+          if (s) v.appendChild(el("span", "sel " + (s === "Vencida" ? "s-vencido" : s.indexOf("Vence") === 0 ? "s-hoje" : "s-pago"), s));
+        } else v.appendChild(document.createTextNode("—"));
+        cel(tr, "Validade", v);
+        var ac = el("div", "acoes-cel");
+        (d.documentos || []).forEach(function (doc) { botaoDoc(ac, doc, "⬇ Baixar"); });
+        cel(tr, "Arquivo", ac); t.tBodies[0].appendChild(tr);
+      });
+      box.appendChild(t);
+    });
+  }
   function campos(box, lista) {
     box.innerHTML = "";
     lista.forEach(function (c) { if (!c[1]) return; var d = el("div", "campo"); d.appendChild(el("span", null, c[0])); d.appendChild(el("b", null, c[1])); box.appendChild(d); });
@@ -523,6 +590,8 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       $("abaGuias").classList.toggle("oculto", b.dataset.aba !== "guias");
       $("abaHonorarios").classList.toggle("oculto", b.dataset.aba !== "honorarios");
       $("abaEmpresa").classList.toggle("oculto", b.dataset.aba !== "empresa");
+      $("abaObrigacoes").classList.toggle("oculto", b.dataset.aba !== "obrigacoes");
+      $("abaDocumentos").classList.toggle("oculto", b.dataset.aba !== "documentos");
     };
   });
 
