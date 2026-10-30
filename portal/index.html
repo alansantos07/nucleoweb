@@ -289,7 +289,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       <div class="filtro">Competência: <select id="selComp"></select></div>
       <div id="listaGuias"></div>
     </div>
-    <div id="abaHonorarios" class="painel oculto"><div id="listaHon"></div></div>
+    <div id="abaHonorarios" class="painel oculto"><div id="bpoResumo"></div><div id="listaHon"></div></div>
     <div id="abaObrigacoes" class="painel oculto">
       <div class="filtro">Datas de entrega e pagamento das obrigações da empresa acompanhadas pelo escritório.</div>
       <div id="listaObr"></div>
@@ -626,6 +626,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     if (!d) {
       $("subtitulo").textContent = "O escritório ainda não publicou informações para esta empresa.";
       desenharInicio();
+      $("bpoResumo").innerHTML = "";
       ["listaGuias", "listaHon", "listaObr", "listaDocs", "dadosEmpresa", "dadosEscritorio"].forEach(function (i) { $(i).innerHTML = '<div class="vazio">Nada publicado ainda.</div>'; });
       ["cAPagar", "cVencidos", "cHon", "cDocs"].forEach(function (i) { $(i).textContent = "—"; });
       $("avisoPub").textContent = ""; return;
@@ -650,7 +651,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     comps.forEach(function (c) { var o = el("option", null, c); o.value = c; sel.appendChild(o); });
     sel.value = comps.indexOf(atual) >= 0 ? atual : (comps[0] || "");
     sel.onchange = desenharGuias;
-    desenharGuias(); desenharHon(); desenharEmpresa(); desenharObr(); desenharDocs(); desenharInicio(); carregarSol(true);
+    desenharGuias(); desenharHon(); desenharBpo(); desenharEmpresa(); desenharObr(); desenharDocs(); desenharInicio(); carregarSol(true);
   }
 
   function tabela(cols) {
@@ -719,6 +720,33 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       cel(tr, "Pagamento", pg); t.tBodies[0].appendChild(tr);
     });
     box.appendChild(t);
+  }
+  function pct(v) { return (v == null ? 0 : v).toFixed(1).replace(".", ",") + "%"; }
+  function desenharBpo() {
+    var box = $("bpoResumo"); box.innerHTML = "";
+    var lista = estado.dados.bpo || [];
+    if (!lista.length) return;
+    box.appendChild(el("div", "grupo-tit", "📊 Minha empresa — receitas e despesas"));
+    var ult = lista[lista.length - 1], cards = el("div", "cards");
+    [["Receita em " + ult.competencia, moeda(ult.receita)], ["Despesa em " + ult.competencia, moeda(ult.despesa)],
+     ["Resultado em " + ult.competencia, moeda(ult.resultado)], ["Margem em " + ult.competencia, pct(ult.margem)]
+    ].forEach(function (p) {
+      var c = el("div", "card"); c.appendChild(el("small", null, p[0])); c.appendChild(el("b", null, p[1]));
+      cards.appendChild(c);
+    });
+    box.appendChild(cards);
+    if (lista.length > 1) {
+      var t = tabela([["Competência"], ["Receita", 1], ["Despesa", 1], ["Resultado", 1], ["Margem", 1]]);
+      lista.slice().reverse().forEach(function (m) {
+        var tr = el("tr");
+        cel(tr, "Competência", m.competencia); cel(tr, "Receita", moeda(m.receita), true);
+        cel(tr, "Despesa", moeda(m.despesa), true);
+        cel(tr, "Resultado", el("span", "sel " + (m.resultado >= 0 ? "s-pago" : "s-vencido"), moeda(m.resultado)),
+            true);
+        cel(tr, "Margem", pct(m.margem), true); t.tBodies[0].appendChild(tr);
+      });
+      box.appendChild(t);
+    }
   }
   var MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
   var MESES_LONGOS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];

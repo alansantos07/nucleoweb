@@ -7,11 +7,23 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.30.1035",
-  "data": "30/10/2026 10:35",
-  "sha256": "4dd7ac46b4df350edd7043575f05c898d9f9ac9d4ef39bbc30de9d2fded7900a"
+  "versao": "2026.10.30.1822",
+  "data": "30/10/2026 18:22",
+  "sha256": "8d0aee15c8f0bd26a276f041aeb7c1e0fc3da853058739061fbeed622f939c19"
  },
  "versoes": [
+  {
+   "versao": "2026.10.30.1822",
+   "data": "30/10/2026 18:22",
+   "titulo": "BPO Financeiro (novo)",
+   "itens": [
+    "Novo item no menu lateral: 📊 BPO Financeiro. É onde o escritório vai tratar e organizar as receitas, despesas e o resultado de cada empresa cliente — a partir de dados que o próprio escritório disponibilizar (planilhas, relatórios do Domínio, extrato bancário...).",
+    "Lançamento manual de receitas e despesas por empresa e por mês, com os indicadores calculados na hora (receita, despesa, resultado e margem).",
+    "Importação de lançamentos por planilha (Excel): baixe a planilha modelo em BPO Financeiro → Lançamentos → 📥 Importar planilha, preencha, confira o que vem com erro e importe — reimportar a mesma planilha não duplica. Categorias de receita/despesa ficam livres por enquanto.",
+    "Painel do BPO Financeiro: receita, despesa, resultado e margem do mês (escolha a competência), uma tabela com o resultado de cada empresa (clique para ver os lançamentos dela) e o gráfico de receita x despesa dos últimos 6 meses.",
+    "Publicar para o cliente: em BPO Financeiro → Lançamentos, mude a \"Situação do fechamento\" para Publicado — só então a empresa passa a ver as receitas, despesas, resultado e margem do mês dela no Portal do Cliente, dentro da aba Honorários. Nada chega à empresa sem você mudar essa situação."
+   ]
+  },
   {
    "versao": "2026.10.30.1035",
    "data": "30/10/2026 10:35",
@@ -78,20 +90,9 @@ window.NUCLEO = {
     "Download de XML pela Agenci@Net: os pedidos que ficaram aguardando a SEFAZ podem ser baixados em qualquer computador (\"Baixar pendentes\").",
     "Na primeira vez que cada computador entrar nesta versão, o que estava só nele sobe para o banco sozinho."
    ]
-  },
-  {
-   "versao": "2026.10.26.1029",
-   "data": "26/10/2026 10:29",
-   "titulo": "Núcleo Web: Portal do Cliente",
-   "itens": [
-    "Novo em Empresas → \"🌐 Portal\": libere o Portal do Cliente para cada empresa (e-mail e senha provisória, com o texto do convite pronto para enviar) e publique o que ela pode ver.",
-    "A empresa entra pelo navegador (Área do Cliente da página do Núcleo), cria a própria senha no 1º acesso e vê, só para consulta: as guias de impostos com valor, vencimento e o PDF; os honorários com a NFS-e e o código do boleto/PIX; e os dados da empresa e o contato do escritório.",
-    "Entram no portal as tarefas da Gestão de Processos marcadas para enviar ao cliente (dos últimos 6 meses) e as contas a receber da empresa no Financeiro. Um mesmo e-mail pode ver várias empresas.",
-    "Publicar de novo só envia os PDFs novos. Acesso desativado some do portal na hora."
-   ]
   }
  ],
- "total_versoes": 52,
+ "total_versoes": 53,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -102,7 +103,8 @@ window.NUCLEO = {
   "Núcleo Interno: emitir a NFS-e dos honorários direto da conta a receber.",
   "Marketing: seguidores, alcance e postagens lidos sozinhos pelas APIs oficiais da Meta (Instagram/Facebook) e do LinkedIn.",
   "Atendimento conectado ao WhatsApp Business (API oficial): conversas entrando sozinhas no histórico do contato.",
-  "Núcleo Web: banco de dados na nuvem e acesso pelo navegador."
+  "Núcleo Web: banco de dados na nuvem e acesso pelo navegador.",
+  "BPO Financeiro: relatório do Domínio, extrato bancário, impostos do Fiscal automáticos e categorias com plano de contas fixo do escritório."
  ],
  "planos": [
   {
@@ -506,5 +508,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "30/10/2026 11:25"
+ "gerado_em": "30/10/2026 18:42"
 };
