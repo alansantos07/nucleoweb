@@ -240,6 +240,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       <div class="nav-grupo">Financeiro</div>
       <button data-aba="guias"><span>🧾 Impostos e guias</span><span class="bolinha alerta oculto" id="bolGuias"></span></button>
       <button data-aba="honorarios"><span>💼 Honorários</span><span class="bolinha alerta oculto" id="bolHon"></span></button>
+      <button data-aba="bpo"><span>📊 Minha Empresa</span></button>
       <div class="nav-grupo">Fiscal</div>
       <button data-aba="obrigacoes"><span>📅 Obrigações</span></button>
       <div class="nav-grupo">Documentos</div>
@@ -289,7 +290,18 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       <div class="filtro">Competência: <select id="selComp"></select></div>
       <div id="listaGuias"></div>
     </div>
-    <div id="abaHonorarios" class="painel oculto"><div id="bpoResumo"></div><div id="listaHon"></div></div>
+    <div id="abaHonorarios" class="painel oculto"><div id="listaHon"></div></div>
+    <div id="abaBpo" class="painel oculto">
+      <div class="filtro oculto" id="filtroBpo">Competência: <select id="selCompBpo"></select></div>
+      <div id="bpoVazio" class="vazio oculto">O escritório ainda não publicou os números da sua empresa.</div>
+      <div id="bpoCorpo" class="oculto">
+        <div id="bpoCards" class="cards" style="padding:16px 20px 0"></div>
+        <div class="grupo-tit">Evolução — Receita x Despesa</div>
+        <div id="bpoGrafico" style="padding:16px 20px"></div>
+        <div class="grupo-tit">Resumo por mês</div>
+        <div id="bpoTabela"></div>
+      </div>
+    </div>
     <div id="abaObrigacoes" class="painel oculto">
       <div class="filtro">Datas de entrega e pagamento das obrigações da empresa acompanhadas pelo escritório.</div>
       <div id="listaObr"></div>
@@ -626,7 +638,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     if (!d) {
       $("subtitulo").textContent = "O escritório ainda não publicou informações para esta empresa.";
       desenharInicio();
-      $("bpoResumo").innerHTML = "";
+      $("filtroBpo").classList.add("oculto"); $("bpoCorpo").classList.add("oculto"); $("bpoVazio").classList.remove("oculto");
       ["listaGuias", "listaHon", "listaObr", "listaDocs", "dadosEmpresa", "dadosEscritorio"].forEach(function (i) { $(i).innerHTML = '<div class="vazio">Nada publicado ainda.</div>'; });
       ["cAPagar", "cVencidos", "cHon", "cDocs"].forEach(function (i) { $(i).textContent = "—"; });
       $("avisoPub").textContent = ""; return;
@@ -651,7 +663,8 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     comps.forEach(function (c) { var o = el("option", null, c); o.value = c; sel.appendChild(o); });
     sel.value = comps.indexOf(atual) >= 0 ? atual : (comps[0] || "");
     sel.onchange = desenharGuias;
-    desenharGuias(); desenharHon(); desenharBpo(); desenharEmpresa(); desenharObr(); desenharDocs(); desenharInicio(); carregarSol(true);
+    $("selCompBpo").onchange = function () { atualizarCardsBpo(); };
+    desenharGuias(); desenharHon(); desenharBpoPagina(); desenharEmpresa(); desenharObr(); desenharDocs(); desenharInicio(); carregarSol(true);
   }
 
   function tabela(cols) {
@@ -722,31 +735,68 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     box.appendChild(t);
   }
   function pct(v) { return (v == null ? 0 : v).toFixed(1).replace(".", ",") + "%"; }
-  function desenharBpo() {
-    var box = $("bpoResumo"); box.innerHTML = "";
-    var lista = estado.dados.bpo || [];
+  function moedaCurta(v) {
+    v = v || 0;
+    if (Math.abs(v) >= 1000) return (v / 1000).toFixed(1).replace(/\.0$/, "").replace(".", ",") + " mil";
+    return moeda(v);
+  }
+  function mesCurtoBpo(comp) { var p = (comp || "").split("/"); return p.length === 2 ? (MESES[parseInt(p[0], 10) - 1] + "/" + p[1].slice(2)) : comp; }
+  function graficoBpo(lista) {
+    var w = 640, h = 230, pl = 54, pr = 10, pt = 30, pb = 34, max = 1;
+    lista.forEach(function (m) { max = Math.max(max, m.receita || 0, m.despesa || 0); });
+    var lu = w - pl - pr, au = h - pt - pb, n = lista.length, grupo = lu / Math.max(n, 1);
+    var barra = Math.min(grupo * 0.32, 24);
+    var s = '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" style="max-width:640px;display:block;font-family:Inter,system-ui,sans-serif">';
+    s += '<rect x="0" y="4" width="10" height="10" rx="2" fill="#16A34A"/><text x="14" y="13" font-size="12" fill="#4B5563">Receita</text>';
+    s += '<rect x="72" y="4" width="10" height="10" rx="2" fill="#B91C1C"/><text x="86" y="13" font-size="12" fill="#4B5563">Despesa</text>';
+    for (var i = 0; i <= 4; i++) {
+      var y = pt + au * i / 4;
+      s += '<line x1="' + pl + '" y1="' + y + '" x2="' + (w - pr) + '" y2="' + y + '" stroke="#EEF0F3"/>';
+      s += '<text x="' + (pl - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-size="10" fill="#6B7280">' + moedaCurta(max * (4 - i) / 4) + '</text>';
+    }
+    lista.forEach(function (m, i) {
+      var x0 = pl + grupo * i + (grupo - barra * 2) / 2;
+      var hr = au * ((m.receita || 0) / max), hd = au * ((m.despesa || 0) / max);
+      s += '<rect x="' + x0 + '" y="' + (pt + au - hr) + '" width="' + barra + '" height="' + Math.max(hr, 0) + '" rx="2" fill="#16A34A"/>';
+      s += '<rect x="' + (x0 + barra) + '" y="' + (pt + au - hd) + '" width="' + barra + '" height="' + Math.max(hd, 0) + '" rx="2" fill="#B91C1C"/>';
+      s += '<text x="' + (x0 + barra) + '" y="' + (h - pb + 18) + '" text-anchor="middle" font-size="11" fill="#4B5563">' + mesCurtoBpo(m.competencia) + '</text>';
+    });
+    return s + '</svg>';
+  }
+  function atualizarCardsBpo(lista) {
+    lista = lista || estado.dados.bpo || [];
     if (!lista.length) return;
-    box.appendChild(el("div", "grupo-tit", "📊 Minha empresa — receitas e despesas"));
-    var ult = lista[lista.length - 1], cards = el("div", "cards");
-    [["Receita em " + ult.competencia, moeda(ult.receita)], ["Despesa em " + ult.competencia, moeda(ult.despesa)],
-     ["Resultado em " + ult.competencia, moeda(ult.resultado)], ["Margem em " + ult.competencia, pct(ult.margem)]
+    var comp = $("selCompBpo").value;
+    var m = lista.filter(function (x) { return x.competencia === comp; })[0] || lista[lista.length - 1];
+    var box = $("bpoCards"); box.innerHTML = "";
+    [["Receita em " + m.competencia, moeda(m.receita)], ["Despesa em " + m.competencia, moeda(m.despesa)],
+     ["Resultado em " + m.competencia, moeda(m.resultado)], ["Margem em " + m.competencia, pct(m.margem)]
     ].forEach(function (p) {
       var c = el("div", "card"); c.appendChild(el("small", null, p[0])); c.appendChild(el("b", null, p[1]));
-      cards.appendChild(c);
+      box.appendChild(c);
     });
-    box.appendChild(cards);
-    if (lista.length > 1) {
-      var t = tabela([["Competência"], ["Receita", 1], ["Despesa", 1], ["Resultado", 1], ["Margem", 1]]);
-      lista.slice().reverse().forEach(function (m) {
-        var tr = el("tr");
-        cel(tr, "Competência", m.competencia); cel(tr, "Receita", moeda(m.receita), true);
-        cel(tr, "Despesa", moeda(m.despesa), true);
-        cel(tr, "Resultado", el("span", "sel " + (m.resultado >= 0 ? "s-pago" : "s-vencido"), moeda(m.resultado)),
-            true);
-        cel(tr, "Margem", pct(m.margem), true); t.tBodies[0].appendChild(tr);
-      });
-      box.appendChild(t);
-    }
+  }
+  function desenharBpoPagina() {
+    var lista = (estado.dados.bpo || []).slice(), semDados = !lista.length;
+    $("bpoVazio").classList.toggle("oculto", !semDados);
+    $("filtroBpo").classList.toggle("oculto", semDados);
+    $("bpoCorpo").classList.toggle("oculto", semDados);
+    if (semDados) return;
+    var sel = $("selCompBpo"), atual = sel.value;
+    sel.innerHTML = "";
+    lista.slice().reverse().forEach(function (m) { var o = el("option", null, m.competencia); o.value = m.competencia; sel.appendChild(o); });
+    if (atual && lista.some(function (m) { return m.competencia === atual; })) sel.value = atual;
+    atualizarCardsBpo(lista);
+    $("bpoGrafico").innerHTML = graficoBpo(lista);
+    var t = tabela([["Competência"], ["Receita", 1], ["Despesa", 1], ["Resultado", 1], ["Margem", 1]]);
+    lista.slice().reverse().forEach(function (m) {
+      var tr = el("tr");
+      cel(tr, "Competência", m.competencia); cel(tr, "Receita", moeda(m.receita), true);
+      cel(tr, "Despesa", moeda(m.despesa), true);
+      cel(tr, "Resultado", el("span", "sel " + (m.resultado >= 0 ? "s-pago" : "s-vencido"), moeda(m.resultado)), true);
+      cel(tr, "Margem", pct(m.margem), true); t.tBodies[0].appendChild(tr);
+    });
+    var tb = $("bpoTabela"); tb.innerHTML = ""; tb.appendChild(t);
   }
   var MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
   var MESES_LONGOS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
@@ -1000,6 +1050,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
 
   // ------------------------------------------------------- navegação (menu lateral)
   var PAGINAS = { inicio: ["abaInicio", "Início"], guias: ["abaGuias", "Impostos e guias"], honorarios: ["abaHonorarios", "Honorários"],
+                  bpo: ["abaBpo", "Minha Empresa"],
                   obrigacoes: ["abaObrigacoes", "Obrigações"], documentos: ["abaDocumentos", "Meus documentos"],
                   enviar: ["abaEnviar", "Enviar documentos"], solicitacoes: ["abaSolicitacoes", "Solicitações"],
                   empresa: ["abaEmpresa", "Dados da empresa"] };

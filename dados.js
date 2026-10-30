@@ -7,11 +7,19 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.30.1822",
-  "data": "30/10/2026 18:22",
-  "sha256": "8d0aee15c8f0bd26a276f041aeb7c1e0fc3da853058739061fbeed622f939c19"
+  "versao": "2026.10.30.1856",
+  "data": "30/10/2026 18:56",
+  "sha256": "b6657c8fc594ae56094007362f235488a3e71a2ab42cda52b75e67bc4728ea13"
  },
  "versoes": [
+  {
+   "versao": "2026.10.30.1856",
+   "data": "30/10/2026 18:56",
+   "titulo": "BPO Financeiro — correção na publicação automática",
+   "itens": [
+    "Mudar a \"Situação do fechamento\" para Publicado em BPO Financeiro → Lançamentos agora avisa a publicação automática do Portal — a empresa recebe os dados sem precisar clicar em Publicar à parte (como já acontecia com honorários e documentos)."
+   ]
+  },
   {
    "versao": "2026.10.30.1822",
    "data": "30/10/2026 18:22",
@@ -78,21 +86,9 @@ window.NUCLEO = {
     "O pedido avisa por e-mail os Administradores do escritório e o suporte do Núcleo, com um número de protocolo. Por segurança, a senha nunca é enviada por e-mail.",
     "Proprietário do Núcleo: ⚙ Configurações → Pedidos de Suporte lista os pedidos de todos os escritórios (filtro por situação, escritório e busca) e registra o atendimento (Aberto, Em atendimento, Resolvido, resposta e histórico). O menu mostra quantos estão em aberto."
    ]
-  },
-  {
-   "versao": "2026.10.29.1003",
-   "data": "29/10/2026 10:03",
-   "titulo": "Tudo no banco do escritório (nada só no computador)",
-   "itens": [
-    "Certificados digitais: o arquivo .pfx e a senha agora ficam no banco do escritório, criptografados. Cadastrou em um computador, vale em todos — não precisa mais cadastrar de novo em cada máquina.",
-    "E-mail de envio e Banco Inter passam a ser do escritório: configure uma vez e todos os computadores usam.",
-    "Download de NF-e e de CT-e: o controle da SEFAZ (última consulta, notas pendentes) e os XML baixados ficam no banco. Outro computador continua de onde parou, sem o bloqueio de 1 hora da SEFAZ; se dois computadores tentarem o mesmo CNPJ ao mesmo tempo, o segundo pula aquele CNPJ e avisa.",
-    "Download de XML pela Agenci@Net: os pedidos que ficaram aguardando a SEFAZ podem ser baixados em qualquer computador (\"Baixar pendentes\").",
-    "Na primeira vez que cada computador entrar nesta versão, o que estava só nele sobe para o banco sozinho."
-   ]
   }
  ],
- "total_versoes": 53,
+ "total_versoes": 54,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -508,5 +504,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "30/10/2026 18:42"
+ "gerado_em": "30/10/2026 19:54"
 };
