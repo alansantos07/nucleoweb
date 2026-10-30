@@ -7,11 +7,32 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.29.1501",
-  "data": "29/10/2026 15:01",
-  "sha256": ""
+  "versao": "2026.10.30.1035",
+  "data": "30/10/2026 10:35",
+  "sha256": "4dd7ac46b4df350edd7043575f05c898d9f9ac9d4ef39bbc30de9d2fded7900a"
  },
  "versoes": [
+  {
+   "versao": "2026.10.30.1035",
+   "data": "30/10/2026 10:35",
+   "titulo": "Portal do Cliente com a marca do escritório",
+   "itens": [
+    "Empresas → 🌐 Portal → 🎨 Aparência do portal: o portal das empresas passa a aparecer com o nome, a logomarca, as cores e os contatos do escritório, com pré-visualização na hora.",
+    "Cada escritório ganha o seu link (ex.: .../portal/?e=scm): quem entra por ele já vê a marca na tela de entrada, com a mensagem de boas-vindas, telefone, WhatsApp, e-mail e site.",
+    "Dentro do portal, botão \"Falar com o escritório\" abre o WhatsApp do escritório; o convite enviado à empresa já leva o link do escritório.",
+    "Honorários no portal com os arquivos: PDF do boleto (Banco Inter), DANFSe e XML da NFS-e para a empresa baixar. São gerados na publicação (Empresas → Portal → Publicar) pelo computador que tem o Inter e o certificado da NFS-e configurados.",
+    "Publicação automática do portal: quando uma guia \"enviar ao cliente\" muda na Gestão de Processos ou um honorário da empresa muda no Financeiro (boleto, NFS-e, recebimento), o portal se atualiza sozinho em até 20 segundos. Dá para desligar em Empresas → Portal.",
+    "Aviso por e-mail à empresa: ligue em Empresas → Portal e, a cada publicação, a empresa recebe um e-mail quando chegar guia, boleto ou NFS-e nova, com a lista e o link do portal. A mensagem é sua (✉ Mensagem do aviso, com campos e prévia). Coisas antigas não são avisadas.",
+    "Portal com a aba Obrigações: calendário com as datas de pagamento e entrega das obrigações da empresa (Apuração, Declaração e tarefas \"enviar ao cliente\" da Gestão de Processos), do mês e do próximo, com a situação de cada uma.",
+    "Portal com a aba Documentos: contratos assinados (Comercial) entram sozinhos, e em Empresas → Portal → 📎 Documentos você anexa certidões, relatórios, alvarás e outros PDFs, com validade (avisa quando está vencendo).",
+    "Portal com a aba Enviar documentos: a empresa manda notas, extratos, folha e comprovantes ao escritório (arrastando os arquivos, com tipo, competência e mensagem) e acompanha se o escritório já recebeu.",
+    "Empresas → Portal → 📥 Recebidos: o escritório vê o que as empresas mandaram e baixa com um clique para a pasta da empresa no mês, em \"Recebidos do cliente\\<tipo>\".",
+    "Portal com a aba Solicitações: a empresa abre pedidos (segunda via, dúvida, alteração cadastral, departamento pessoal...) com anexos e conversa com o escritório. No Núcleo, Empresas → Portal → 💬 Solicitações mostra as novas em negrito, com resposta, anexos e situação (Aberta, Em andamento, Aguardando cliente, Concluída); com o aviso por e-mail ligado, a empresa recebe a resposta por e-mail.",
+    "Portal do Cliente com visual novo: menu lateral (Início, Financeiro, Fiscal, Documentos e Atendimento) com avisos em vermelho, e a página Início com os próximos vencimentos, os avisos (guia vencida, resposta nova, certidão vencendo) e atalhos. No celular, o menu abre pelo botão ☰.",
+    "Esqueci a senha no próprio portal: a empresa informa o e-mail, recebe um código de 6 dígitos (vale 15 minutos) e cria a senha nova sozinha, sem precisar pedir ao escritório.",
+    "Mural de comunicados: em Empresas → Portal → 📢 Comunicados o escritório publica avisos (feriado, legislação, prazo importante) para todas as empresas ou só para algumas, com período no ar e destaque para os importantes; aparecem no alto do Início do portal e podem ir também por e-mail."
+   ]
+  },
   {
    "versao": "2026.10.29.1501",
    "data": "29/10/2026 15:01",
@@ -68,20 +89,9 @@ window.NUCLEO = {
     "Entram no portal as tarefas da Gestão de Processos marcadas para enviar ao cliente (dos últimos 6 meses) e as contas a receber da empresa no Financeiro. Um mesmo e-mail pode ver várias empresas.",
     "Publicar de novo só envia os PDFs novos. Acesso desativado some do portal na hora."
    ]
-  },
-  {
-   "versao": "2026.10.26.0840",
-   "data": "26/10/2026 08:40",
-   "titulo": "Login mais seguro",
-   "itens": [
-    "O usuário e a senha agora são conferidos no Banco Central do Núcleo antes de liberar o acesso aos dados do escritório. A senha continua sem sair do computador: vai só um resumo protegido dela.",
-    "Depois de 5 tentativas com a senha errada, aquele usuário fica bloqueado por 10 minutos.",
-    "A partir do segundo acesso, o login fica mais rápido (uma consulta só ao Central).",
-    "Sem internet, o Núcleo continua entrando pela última cópia do cadastro, como antes."
-   ]
   }
  ],
- "total_versoes": 51,
+ "total_versoes": 52,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -496,5 +506,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "30/10/2026 11:24"
+ "gerado_em": "30/10/2026 11:25"
 };
