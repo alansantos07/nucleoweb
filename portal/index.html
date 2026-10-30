@@ -82,6 +82,18 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .dia{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:46px;height:46px;border-radius:10px;background:var(--azul-claro);color:var(--azul);font-weight:800;line-height:1.05}
 .dia small{font-size:10.5px;font-weight:700;text-transform:uppercase}
 .dia.passado{background:#F3F4F6;color:var(--texto3)}
+.envio{padding:18px 20px}.envio h3{margin:0 0 4px;font-size:16px}
+.linha-form{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:560px}
+.linha-form select{width:100%;max-width:none;padding:10px}
+textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10px;font:inherit;font-size:14px;resize:vertical}
+.soltar{margin-top:14px;border:2px dashed var(--azul-borda);border-radius:12px;padding:22px;text-align:center;background:var(--azul-claro);color:var(--texto2);font-size:14px}
+.soltar.sobre{border-color:var(--azul);background:#fff}
+.soltar a{color:var(--azul);font-weight:700}
+.arq{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 10px;border:1px solid var(--linha);border-radius:9px;margin-top:6px;font-size:13.5px}
+.arq button{background:none;border:0;color:var(--verm);cursor:pointer;font-size:13px}
+.arq.erro{border-color:#FCA5A5;background:var(--verm-claro)}
+.acoes-env{display:flex;align-items:center;gap:14px;margin-top:14px}.acoes-env .msg{margin:0}
+@media (max-width:700px){.linha-form{grid-template-columns:1fr}}
 @media (min-width:701px){#listaObr table,#listaDocs table{table-layout:fixed}
 #listaObr th:nth-child(1){width:90px}#listaObr th:nth-child(3){width:140px}#listaObr th:nth-child(4){width:170px}
 #listaDocs th:nth-child(2){width:130px}#listaDocs th:nth-child(3){width:240px}#listaDocs th:nth-child(4){width:150px}}
@@ -168,6 +180,7 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       <button data-aba="obrigacoes">📅 Obrigações</button>
       <button data-aba="honorarios">💼 Honorários</button>
       <button data-aba="documentos">📄 Documentos</button>
+      <button data-aba="enviar">📤 Enviar documentos</button>
       <button data-aba="empresa">🏢 Dados da empresa</button>
     </div>
     <div id="abaGuias" class="painel">
@@ -180,6 +193,26 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       <div id="listaObr"></div>
     </div>
     <div id="abaDocumentos" class="painel oculto"><div id="listaDocs"></div></div>
+    <div id="abaEnviar" class="oculto">
+      <div class="painel envio">
+        <h3>Enviar documentos ao escritório</h3>
+        <p class="sub-cel">Notas fiscais, extratos, folha, comprovantes... Até 20 arquivos por envio (10 MB cada, 25 MB no total).
+          Aceitos: PDF, XML, ZIP, RAR, 7Z, imagens (JPG/PNG), Excel, CSV, OFX, TXT, Word, RET/REM.</p>
+        <div class="linha-form">
+          <div><label for="envTipo">Tipo</label><select id="envTipo"></select></div>
+          <div><label for="envComp">Competência</label><select id="envComp"></select></div>
+        </div>
+        <div class="soltar" id="soltar">
+          <input type="file" id="envArquivos" multiple class="oculto">
+          <b>Arraste os arquivos para cá</b> ou <a href="#" id="envEscolher">escolha no computador</a>
+        </div>
+        <div id="envLista"></div>
+        <label for="envMsg">Mensagem para o escritório (opcional)</label>
+        <textarea id="envMsg" rows="3" maxlength="1000" placeholder="Ex.: segue o extrato de setembro da conta do Itaú."></textarea>
+        <div class="acoes-env"><button class="btn btn-v" id="btEnviar" disabled>📤 Enviar</button><span class="msg" id="msgEnvio"></span></div>
+      </div>
+      <div class="painel" style="margin-top:16px"><div class="grupo-tit">Seus envios</div><div id="listaEnvios"></div></div>
+    </div>
     <div id="abaEmpresa" class="dados oculto">
       <div class="painel"><h3>Dados da empresa</h3><div id="dadosEmpresa"></div></div>
       <div class="painel"><h3>Seu escritório de contabilidade</h3><div id="dadosEscritorio"></div></div>
@@ -570,6 +603,101 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       box.appendChild(t);
     });
   }
+  // ------------------------------------------------------- envio de documentos
+  var TIPOS_ENVIO = ["Notas fiscais", "Extratos bancários", "Folha de pagamento / RH", "Comprovantes de pagamento",
+                     "Contratos e documentos da empresa", "Outros"];
+  var EXT_OK = /\.(pdf|xml|zip|rar|7z|jpe?g|png|xlsx?|csv|ofx|txt|docx?|ret|rem)$/i;
+  var MAX_ARQ = 10 * 1024 * 1024, MAX_TOTAL = 25 * 1024 * 1024, MAX_QTD = 20;
+  var escolhidos = [];
+  (function () {
+    var t = $("envTipo"); TIPOS_ENVIO.forEach(function (x) { var o = el("option", null, x); o.value = x; t.appendChild(o); });
+    var c = $("envComp"), d = new Date();
+    for (var i = 0; i < 7; i++) {
+      var m = new Date(d.getFullYear(), d.getMonth() - i, 1), v = String(m.getMonth() + 1).padStart(2, "0") + "/" + m.getFullYear();
+      var o = el("option", null, v + (i === 1 ? " (mês passado)" : i === 0 ? " (este mês)" : "")); o.value = v; c.appendChild(o);
+    }
+    var sem = el("option", null, "Sem competência"); sem.value = ""; c.appendChild(sem);
+    c.value = c.options[1].value;
+    var zona = $("soltar"), inp = $("envArquivos");
+    $("envEscolher").onclick = function (e) { e.preventDefault(); inp.click(); };
+    inp.onchange = function () { juntar(inp.files); inp.value = ""; };
+    zona.ondragover = function (e) { e.preventDefault(); zona.classList.add("sobre"); };
+    zona.ondragleave = function () { zona.classList.remove("sobre"); };
+    zona.ondrop = function (e) { e.preventDefault(); zona.classList.remove("sobre"); juntar(e.dataTransfer.files); };
+    $("btEnviar").onclick = enviar;
+  })();
+  function tam(n) { return n >= 1048576 ? (n / 1048576).toFixed(1).replace(".", ",") + " MB" : Math.max(1, Math.round(n / 1024)) + " KB"; }
+  function juntar(lista) {
+    Array.prototype.forEach.call(lista, function (f) {
+      if (!escolhidos.some(function (x) { return x.name === f.name && x.size === f.size; })) escolhidos.push(f);
+    });
+    desenharEscolhidos();
+  }
+  function problemaDe(f) {
+    if (!EXT_OK.test(f.name)) return "tipo não aceito";
+    if (f.size > MAX_ARQ) return "maior que 10 MB";
+    if (!f.size) return "arquivo vazio";
+    return "";
+  }
+  function desenharEscolhidos() {
+    var box = $("envLista"); box.innerHTML = "";
+    var total = 0, ruins = 0;
+    escolhidos.forEach(function (f, i) {
+      var p = problemaDe(f); if (p) ruins++; total += f.size;
+      var l = el("div", "arq" + (p ? " erro" : ""));
+      l.appendChild(el("span", null, "📄 " + f.name + " · " + tam(f.size) + (p ? " — " + p : "")));
+      var x = el("button", null, "✕ tirar"); x.onclick = function () { escolhidos.splice(i, 1); desenharEscolhidos(); }; l.appendChild(x);
+      box.appendChild(l);
+    });
+    var m = "";
+    if (escolhidos.length > MAX_QTD) m = "No máximo " + MAX_QTD + " arquivos por envio.";
+    else if (total > MAX_TOTAL) m = "O envio passa de 25 MB (" + tam(total) + "). Divida em mais de um envio.";
+    else if (ruins) m = "Tire os arquivos marcados em vermelho.";
+    msgEnvio(m, "erro");
+    $("btEnviar").disabled = !escolhidos.length || !!m;
+  }
+  function msgEnvio(t, tipo) { var x = $("msgEnvio"); x.textContent = t || ""; x.className = "msg " + (tipo || "erro"); }
+  function lerB64(f) {
+    return new Promise(function (ok, falha) {
+      var r = new FileReader();
+      r.onload = function () { ok(String(r.result).split(",")[1] || ""); };
+      r.onerror = function () { falha(new Error("Não foi possível ler " + f.name)); };
+      r.readAsDataURL(f);
+    });
+  }
+  function enviar() {
+    var bt = $("btEnviar"); bt.disabled = true; bt.textContent = "Enviando..."; msgEnvio("Enviando " + escolhidos.length + " arquivo(s)...", "ok");
+    Promise.all(escolhidos.map(function (f) { return lerB64(f).then(function (c) { return { nome: f.name, conteudo: c }; }); }))
+      .then(function (arqs) {
+        return chamar({ acao: "portal_web_enviar", sessao: estado.sessao, acesso: estado.acesso, tipo: $("envTipo").value,
+                        competencia: $("envComp").value, mensagem: $("envMsg").value.trim(), arquivos: arqs });
+      }).then(function (d) {
+        escolhidos = []; $("envMsg").value = ""; desenharEscolhidos();
+        msgEnvio("Enviado ✔ (" + d.arquivos + " arquivo(s)). O escritório já pode ver.", "ok"); toast("Documentos enviados ✔");
+        carregarEnvios();
+      }).catch(function (err) {
+        if (err.message === "SESSAO_EXPIRADA") { sair("Sua sessão terminou. Entre de novo."); return; }
+        msgEnvio("Não enviado: " + err.message, "erro");
+      }).then(function () { bt.textContent = "📤 Enviar"; bt.disabled = !escolhidos.length; });
+  }
+  function carregarEnvios() {
+    var box = $("listaEnvios"); box.innerHTML = '<div class="vazio">Carregando...</div>';
+    chamar({ acao: "portal_web_envios", sessao: estado.sessao, acesso: estado.acesso }).then(function (d) {
+      box.innerHTML = "";
+      if (!d.envios.length) { box.appendChild(el("div", "vazio", "Você ainda não enviou documentos por aqui.")); return; }
+      var t = tabela([["Enviado em"], ["Tipo"], ["Competência"], ["Arquivos"], ["Situação"]]);
+      d.envios.forEach(function (e) {
+        var tr = el("tr"); cel(tr, "Enviado em", (e.enviado_em || "").slice(0, 16));
+        var n = el("div"); n.appendChild(el("b", null, e.tipo)); if (e.mensagem) n.appendChild(el("span", "sub-cel", e.mensagem));
+        cel(tr, "Tipo", n); cel(tr, "Competência", e.competencia || "—");
+        cel(tr, "Arquivos", (e.arquivos || []).map(function (a) { return a.nome; }).join(", "));
+        var rec = e.situacao === "Baixado";
+        cel(tr, "Situação", el("span", "sel " + (rec ? "s-pago" : "s-aberto"), rec ? "Recebido pelo escritório ✔" : "Enviado"));
+        t.tBodies[0].appendChild(tr);
+      });
+      box.appendChild(t);
+    }).catch(function (err) { box.innerHTML = ""; box.appendChild(el("div", "vazio", "Não foi possível carregar: " + err.message)); });
+  }
   function campos(box, lista) {
     box.innerHTML = "";
     lista.forEach(function (c) { if (!c[1]) return; var d = el("div", "campo"); d.appendChild(el("span", null, c[0])); d.appendChild(el("b", null, c[1])); box.appendChild(d); });
@@ -592,6 +720,8 @@ td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
       $("abaEmpresa").classList.toggle("oculto", b.dataset.aba !== "empresa");
       $("abaObrigacoes").classList.toggle("oculto", b.dataset.aba !== "obrigacoes");
       $("abaDocumentos").classList.toggle("oculto", b.dataset.aba !== "documentos");
+      $("abaEnviar").classList.toggle("oculto", b.dataset.aba !== "enviar");
+      if (b.dataset.aba === "enviar") carregarEnvios();
     };
   });
 
