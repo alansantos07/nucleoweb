@@ -94,6 +94,17 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
 .arq.erro{border-color:#FCA5A5;background:var(--verm-claro)}
 .acoes-env{display:flex;align-items:center;gap:14px;margin-top:14px}.acoes-env .msg{margin:0}
 @media (max-width:700px){.linha-form{grid-template-columns:1fr}}
+.sol-grade{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:16px;align-items:start}
+.sol-lado{padding:16px 18px}.sol-lado h3{margin:0 0 2px;font-size:16px}
+.sol-item{padding:11px 16px;border-bottom:1px solid #F0F2F5;cursor:pointer}.sol-item:hover,.sol-item.at{background:var(--azul-claro)}
+.sol-item b{display:block;font-size:14px}.sol-item.nova b::after{content:" ●";color:var(--verde)}
+.conversa{max-height:380px;overflow:auto;margin:12px 0;display:flex;flex-direction:column;gap:8px}
+.bolha{max-width:88%;padding:9px 12px;border-radius:12px;font-size:13.5px;white-space:pre-wrap}
+.bolha small{display:block;font-size:11px;color:var(--texto3);margin-bottom:2px}
+.bolha.empresa{align-self:flex-end;background:var(--azul-claro)}.bolha.escritorio{align-self:flex-start;background:#F3F4F6}
+.bolha .btn{margin-top:6px}
+.bolinha{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--verde);color:var(--sobre-verde,#fff);font-size:11px;line-height:18px;text-align:center}
+@media (max-width:900px){.sol-grade{grid-template-columns:1fr}}
 @media (min-width:701px){#listaObr table,#listaDocs table{table-layout:fixed}
 #listaObr th:nth-child(1){width:90px}#listaObr th:nth-child(3){width:140px}#listaObr th:nth-child(4){width:170px}
 #listaDocs th:nth-child(2){width:130px}#listaDocs th:nth-child(3){width:240px}#listaDocs th:nth-child(4){width:150px}}
@@ -181,6 +192,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       <button data-aba="honorarios">💼 Honorários</button>
       <button data-aba="documentos">📄 Documentos</button>
       <button data-aba="enviar">📤 Enviar documentos</button>
+      <button data-aba="solicitacoes">💬 Solicitações <span class="bolinha oculto" id="bolSol"></span></button>
       <button data-aba="empresa">🏢 Dados da empresa</button>
     </div>
     <div id="abaGuias" class="painel">
@@ -212,6 +224,33 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
         <div class="acoes-env"><button class="btn btn-v" id="btEnviar" disabled>📤 Enviar</button><span class="msg" id="msgEnvio"></span></div>
       </div>
       <div class="painel" style="margin-top:16px"><div class="grupo-tit">Seus envios</div><div id="listaEnvios"></div></div>
+    </div>
+    <div id="abaSolicitacoes" class="oculto">
+      <div class="sol-grade">
+        <div class="painel">
+          <div class="filtro" style="justify-content:space-between"><b>Suas solicitações</b>
+            <button class="btn btn-v btn-p" id="btNovaSol">+ Nova solicitação</button></div>
+          <div id="listaSol"></div>
+        </div>
+        <div class="painel sol-lado" id="solLado">
+          <div id="solNova" class="oculto">
+            <h3>Nova solicitação</h3>
+            <label for="solTipo">Tipo</label><select id="solTipo"></select>
+            <label for="solAssunto">Assunto</label><input type="text" id="solAssunto" maxlength="150" placeholder="Ex.: segunda via do DAS de setembro">
+            <label for="solTexto">O que você precisa?</label><textarea id="solTexto" rows="5" maxlength="4000"></textarea>
+            <label>Anexos (opcional, até 5)</label><input type="file" id="solArqs" multiple>
+            <div class="acoes-env"><button class="btn btn-v" id="btAbrirSol">Enviar solicitação</button><span class="msg" id="msgSol"></span></div>
+          </div>
+          <div id="solVer" class="oculto">
+            <h3 id="solTitulo"></h3><p class="sub-cel" id="solSub"></p>
+            <div id="solConversa" class="conversa"></div>
+            <label for="solResp">Responder</label><textarea id="solResp" rows="3" maxlength="4000"></textarea>
+            <input type="file" id="solRespArqs" multiple style="margin-top:6px">
+            <div class="acoes-env"><button class="btn btn-a" id="btResp">Enviar resposta</button><span class="msg" id="msgResp"></span></div>
+          </div>
+          <div id="solVazio" class="vazio">Escolha uma solicitação ou clique em "+ Nova solicitação".</div>
+        </div>
+      </div>
     </div>
     <div id="abaEmpresa" class="dados oculto">
       <div class="painel"><h3>Dados da empresa</h3><div id="dadosEmpresa"></div></div>
@@ -480,7 +519,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     comps.forEach(function (c) { var o = el("option", null, c); o.value = c; sel.appendChild(o); });
     sel.value = comps.indexOf(atual) >= 0 ? atual : (comps[0] || "");
     sel.onchange = desenharGuias;
-    desenharGuias(); desenharHon(); desenharEmpresa(); desenharObr(); desenharDocs();
+    desenharGuias(); desenharHon(); desenharEmpresa(); desenharObr(); desenharDocs(); carregarSol(true);
   }
 
   function tabela(cols) {
@@ -698,6 +737,94 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       box.appendChild(t);
     }).catch(function (err) { box.innerHTML = ""; box.appendChild(el("div", "vazio", "Não foi possível carregar: " + err.message)); });
   }
+  // ------------------------------------------------------- solicitações
+  var sol = { lista: [], atual: null, tipos: [] };
+  function lerArquivos(input) {
+    var fs = Array.prototype.slice.call(input.files || []);
+    if (fs.length > 5) return Promise.reject(new Error("No máximo 5 anexos."));
+    for (var i = 0; i < fs.length; i++) {
+      var p = problemaDe(fs[i]); if (p) return Promise.reject(new Error(fs[i].name + ": " + p));
+    }
+    return Promise.all(fs.map(function (f) { return lerB64(f).then(function (c) { return { nome: f.name, conteudo: c }; }); }));
+  }
+  function mostrarSol(qual) {
+    $("solNova").classList.toggle("oculto", qual !== "nova"); $("solVer").classList.toggle("oculto", qual !== "ver");
+    $("solVazio").classList.toggle("oculto", !!qual);
+  }
+  function carregarSol(soContar, lida) {
+    return chamar({ acao: "portal_web_solicitacoes", sessao: estado.sessao, acesso: estado.acesso, lida: lida || "" }).then(function (d) {
+      sol.lista = d.solicitacoes || []; sol.tipos = d.tipos || [];
+      var novas = sol.lista.filter(function (s) { return !s.lida_empresa && s.ultima_de === "escritorio"; }).length;
+      var b = $("bolSol"); b.textContent = novas; b.classList.toggle("oculto", !novas);
+      if (soContar) return;
+      var sel = $("solTipo"); if (!sel.options.length) sol.tipos.forEach(function (x) { var o = el("option", null, x); o.value = x; sel.appendChild(o); });
+      desenharListaSol();
+      if (sol.atual) { var at = sol.lista.filter(function (s) { return s.id === sol.atual; })[0]; if (at) verSol(at, true); }
+    }).catch(function (err) { if (!soContar) $("listaSol").innerHTML = '<div class="vazio">Não foi possível carregar: ' + err.message + "</div>"; });
+  }
+  function classeSit(s) { return { "Concluída": "s-pago", "Aguardando cliente": "s-hoje", "Em andamento": "s-aberto" }[s] || "s-neutro"; }
+  function desenharListaSol() {
+    var box = $("listaSol"); box.innerHTML = "";
+    if (!sol.lista.length) { box.appendChild(el("div", "vazio", "Nenhuma solicitação ainda.")); return; }
+    sol.lista.forEach(function (s) {
+      var nova = !s.lida_empresa && s.ultima_de === "escritorio";
+      var it = el("div", "sol-item" + (nova ? " nova" : "") + (s.id === sol.atual ? " at" : ""));
+      it.appendChild(el("b", null, s.assunto));
+      var sub = el("span", "sub-cel"); sub.appendChild(el("span", "sel " + classeSit(s.situacao), s.situacao));
+      sub.appendChild(document.createTextNode("  " + s.tipo + " · " + (s.ultima_em || s.aberta_em || "").slice(0, 16)));
+      it.appendChild(sub); it.onclick = function () { verSol(s); }; box.appendChild(it);
+    });
+  }
+  function verSol(s, semMarcar) {
+    sol.atual = s.id; mostrarSol("ver"); desenharListaSol();
+    $("solTitulo").textContent = s.assunto;
+    $("solSub").textContent = s.tipo + " · aberta em " + s.aberta_em + " · " + s.situacao;
+    var c = $("solConversa"); c.innerHTML = "";
+    (s.mensagens || []).forEach(function (m) {
+      var b = el("div", "bolha " + m.de);
+      b.appendChild(el("small", null, (m.de === "empresa" ? "Você" : "Escritório") + " · " + (m.em || "")));
+      b.appendChild(document.createTextNode(m.texto || ""));
+      (m.arquivos || []).forEach(function (a) {
+        var bt = el("button", "btn btn-c btn-p", "⬇ " + a.nome);
+        bt.onclick = function () {
+          bt.disabled = true;
+          chamar({ acao: "portal_web_sol_arquivo", sessao: estado.sessao, acesso: estado.acesso, id: s.id, arquivo: a.ref }).then(function (d) {
+            var blob = new Blob([deB64(d.conteudo)], { type: "application/octet-stream" });
+            var url = URL.createObjectURL(blob), l = el("a"); l.href = url; l.download = d.nome || a.nome;
+            document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+          }).catch(function (err) { toast("Não foi possível baixar: " + err.message); }).then(function () { bt.disabled = false; });
+        };
+        b.appendChild(el("br")); b.appendChild(bt);
+      });
+      c.appendChild(b);
+    });
+    c.scrollTop = c.scrollHeight;
+    if (!semMarcar && !s.lida_empresa && s.ultima_de === "escritorio") { s.lida_empresa = true; carregarSol(false, s.id); }
+  }
+  $("btNovaSol").onclick = function () { sol.atual = null; desenharListaSol(); mostrarSol("nova"); $("solAssunto").focus(); };
+  $("btAbrirSol").onclick = function () {
+    var bt = this, m = $("msgSol");
+    if (!$("solAssunto").value.trim() || !$("solTexto").value.trim()) { m.className = "msg erro"; m.textContent = "Preencha o assunto e o texto."; return; }
+    bt.disabled = true; bt.textContent = "Enviando..."; m.textContent = "";
+    lerArquivos($("solArqs")).then(function (arqs) {
+      return chamar({ acao: "portal_web_solicitar", sessao: estado.sessao, acesso: estado.acesso, tipo: $("solTipo").value,
+                      assunto: $("solAssunto").value.trim(), texto: $("solTexto").value.trim(), arquivos: arqs });
+    }).then(function (d) {
+      $("solAssunto").value = ""; $("solTexto").value = ""; $("solArqs").value = "";
+      sol.atual = d.id; toast("Solicitação enviada ✔"); return carregarSol();
+    }).catch(function (err) { m.className = "msg erro"; m.textContent = err.message === "SESSAO_EXPIRADA" ? "Sua sessão terminou. Entre de novo." : err.message; })
+      .then(function () { bt.disabled = false; bt.textContent = "Enviar solicitação"; });
+  };
+  $("btResp").onclick = function () {
+    var bt = this, m = $("msgResp"), texto = $("solResp").value.trim();
+    if (!texto && !$("solRespArqs").files.length) { m.className = "msg erro"; m.textContent = "Escreva a mensagem."; return; }
+    bt.disabled = true; bt.textContent = "Enviando..."; m.textContent = "";
+    lerArquivos($("solRespArqs")).then(function (arqs) {
+      return chamar({ acao: "portal_web_sol_responder", sessao: estado.sessao, acesso: estado.acesso, id: sol.atual, texto: texto, arquivos: arqs });
+    }).then(function () { $("solResp").value = ""; $("solRespArqs").value = ""; toast("Mensagem enviada ✔"); return carregarSol(); })
+      .catch(function (err) { m.className = "msg erro"; m.textContent = err.message; })
+      .then(function () { bt.disabled = false; bt.textContent = "Enviar resposta"; });
+  };
   function campos(box, lista) {
     box.innerHTML = "";
     lista.forEach(function (c) { if (!c[1]) return; var d = el("div", "campo"); d.appendChild(el("span", null, c[0])); d.appendChild(el("b", null, c[1])); box.appendChild(d); });
@@ -721,6 +848,8 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       $("abaObrigacoes").classList.toggle("oculto", b.dataset.aba !== "obrigacoes");
       $("abaDocumentos").classList.toggle("oculto", b.dataset.aba !== "documentos");
       $("abaEnviar").classList.toggle("oculto", b.dataset.aba !== "enviar");
+      $("abaSolicitacoes").classList.toggle("oculto", b.dataset.aba !== "solicitacoes");
+      if (b.dataset.aba === "solicitacoes") carregarSol();
       if (b.dataset.aba === "enviar") carregarEnvios();
     };
   });
