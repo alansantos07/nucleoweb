@@ -7,88 +7,75 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.10.30.1856",
-  "data": "30/10/2026 18:56",
-  "sha256": "b6657c8fc594ae56094007362f235488a3e71a2ab42cda52b75e67bc4728ea13"
+  "versao": "2026.11.02.1603",
+  "data": "02/11/2026 16:03",
+  "sha256": "4e2e02244ef8801b875cdc99cdffaac20754ed7112348fdf90c8ae6b231041ad"
  },
  "versoes": [
   {
-   "versao": "2026.10.30.1856",
-   "data": "30/10/2026 18:56",
-   "titulo": "BPO Financeiro — correção na publicação automática",
+   "versao": "2026.11.02.1603",
+   "data": "02/11/2026 16:03",
+   "titulo": "Gestão de Processos — altura das linhas, abrir/fechar tudo e busca por tarefa",
    "itens": [
-    "Mudar a \"Situação do fechamento\" para Publicado em BPO Financeiro → Lançamentos agora avisa a publicação automática do Portal — a empresa recebe os dados sem precisar clicar em Publicar à parte (como já acontecia com honorários e documentos)."
+    "Novo \"📏 Altura das linhas...\" no menu \"⋯\": deixa as linhas da tabela mais altas e espaçadas (com pré-visualização na hora, antes de aplicar) — fica assim pra sempre neste computador, até você mudar de novo.",
+    "Botão novo \"⊞ Abrir tudo\" ao lado do \"⟳\": nas visualizações Por empresa e Por tarefa, abre de uma vez todas as linhas (empresa ou tarefa); clicar de novo (\"⊟ Fechar tudo\") esconde todas.",
+    "O campo de busca (Empresa, código ou CNPJ) agora também busca pelo nome da TAREFA — digitar o nome de uma tarefa mostra as empresas que têm essa tarefa; nas árvores (Por empresa e Por tarefa), estreita para só aquela tarefa de cada empresa encontrada."
    ]
   },
   {
-   "versao": "2026.10.30.1822",
-   "data": "30/10/2026 18:22",
-   "titulo": "BPO Financeiro (novo)",
+   "versao": "2026.11.02.0025",
+   "data": "02/11/2026 00:25",
+   "titulo": "Gestão de Processos — Status colorido e edição rápida",
    "itens": [
-    "Novo item no menu lateral: 📊 BPO Financeiro. É onde o escritório vai tratar e organizar as receitas, despesas e o resultado de cada empresa cliente — a partir de dados que o próprio escritório disponibilizar (planilhas, relatórios do Domínio, extrato bancário...).",
-    "Lançamento manual de receitas e despesas por empresa e por mês, com os indicadores calculados na hora (receita, despesa, resultado e margem).",
-    "Importação de lançamentos por planilha (Excel): baixe a planilha modelo em BPO Financeiro → Lançamentos → 📥 Importar planilha, preencha, confira o que vem com erro e importe — reimportar a mesma planilha não duplica. Categorias de receita/despesa ficam livres por enquanto.",
-    "Painel do BPO Financeiro: receita, despesa, resultado e margem do mês (escolha a competência), uma tabela com o resultado de cada empresa (clique para ver os lançamentos dela) e o gráfico de receita x despesa dos últimos 6 meses.",
-    "Publicar para o cliente: em BPO Financeiro → Lançamentos, mude a \"Situação do fechamento\" para Publicado — só então a empresa passa a ver as receitas, despesas, resultado e margem do mês dela no Portal do Cliente, dentro da aba Honorários. Nada chega à empresa sem você mudar essa situação."
+    "A coluna Status agora mostra um selo colorido (verde = Concluído, vermelho = Pendente/Atrasada, laranja = Com pendência) — só nessa coluna, as outras não mudam mais de cor.",
+    "Nas árvores (Por empresa e Por tarefa), clicar no selo de uma tarefa de uma empresa abre um menu rápido com as situações (Pendente, Em andamento, Concluída, Com pendência, Não se aplica) — escolher uma já grava, sem precisar abrir a tarefa. No Consolidado e nas linhas-resumo (empresa/tarefa) o Status continua só leitura (é um resumo calculado das tarefas de baixo).",
+    "Nas árvores, a coluna Processo da tarefa de uma empresa mostra \"Concluído em DD/MM/AAAA\" em verde quando a tarefa está concluída (fica em branco enquanto pendente) — essa informação saiu da coluna Detalhes, onde aparecia antes.",
+    "Nas árvores, a coluna PDF foi retirada (não era mais útil) — o anexo de cada tarefa de uma empresa aparece junto com o resto do Detalhes, em verde (ou vermelho quando falta um PDF obrigatório); passar o mouse mostra \"Abrir\" e clicar abre o arquivo.",
+    "A largura das colunas que o usuário ajustar (arrastando a borda) agora fica salva de verdade — antes de hoje, fechar e abrir o Núcleo de novo voltava tudo ao padrão.",
+    "A coluna Detalhes das árvores (Por empresa e Por tarefa) agora também aparece em \"☷ Colunas\" (marcada como fixa, pode só mudar de ordem)."
    ]
   },
   {
-   "versao": "2026.10.30.1035",
-   "data": "30/10/2026 10:35",
-   "titulo": "Portal do Cliente com a marca do escritório",
+   "versao": "2026.11.01.1947",
+   "data": "01/11/2026 19:47",
+   "titulo": "Gestão de Processos — barra de filtros numa linha só",
    "itens": [
-    "Empresas → 🌐 Portal → 🎨 Aparência do portal: o portal das empresas passa a aparecer com o nome, a logomarca, as cores e os contatos do escritório, com pré-visualização na hora.",
-    "Cada escritório ganha o seu link (ex.: .../portal/?e=scm): quem entra por ele já vê a marca na tela de entrada, com a mensagem de boas-vindas, telefone, WhatsApp, e-mail e site.",
-    "Dentro do portal, botão \"Falar com o escritório\" abre o WhatsApp do escritório; o convite enviado à empresa já leva o link do escritório.",
-    "Honorários no portal com os arquivos: PDF do boleto (Banco Inter), DANFSe e XML da NFS-e para a empresa baixar. São gerados na publicação (Empresas → Portal → Publicar) pelo computador que tem o Inter e o certificado da NFS-e configurados.",
-    "Publicação automática do portal: quando uma guia \"enviar ao cliente\" muda na Gestão de Processos ou um honorário da empresa muda no Financeiro (boleto, NFS-e, recebimento), o portal se atualiza sozinho em até 20 segundos. Dá para desligar em Empresas → Portal.",
-    "Aviso por e-mail à empresa: ligue em Empresas → Portal e, a cada publicação, a empresa recebe um e-mail quando chegar guia, boleto ou NFS-e nova, com a lista e o link do portal. A mensagem é sua (✉ Mensagem do aviso, com campos e prévia). Coisas antigas não são avisadas.",
-    "Portal com a aba Obrigações: calendário com as datas de pagamento e entrega das obrigações da empresa (Apuração, Declaração e tarefas \"enviar ao cliente\" da Gestão de Processos), do mês e do próximo, com a situação de cada uma.",
-    "Portal com a aba Documentos: contratos assinados (Comercial) entram sozinhos, e em Empresas → Portal → 📎 Documentos você anexa certidões, relatórios, alvarás e outros PDFs, com validade (avisa quando está vencendo).",
-    "Portal com a aba Enviar documentos: a empresa manda notas, extratos, folha e comprovantes ao escritório (arrastando os arquivos, com tipo, competência e mensagem) e acompanha se o escritório já recebeu.",
-    "Empresas → Portal → 📥 Recebidos: o escritório vê o que as empresas mandaram e baixa com um clique para a pasta da empresa no mês, em \"Recebidos do cliente\\<tipo>\".",
-    "Portal com a aba Solicitações: a empresa abre pedidos (segunda via, dúvida, alteração cadastral, departamento pessoal...) com anexos e conversa com o escritório. No Núcleo, Empresas → Portal → 💬 Solicitações mostra as novas em negrito, com resposta, anexos e situação (Aberta, Em andamento, Aguardando cliente, Concluída); com o aviso por e-mail ligado, a empresa recebe a resposta por e-mail.",
-    "Portal do Cliente com visual novo: menu lateral (Início, Financeiro, Fiscal, Documentos e Atendimento) com avisos em vermelho, e a página Início com os próximos vencimentos, os avisos (guia vencida, resposta nova, certidão vencendo) e atalhos. No celular, o menu abre pelo botão ☰.",
-    "Esqueci a senha no próprio portal: a empresa informa o e-mail, recebe um código de 6 dígitos (vale 15 minutos) e cria a senha nova sozinha, sem precisar pedir ao escritório.",
-    "Mural de comunicados: em Empresas → Portal → 📢 Comunicados o escritório publica avisos (feriado, legislação, prazo importante) para todas as empresas ou só para algumas, com período no ar e destaque para os importantes; aparecem no alto do Início do portal e podem ir também por e-mail."
+    "Os botões \"📄 Excel\", \"📤 Relatório...\", \"⚙ Tarefas do processo\" e \"⚙ Configurar filtros...\" da Gestão de Processos (e da Visão Geral) foram reunidos num só botão \"⋯\", no canto da tela — mesmo padrão do \"⋯\" da tela de Empresas.",
+    "A busca foi para o lado da competência, e os filtros e o \"Visualizar por: Consolidado | Por empresa | Por tarefa\" ficaram todos numa linha só (antes eram duas linhas).",
+    "Em \"⚙ Configurar filtros...\": agora dá para escolher, tirar e ORDENAR qualquer filtro da barra (Responsável, Regime tributário e até 5 no total, incluindo colunas do cadastro) — só a Situação não pode ser tirada da seleção, mas também pode mudar de posição como as outras.",
+    "Botão novo \"☷ Colunas\" (no mesmo \"⋯\"): escolha, tire e ordene as colunas de apoio (Código, Regime, Responsável, Processo, Movimento) e as do cadastro de empresas — vale no Consolidado e também nas 2 árvores (Por empresa e Por tarefa), junto com as colunas do cadastro escolhidas.",
+    "Nas árvores (Por empresa e Por tarefa), as últimas colunas agora são sempre, nessa ordem: Categoria | Processo | Prazo | Status — as colunas do cadastro ficam antes desse bloco fixo (não mais na ponta, para não confundir com Prazo/Status). \"Situação\" e \"Status\" (mesma informação, em granularidades diferentes) viraram uma só coluna \"Status\"; \"Feito\"/\"Concluídas\"/\"Atrasadas\"/\"Pendência\" (mesma ideia) viraram uma só coluna \"Processo\", com tudo junto no texto. Aparecem marcadas \"(fixo)\" em \"☷ Colunas\" — não saem da seleção, mas a posição delas nas árvores nunca muda.",
+    "Filtros novos em \"⚙ Configurar filtros...\": Categoria, Processo (faixa de % concluído) e Prazo (vencido, vence hoje, vence em até 7 dias, vence este mês, sem prazo).",
+    "A largura que você ajustar arrastando a borda de uma coluna (no Consolidado e nas 2 árvores) não volta mais ao padrão — antes isso acontecia ao mudar um filtro, a competência ou só sair e voltar à página.",
+    "A coluna Status ganhou destaque na fonte (cor + negrito) para chamar mais a atenção: verde para Concluído/Concluída, vermelho para Pendente (status geral) e Atrasada — \"Com pendência\" mantém a cor laranja de sempre, só com o mesmo negrito."
    ]
   },
   {
-   "versao": "2026.10.29.1501",
-   "data": "29/10/2026 15:01",
-   "titulo": "Importar empresas de Excel ou TXT",
+   "versao": "2026.10.31.1300",
+   "data": "31/10/2026 13:00",
+   "titulo": "Gestão de Processos — filtros extras configuráveis",
    "itens": [
-    "Empresas → ⋯ → Importar empresas: traga o cadastro de uma planilha Excel (.xlsx) ou de um arquivo de texto (.txt/.csv). Tem planilha modelo com instruções e as listas das Classificações.",
-    "Você escolhe quais colunas importar (CNPJ e Razão Social são obrigatórios) e confere, antes de gravar, linha a linha o que entra, o que entra com aviso e o que não entra — e por quê.",
-    "CNPJ já cadastrado nunca é sobrescrito; CNPJ inválido, repetido no arquivo ou código do Domínio já usado ficam de fora. No fim, relatório em Excel e atalho para atualizar o cadastro das importadas.",
-    "Empresas → ⋯ → Exportar / imprimir empresas: Excel ou PDF do seu jeito — escolha as empresas (lista atual, selecionadas ou todas, com filtros próprios), as colunas e a ordem delas, ordenação e agrupamento. No PDF: título, orientação, letra, cor, logomarca e dados do escritório, zebrado, total e rodapé com \"Página X de Y\", com pré-visualização na tela e botão Imprimir."
+    "Nova linha \"Filtros adicionais\" na Gestão de Processos (e na Visão Geral), com o botão \"⚙ Configurar filtros...\": escolha até 4 colunas do cadastro de empresas (UF, Situação do CNPJ, Situação do Serviço, Grupo, Certificado...) para virarem filtro na barra, além de Responsável, Regime, Situação e a busca, que continuam fixos."
    ]
   },
   {
-   "versao": "2026.10.29.1350",
-   "data": "29/10/2026 13:50",
-   "titulo": "Colunas da lista de empresas do seu jeito",
+   "versao": "2026.10.31.1234",
+   "data": "31/10/2026 12:34",
+   "titulo": "Gestão de Processos — relatório personalizado (Excel/PDF)",
    "itens": [
-    "Empresas → ☷ Colunas: agora são até 10 colunas, e CNPJ, Cód. Domínio e Empresa deixaram de ser fixas (podem sair da lista ou mudar de lugar).",
-    "Novo quadro \"Ordem das colunas\" no topo da janela: use ◀ ▶ para mudar a posição de cada coluna e ✕ para tirar.",
-    "Página Empresas com indicadores no topo: total, matrizes, filiais, Simples Nacional, CNPJ ativo, CNPJ com restrição e não consultadas na Receita. Eles acompanham a busca, e clicar num cartão filtra a lista.",
-    "Os botões Colunas, Atualizar, Pastas e Portal foram para o menu ⋯ ao lado de \"+ Nova empresa\".",
-    "Botão direito na lista de empresas: Abrir, Selecionar todas (Ctrl+A), Limpar seleção e Excluir (tecla Delete). A exclusão pede para digitar EXCLUIR e guarda uma cópia no banco para recuperar; exige a permissão nova \"Excluir o cadastro inteiro da empresa\" (Administrador e Supervisor).",
-    "Novo: Solicitações de melhoria (⚙ Configurações → Novidades e Versões → aba 💡). Descreva a sua ideia (tipo, módulo, categoria e prioridade), apoie (👍) as dos colegas do escritório — as mais apoiadas sobem no ranking — e acompanhe a resposta do Núcleo: em análise, aprovada, em desenvolvimento, concluída."
+    "Botão \"📤 Relatório...\" em qualquer página da Gestão de Processos (e na Visão Geral): monte um relatório 100% do seu jeito das tarefas — escolha as linhas (visíveis ou todas, com filtros próprios), as colunas e a ordem delas, ordenação e agrupamento e, no PDF, título, subtítulo, orientação, letra, cor, logomarca, zebrado, grade e rodapé — igual à exportação de empresas. Pré-visualização na tela, e dá para exportar em Excel ou imprimir em PDF."
    ]
   },
   {
-   "versao": "2026.10.29.1118",
-   "data": "29/10/2026 11:18",
-   "titulo": "Suporte para quem esqueceu a senha",
+   "versao": "2026.10.31.1128",
+   "data": "31/10/2026 11:28",
+   "titulo": "Gestão de Processos — 3 formas de visualizar",
    "itens": [
-    "\"Esqueci minha senha\" na tela de login abre a janela de Suporte: mostra o passo a passo para recuperar o acesso e permite enviar um pedido informando o CNPJ do escritório e o usuário ou e-mail.",
-    "O pedido avisa por e-mail os Administradores do escritório e o suporte do Núcleo, com um número de protocolo. Por segurança, a senha nunca é enviada por e-mail.",
-    "Proprietário do Núcleo: ⚙ Configurações → Pedidos de Suporte lista os pedidos de todos os escritórios (filtro por situação, escritório e busca) e registra o atendimento (Aberto, Em atendimento, Resolvido, resposta e histórico). O menu mostra quantos estão em aberto."
+    "\"Visualizar por\" ganhou uma 3ª opção: além do Consolidado (a grade de sempre) e do Por tarefa (clica na tarefa e aparecem as empresas), agora tem \"🏢 Por empresa\" — clica na empresa e aparecem as tarefas dela."
    ]
   }
  ],
- "total_versoes": 54,
+ "total_versoes": 63,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -100,7 +87,7 @@ window.NUCLEO = {
   "Marketing: seguidores, alcance e postagens lidos sozinhos pelas APIs oficiais da Meta (Instagram/Facebook) e do LinkedIn.",
   "Atendimento conectado ao WhatsApp Business (API oficial): conversas entrando sozinhas no histórico do contato.",
   "Núcleo Web: banco de dados na nuvem e acesso pelo navegador.",
-  "BPO Financeiro: relatório do Domínio, extrato bancário, impostos do Fiscal automáticos e categorias com plano de contas fixo do escritório."
+  "BPO Financeiro: relatório do Domínio e categorias com plano de contas fixo do escritório."
  ],
  "planos": [
   {
@@ -504,5 +491,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "30/10/2026 19:54"
+ "gerado_em": "02/11/2026 16:29"
 };
