@@ -7,11 +7,23 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.11.02.1603",
-  "data": "02/11/2026 16:03",
-  "sha256": "4e2e02244ef8801b875cdc99cdffaac20754ed7112348fdf90c8ae6b231041ad"
+  "versao": "2026.11.02.1842",
+  "data": "02/11/2026 18:42",
+  "sha256": "d88b54703fbe91a89615a0a6442274cfe3c4d0cee269ede8eff9b67002447164"
  },
  "versoes": [
+  {
+   "versao": "2026.11.02.1842",
+   "data": "02/11/2026 18:42",
+   "titulo": "Cadastros (ex-Empresas) e Definições do usuário",
+   "itens": [
+    "A página \"Empresas\" do menu lateral foi renomeada para \"Cadastros\" e ganhou um menu novo, com Painel | Prospecção | Clientes — dentro de Prospecção: Painel, Leads e Prospectos; dentro de Clientes: Painel, Empresas e Pessoa Física.",
+    "O cadastro de empresas de sempre (lista, busca, formulário) continua exatamente igual, só mudou de lugar: agora é Clientes → Empresas.",
+    "Leads, Prospectos, os dois Painéis e Pessoa Física aparecem \"em construção\" por enquanto — vêm nas próximas atualizações.",
+    "O menu \"👤 Nome (Perfil) ▾\" do cabeçalho ganhou \"🎨 Definições do usuário\", acima de \"Alterar minha senha\" — configurações que valem só para você, neste computador.",
+    "Dentro, \"Definições de plano de fundo\": escolha o tema de cores do sistema (por enquanto só \"Padrão\" está pronto; \"Escuro\" e \"Azul escuro\" aparecem \"em breve\") e a ordem do menu lateral (Cadastros, Núcleo de Automação, Núcleo Fiscal, Núcleo Interno, BPO Financeiro) — suba ou desça cada item como preferir. Vale a partir da próxima vez que você abrir o Núcleo."
+   ]
+  },
   {
    "versao": "2026.11.02.1603",
    "data": "02/11/2026 16:03",
@@ -65,17 +77,9 @@ window.NUCLEO = {
    "itens": [
     "Botão \"📤 Relatório...\" em qualquer página da Gestão de Processos (e na Visão Geral): monte um relatório 100% do seu jeito das tarefas — escolha as linhas (visíveis ou todas, com filtros próprios), as colunas e a ordem delas, ordenação e agrupamento e, no PDF, título, subtítulo, orientação, letra, cor, logomarca, zebrado, grade e rodapé — igual à exportação de empresas. Pré-visualização na tela, e dá para exportar em Excel ou imprimir em PDF."
    ]
-  },
-  {
-   "versao": "2026.10.31.1128",
-   "data": "31/10/2026 11:28",
-   "titulo": "Gestão de Processos — 3 formas de visualizar",
-   "itens": [
-    "\"Visualizar por\" ganhou uma 3ª opção: além do Consolidado (a grade de sempre) e do Por tarefa (clica na tarefa e aparecem as empresas), agora tem \"🏢 Por empresa\" — clica na empresa e aparecem as tarefas dela."
-   ]
   }
  ],
- "total_versoes": 63,
+ "total_versoes": 64,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -491,5 +495,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "02/11/2026 16:29"
+ "gerado_em": "02/11/2026 18:51"
 };
