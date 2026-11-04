@@ -7,11 +7,33 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.11.02.1842",
-  "data": "02/11/2026 18:42",
-  "sha256": "d88b54703fbe91a89615a0a6442274cfe3c4d0cee269ede8eff9b67002447164"
+  "versao": "2026.11.04.1601",
+  "data": "04/11/2026 16:01",
+  "sha256": "92599735b69b8bd37e82bdb23c6896f1d000f1a0370324cdbcc99b6571c3be81"
  },
  "versoes": [
+  {
+   "versao": "2026.11.04.1601",
+   "data": "04/11/2026 16:01",
+   "titulo": "Cadastros — novo cadastro de Contatos (Leads, Clientes, Fornecedores, Parceiros, Equipe)",
+   "itens": [
+    "A página Cadastros ganhou um menu novo: Painel | Contatos | Leads | Clientes | Fornecedores | Parceiros | Equipe — cada um com sua própria lista e seu próprio cadastro.",
+    "Contatos → Visão Geral: todos os contatos juntos, com um cartão por tipo (clique para filtrar a lista) e busca por nome, empresa ou e-mail.",
+    "Cada contato tem nome, empresa, CNPJ/CPF, cargo/função, telefone, e-mail, cidade/UF, responsável no escritório, observação e situação (ativo/inativo).",
+    "Esse cadastro é novo e separado: não se mistura com o Atendimento de leads/prospectos do Núcleo Interno (Comercial) nem com o cadastro completo de empresas, que continua do jeito que sempre foi, em Clientes → Empresas (com Clientes → Contatos ao lado, como aba nova).",
+    "Campos específicos por tipo: Lead ganhou Origem, Próximo retorno e Temperatura; Fornecedor ganhou Categoria; Parceiro ganhou Tipo de parceria; Equipe ganhou Departamento, Ramal e Aniversário. O tipo do contato pode ser trocado a qualquer momento (ex.: um Lead que virou Cliente).",
+    "Aviso de possível duplicado ao salvar (mesmo nome + empresa, mesmo e-mail ou mesmo telefone) — você decide se salva assim mesmo.",
+    "Campo Empresa com busca automática no cadastro de empresas: escolher uma sugestão vincula o contato àquela empresa.",
+    "Responsável agora é escolhido entre os usuários do Núcleo (\"Nome (login)\"), em vez de texto livre.",
+    "\"☷ Colunas da lista...\" (menu \"⋯\"): escolha quais colunas aparecem em cada lista.",
+    "Ações em lote pelo botão direito: marcar várias linhas como ativo/inativo, definir o responsável de várias de uma vez, ou excluir várias.",
+    "\"📥 Importar (Excel/CSV)...\" e \"📊/📄 Exportar (Excel/PDF)\" no menu \"⋯\" — com planilha modelo para preencher. A importação já funciona até na Visão Geral: a planilha pode trazer uma coluna \"Tipo\" (Lead, Cliente, Fornecedor, Parceiro ou Equipe) em cada linha; quem não vier com o tipo definido usa o \"Tipo padrão\" escolhido na hora de importar.",
+    "Painel (Início) com indicadores reais: total, ativos/inativos, sem responsável, aniversariantes do mês e leads com retorno atrasado, com uma lista do que pede atenção.",
+    "Botões \"💬 WhatsApp\" e \"✉ E-mail\" no cadastro do contato, para abrir a conversa ou o e-mail direto com o telefone/e-mail cadastrado.",
+    "Histórico leve no cadastro do contato: registre anotações rápidas com data e usuário, sem virar um campo de observação só.",
+    "Categorias por página (menu \"⋯\" → \"🗂 Categorias...\"): em Leads, Clientes, Fornecedores, Parceiros e Equipe, você define suas próprias categorias e cada uma ativa vira uma página ao lado de \"Visão Geral\" (que continua mostrando todos, com ou sem categoria) — igual à Gestão de Processos. Categoria não é excluída, só desativada (os contatos continuam na Visão Geral). Em Clientes, só a aba \"Visão Geral\" ganhou categorias — \"Empresas\" e \"Pessoa Física\" continuam como já eram."
+   ]
+  },
   {
    "versao": "2026.11.02.1842",
    "data": "02/11/2026 18:42",
@@ -69,17 +91,9 @@ window.NUCLEO = {
    "itens": [
     "Nova linha \"Filtros adicionais\" na Gestão de Processos (e na Visão Geral), com o botão \"⚙ Configurar filtros...\": escolha até 4 colunas do cadastro de empresas (UF, Situação do CNPJ, Situação do Serviço, Grupo, Certificado...) para virarem filtro na barra, além de Responsável, Regime, Situação e a busca, que continuam fixos."
    ]
-  },
-  {
-   "versao": "2026.10.31.1234",
-   "data": "31/10/2026 12:34",
-   "titulo": "Gestão de Processos — relatório personalizado (Excel/PDF)",
-   "itens": [
-    "Botão \"📤 Relatório...\" em qualquer página da Gestão de Processos (e na Visão Geral): monte um relatório 100% do seu jeito das tarefas — escolha as linhas (visíveis ou todas, com filtros próprios), as colunas e a ordem delas, ordenação e agrupamento e, no PDF, título, subtítulo, orientação, letra, cor, logomarca, zebrado, grade e rodapé — igual à exportação de empresas. Pré-visualização na tela, e dá para exportar em Excel ou imprimir em PDF."
-   ]
   }
  ],
- "total_versoes": 64,
+ "total_versoes": 65,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -495,5 +509,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "02/11/2026 18:51"
+ "gerado_em": "04/11/2026 16:09"
 };
