@@ -175,7 +175,18 @@ nav.menu a:hover{background:var(--azul-claro);color:var(--azul)}
 .lista-ok{list-style:none;padding:0;margin:18px 0 0}
 .lista-ok li{display:flex;gap:10px;margin:10px 0;color:var(--texto2)}
 .lista-ok li b{color:var(--verde);flex:none}
+.outros-acessos{margin-top:16px;padding-top:14px;border-top:1px solid var(--linha);display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.outros-acessos span{width:100%;font-size:12px;color:var(--texto3)}
+.outros-acessos a{font-size:13px;font-weight:700;color:var(--azul);text-decoration:none}
+.outros-acessos a:hover{text-decoration:underline}
 @media (max-width:920px){.cliente{grid-template-columns:1fr}}
+/* dropdown "Acessar" do cabeçalho */
+.acesso-drop{position:relative}
+.acesso-drop summary{list-style:none;cursor:pointer}
+.acesso-drop summary::-webkit-details-marker{display:none}
+.acesso-menu{position:absolute;right:0;top:calc(100% + 8px);background:#fff;border:1px solid var(--linha);border-radius:12px;box-shadow:0 14px 34px rgba(17,24,39,.14);padding:6px;display:flex;flex-direction:column;min-width:210px;z-index:30}
+.acesso-menu a{padding:9px 12px;border-radius:8px;text-decoration:none;color:var(--texto2);font-weight:600;font-size:13.5px;white-space:nowrap}
+.acesso-menu a:hover{background:var(--azul-claro);color:var(--azul)}
 
 /* faq / contato */
 .faq details{border-bottom:1px solid var(--linha);padding:16px 0}
@@ -213,7 +224,14 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
       <a href="#download">Download</a>
       <a href="#contato">Contato</a>
     </nav>
-    <a class="btn btn-a btn-area" href="portal/">👤 Área do Cliente</a>
+    <details class="acesso-drop btn-area">
+      <summary class="btn btn-a">🔐 Acessar</summary>
+      <div class="acesso-menu">
+        <a href="portal/">👤 Área do Cliente</a>
+        <a href="escritorio/">🏢 Área do Escritório</a>
+        <a href="proprietario/">🔑 Acesso Principal</a>
+      </div>
+    </details>
     <button class="bt-menu" id="btMenu" aria-label="Abrir menu">☰</button>
   </div>
 </header>
@@ -366,6 +384,11 @@ footer .cx{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
       <p>Entre com o e-mail e a senha que o seu escritório de contabilidade enviou.</p>
       <a class="btn btn-a" href="portal/">Entrar no Portal do Cliente</a>
       <div class="faixa-breve">🔒 No primeiro acesso você cria a sua própria senha.</div>
+      <div class="outros-acessos">
+        <span>É escritório de contabilidade ou o proprietário do Núcleo?</span>
+        <a href="escritorio/">🏢 Acesso do Escritório</a>
+        <a href="proprietario/">🔑 Acesso Principal</a>
+      </div>
     </div>
   </div>
 </section>

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Núcleo — Proprietário</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B3D91'/%3E%3Cpath d='M18 46V18h6l16 18V18h6v28h-6L24 28v18z' fill='%23fff'/%3E%3Ccircle cx='48' cy='48' r='6' fill='%2316A34A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--azul:#0B3D91;--azul-esc:#082C6B;--azul-claro:#EAF1FB;--azul-borda:#C9D9F2;--verde:#16A34A;--verde-esc:#128A3E;--verde-claro:#E8F6EE;
+--verm:#B91C1C;--verm-claro:#FDECEC;--lar:#B45309;--lar-claro:#FFF4E5;--texto:#111;--texto2:#4B5563;--texto3:#6B7280;--linha:#E5E7EB;--fundo:#F5F7FB}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit}
+.oculto{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:10px;border:0;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none}
+.btn-a{background:var(--azul);color:#fff}.btn-a:hover{background:var(--azul-esc)}
+.btn-v{background:var(--verde);color:#fff}.btn-v:hover{background:var(--verde-esc)}
+.btn-c{background:#fff;color:var(--azul);border:1px solid var(--azul-borda)}.btn-c:hover{border-color:var(--azul)}
+.btn-p{padding:6px 10px;font-size:12.5px;border-radius:8px}
+.btn:disabled{opacity:.6;cursor:wait}
+.login-tela{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(800px 400px at 90% 0%,var(--azul-claro),transparent 70%),radial-gradient(600px 300px at 0% 100%,var(--verde-claro),transparent 70%),var(--fundo)}
+.cartao-login{width:100%;max-width:400px;background:#fff;border:1px solid var(--linha);border-radius:18px;padding:30px;box-shadow:0 20px 50px rgba(17,24,39,.10)}
+.marca{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;color:var(--texto);text-decoration:none}
+.marca small{display:block;font-weight:500;font-size:11px;color:var(--texto3)}
+.cartao-login h1{font-size:22px;margin:22px 0 4px}
+.cartao-login p.sub{margin:0 0 18px;color:var(--texto3);font-size:14px}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}
+input[type=text],input[type=password]{width:100%;padding:11px 12px;border:1px solid #D1D5DB;border-radius:10px;font-size:15px;background:#fff}
+input:focus{outline:2px solid var(--azul-borda);border-color:var(--azul)}
+.linha-op{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12.5px;color:var(--texto2)}
+.cartao-login .btn{width:100%;margin-top:18px}
+.msg{margin-top:12px;font-size:13.5px;min-height:20px}
+.msg.erro{color:var(--verm)}.msg.ok{color:var(--verde-esc)}
+.rodape-login{margin-top:18px;text-align:center;font-size:12px;color:var(--texto3)}
+header{background:#fff;border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:10}
+.topo{max-width:1180px;margin:0 auto;padding:0 22px;height:58px;display:flex;align-items:center;gap:12px}
+.topo .quem{margin-left:auto;text-align:right;font-size:13px;line-height:1.25}
+.topo .quem b{display:block;font-size:14px}
+main{max-width:1180px;margin:0 auto;padding:22px 22px 40px}
+.abas{display:flex;gap:4px;border-bottom:1px solid var(--linha);margin-bottom:18px}
+.abas button{background:none;border:0;padding:10px 16px;font:inherit;font-weight:700;font-size:14px;color:var(--texto3);cursor:pointer;border-bottom:2px solid transparent}
+.abas button.at{color:var(--azul);border-bottom-color:var(--azul)}
+.painel{background:#fff;border:1px solid var(--linha);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+.painel h3{margin:0 0 10px;font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #F0F2F5}
+th{color:var(--texto3);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+tr.clicavel{cursor:pointer}tr.clicavel:hover{background:#FAFBFD}
+.selo{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700}
+.selo-verde{background:var(--verde-claro);color:var(--verde-esc)}
+.selo-vermelho{background:var(--verm-claro);color:var(--verm)}
+.selo-laranja{background:var(--lar-claro);color:var(--lar)}
+.selo-cinza{background:#F3F4F6;color:var(--texto3)}
+.filtros{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+select{padding:8px 10px;border:1px solid #D1D5DB;border-radius:9px;font-size:13px;background:#fff}
+textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10px;font-size:14px;resize:vertical;min-height:70px}
+.detalhe{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.msgs{display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;margin:10px 0}
+.balao{padding:8px 12px;border-radius:10px;font-size:13.5px;background:#F3F4F6;max-width:92%}
+.balao.nucleo{background:var(--azul-claro);margin-left:auto}
+.balao .meta{font-size:11px;color:var(--texto3);margin-bottom:2px}
+.campo{margin-bottom:10px}
+.campo label{margin-top:0}
+.vazio{color:var(--texto3);font-size:13.5px;padding:20px;text-align:center}
+@media (max-width:860px){.detalhe{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section class="login-tela" id="telaLogin">
+  <form class="cartao-login" id="formLogin" autocomplete="on">
+    <a class="marca" href="../"><span><svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg></span><span><b>Núcleo</b><small>Proprietário</small></span></a>
+    <h1>Acesso Principal</h1>
+    <p class="sub">Painel do proprietário do Núcleo — gestão de todos os escritórios, suporte e melhorias.</p>
+    <label for="cnpj">CNPJ</label>
+    <input id="cnpj" type="text" autocomplete="username" required placeholder="00.000.000/0000-00">
+    <label for="senha">Senha</label>
+    <input id="senha" type="password" autocomplete="current-password" required placeholder="••••••••">
+    <div class="linha-op"><label style="margin:0;font-weight:500"><input type="checkbox" id="mostrar"> Mostrar senha</label></div>
+    <button class="btn btn-a" id="btEntrar" type="submit">Entrar</button>
+    <div class="msg" id="msgLogin"></div>
+    <div class="rodape-login">Seus dados são protegidos: a senha nunca sai do seu computador.</div>
+  </form>
+</section>
+
+<div id="app" class="oculto">
+  <header>
+    <div class="topo">
+      <a class="marca" href="../" style="font-size:14px"><span><svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg></span><b>Núcleo</b></a>
+      <div class="quem"><b id="quemRazao"></b><span>Proprietário do Núcleo</span></div>
+      <button class="btn btn-c btn-p" id="btSair">Sair</button>
+    </div>
+  </header>
+  <main>
+    <div class="abas">
+      <button class="at" data-aba="escritorios">🏢 Escritórios</button>
+      <button data-aba="suporte">🛟 Suporte</button>
+      <button data-aba="melhorias">💡 Melhorias</button>
+    </div>
+
+    <div id="abaEscritorios">
+      <div class="painel">
+        <h3>Escritórios cadastrados no Núcleo</h3>
+        <div id="listaEscritorios"></div>
+      </div>
+    </div>
+
+    <div id="abaSuporte" class="oculto">
+      <div class="detalhe">
+        <div class="painel">
+          <h3>Pedidos de suporte</h3>
+          <div class="filtros">
+            <select id="filtroSuporte"><option value="aberto">Em aberto</option><option value="todos">Todos</option></select>
+          </div>
+          <div id="listaSuporte"></div>
+        </div>
+        <div class="painel" id="detalheSuporteVazio"><div class="vazio">Clique num pedido para ver os detalhes.</div></div>
+        <div class="painel oculto" id="detalheSuporte"></div>
+      </div>
+    </div>
+
+    <div id="abaMelhorias" class="oculto">
+      <div class="detalhe">
+        <div class="painel">
+          <h3>Solicitações de melhoria</h3>
+          <div class="filtros">
+            <select id="filtroMelhoria"><option value="todas">Todas</option><option value="abertas">Em aberto</option></select>
+          </div>
+          <div id="listaMelhorias"></div>
+        </div>
+        <div class="painel" id="detalheMelhoriaVazio"><div class="vazio">Clique numa solicitação para ver os detalhes.</div></div>
+        <div class="painel oculto" id="detalheMelhoria"></div>
+      </div>
+    </div>
+    <p class="msg" id="avisoGeral"></p>
+  </main>
+</div>
+<div class="toast" id="toast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;transition:.2s;background:var(--texto);color:#fff;padding:10px 18px;border-radius:10px;font-size:13.5px;pointer-events:none"></div>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  var URL_CENTRAL = (window.PROPRIETARIO || {}).central || "";
+  var CHAVE_SESSAO = "nucleo_proprietario";
+  var estado = { sessao: null, cnpj: "", sal: "", escritorios: [], suporte: [], melhorias: [] };
+
+  function $(id) { return document.getElementById(id); }
+  function esc(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : String(t); return d.innerHTML; }
+  function toast(t) { var x = $("toast"); x.textContent = t; x.style.opacity = 1; x.style.transform = "translateX(-50%) translateY(0)"; setTimeout(function () { x.style.opacity = 0; x.style.transform = "translateX(-50%) translateY(20px)"; }, 2400); }
+  function guardar(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function ler(k) { try { return JSON.parse(sessionStorage.getItem(k) || "null"); } catch (e) { return null; } }
+  function b64(buf) { var s = "", b = new Uint8Array(buf); for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return btoa(s); }
+  function deB64(t) { var s = atob(t), b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i); return b; }
+  // mesmo cálculo do Núcleo: PBKDF2-HMAC-SHA256, 240.000 rodadas, 32 bytes (igual ao Portal do Cliente)
+  function resumo(senha, sal) {
+    return crypto.subtle.importKey("raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveBits"])
+      .then(function (k) { return crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: deB64(sal), iterations: 240000 }, k, 256); })
+      .then(b64);
+  }
+  function chamar(corpo) {
+    return fetch(URL_CENTRAL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(corpo) })
+      .then(function (r) { if (!r.ok) throw new Error("O servidor respondeu " + r.status + ". Tente de novo."); return r.json(); })
+      .then(function (d) { if (!d.ok) throw new Error(d.erro || "Erro desconhecido."); return d; });
+  }
+  function digitos(t) { return String(t || "").replace(/\D/g, ""); }
+  function salGuardado(cnpj) { try { return localStorage.getItem("nucleo_proprietario_sal_" + cnpj) || ""; } catch (e) { return ""; } }
+  function guardarSal(cnpj, sal) { try { localStorage.setItem("nucleo_proprietario_sal_" + cnpj, sal); } catch (e) {} }
+
+  // ------------------------------------------------------------ login
+  $("mostrar").onchange = function () { $("senha").type = this.checked ? "text" : "password"; };
+  function msgLogin(t, tipo) { var m = $("msgLogin"); m.textContent = t || ""; m.className = "msg " + (tipo || "erro"); }
+  $("formLogin").onsubmit = function (e) {
+    e.preventDefault();
+    if (!URL_CENTRAL) { msgLogin("Página ainda não configurada."); return; }
+    var cnpj = digitos($("cnpj").value), senha = $("senha").value;
+    if (cnpj.length !== 14 || !senha) { msgLogin("Informe o CNPJ e a senha."); return; }
+    var bt = $("btEntrar"); bt.disabled = true; bt.textContent = "Entrando..."; msgLogin("");
+    var sal = salGuardado(cnpj);
+    function tentar(n) {
+      var p = sal ? resumo(senha, sal) : Promise.resolve("");
+      return p.then(function (r) { return chamar({ acao: "principal_web_entrar", cnpj: cnpj, sal: sal, resumo: r }); })
+        .then(function (d) {
+          if (d.refazer) { if (n > 0 || !d.sal) throw new Error("CNPJ ou senha incorretos."); sal = d.sal; return tentar(n + 1); }
+          return d;
+        });
+    }
+    tentar(0).then(function (d) {
+      guardarSal(cnpj, sal);
+      estado.sessao = d.sessao; estado.cnpj = cnpj; estado.sal = sal;
+      guardar(CHAVE_SESSAO, { sessao: d.sessao, cnpj: cnpj, razao: d.razao });
+      abrirApp(d.razao);
+    }).catch(function (err) { msgLogin(err.message); $("senha").value = ""; })
+      .then(function () { bt.disabled = false; bt.textContent = "Entrar"; });
+  };
+  $("btSair").onclick = function () {
+    if (estado.sessao) chamar({ acao: "principal_web_sair", sessao: estado.sessao }).catch(function () {});
+    try { sessionStorage.removeItem(CHAVE_SESSAO); } catch (e) {}
+    estado.sessao = null;
+    $("app").classList.add("oculto"); $("telaLogin").classList.remove("oculto");
+    $("senha").value = ""; msgLogin("Você saiu.", "ok");
+  };
+
+  function abrirApp(razao) {
+    $("quemRazao").textContent = razao || "Núcleo";
+    $("telaLogin").classList.add("oculto"); $("app").classList.remove("oculto");
+    carregarEscritorios();
+  }
+
+  // ------------------------------------------------------------ abas
+  Array.prototype.forEach.call(document.querySelectorAll(".abas button"), function (b) {
+    b.onclick = function () {
+      Array.prototype.forEach.call(document.querySelectorAll(".abas button"), function (x) { x.classList.toggle("at", x === b); });
+      ["escritorios", "suporte", "melhorias"].forEach(function (a) { $("aba" + a.charAt(0).toUpperCase() + a.slice(1)).classList.toggle("oculto", a !== b.dataset.aba); });
+      if (b.dataset.aba === "suporte" && !estado.suporte.length) carregarSuporte();
+      if (b.dataset.aba === "melhorias" && !estado.melhorias.length) carregarMelhorias();
+    };
+  });
+
+  function aviso(t, erro) { var a = $("avisoGeral"); a.textContent = t || ""; a.className = "msg " + (erro ? "erro" : "ok"); }
+  function chamarSessao(corpo) {
+    corpo.sessao = estado.sessao;
+    return chamar(corpo).catch(function (err) {
+      if (err.message === "SESSAO_EXPIRADA") { aviso("Sua sessão expirou. Entre de novo."); $("btSair").click(); }
+      throw err;
+    });
+  }
+
+  // ------------------------------------------------------------ escritórios
+  function limite(uso, lim, nome) {
+    lim = parseInt(lim, 10) || 0;
+    var t = uso + (lim ? " de " + lim : "") + " " + nome;
+    return lim && uso > lim ? "<b style='color:var(--verm)'>" + t + "</b>" : t;
+  }
+  function seloSituacao(sit) {
+    sit = sit || "Ativa";
+    var cor = sit === "Ativa" ? "verde" : sit === "Em teste" ? "cinza" : "vermelho";
+    return "<span class='selo selo-" + cor + "'>" + esc(sit) + "</span>";
+  }
+  function carregarEscritorios() {
+    $("listaEscritorios").innerHTML = "Carregando...";
+    chamarSessao({ acao: "principal_web_painel" }).then(function (d) {
+      estado.escritorios = d.escritorios || [];
+      desenharEscritorios();
+    }).catch(function (err) { $("listaEscritorios").innerHTML = "<div class='vazio'>" + esc(err.message) + "</div>"; });
+  }
+  function desenharEscritorios() {
+    if (!estado.escritorios.length) { $("listaEscritorios").innerHTML = "<div class='vazio'>Nenhum escritório cadastrado.</div>"; return; }
+    var h = "<table><thead><tr><th>Código</th><th>Escritório</th><th>CNPJ</th><th>Plano</th><th>Situação</th><th>Vencimento</th><th>Usuários</th><th>Empresas</th></tr></thead><tbody>";
+    estado.escritorios.forEach(function (e, i) {
+      h += "<tr class='clicavel' data-i='" + i + "'><td>" + esc(e.esc_codigo) + "</td><td>" + esc(e.esc_nome) + "</td><td>" + esc(e.esc_cnpj) +
+        "</td><td>" + esc(e.plano_nome || "—") + "</td><td>" + seloSituacao(e.plano_situacao) + "</td><td>" + esc(e.plano_vencimento || "—") +
+        "</td><td>" + limite(e.uso_usuarios || 0, e.plano_usuarios, "") + "</td><td>" + limite(e.uso_empresas || 0, e.plano_empresas, "") + "</td></tr>";
+    });
+    h += "</tbody></table>";
+    $("listaEscritorios").innerHTML = h;
+    Array.prototype.forEach.call($("listaEscritorios").querySelectorAll("tr.clicavel"), function (tr) {
+      tr.onclick = function () { abrirEdicaoEscritorio(estado.escritorios[parseInt(tr.dataset.i, 10)]); };
+    });
+  }
+  function abrirEdicaoEscritorio(e) {
+    var situacoes = ["Ativa", "Em teste", "Suspensa", "Cancelada"];
+    var h = "<h3>" + esc(e.esc_nome) + " (código " + esc(e.esc_codigo) + ")</h3>" +
+      "<p style='color:var(--texto3);font-size:13px;margin-top:-6px'>Plano completo (módulos, limites) só pelo aplicativo do Núcleo. " +
+      "Aqui dá para mudar a situação e o vencimento.</p>" +
+      "<div class='campo'><label>Situação</label><select id='edSituacao'>" +
+      situacoes.map(function (s) { return "<option value='" + s + "'" + (s === (e.plano_situacao || "Ativa") ? " selected" : "") + ">" + s + "</option>"; }).join("") +
+      "</select></div>" +
+      "<div class='campo'><label>Vencimento (dd/mm/aaaa)</label><input type='text' id='edVencimento' value='" + esc(e.plano_vencimento || "") + "' placeholder='31/12/2027'></div>" +
+      "<div class='msg' id='msgEdEsc'></div>" +
+      "<button class='btn btn-v' id='btSalvarEsc'>Salvar</button>";
+    var modal = window.prompt ? null : null; // sem modal nativo (evitar dialogs) — usa um painel inline
+    var alvo = document.createElement("div"); alvo.className = "painel"; alvo.innerHTML = h;
+    var anterior = document.getElementById("edicaoEscritorio"); if (anterior) anterior.remove();
+    alvo.id = "edicaoEscritorio";
+    $("abaEscritorios").appendChild(alvo);
+    alvo.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    $("btSalvarEsc").onclick = function () {
+      var venc = $("edVencimento").value.trim();
+      if (venc && !/^\d{2}\/\d{2}\/\d{4}$/.test(venc)) { $("msgEdEsc").textContent = "Data inválida (use dd/mm/aaaa)."; $("msgEdEsc").className = "msg erro"; return; }
+      var bt = this; bt.disabled = true; bt.textContent = "Salvando...";
+      chamarSessao({ acao: "principal_web_escritorio_salvar", registro: { id: e.id, plano_situacao: $("edSituacao").value, plano_vencimento: venc } })
+        .then(function () { toast("Escritório atualizado ✔"); alvo.remove(); carregarEscritorios(); })
+        .catch(function (err) { $("msgEdEsc").textContent = err.message; $("msgEdEsc").className = "msg erro"; bt.disabled = false; bt.textContent = "Salvar"; });
+    };
+  }
+
+  // ------------------------------------------------------------ suporte
+  $("filtroSuporte").onchange = desenharSuporte;
+  function carregarSuporte() {
+    $("listaSuporte").innerHTML = "Carregando...";
+    chamarSessao({ acao: "principal_web_suporte_listar" }).then(function (d) {
+      estado.suporte = d.pedidos || []; desenharSuporte();
+    }).catch(function (err) { $("listaSuporte").innerHTML = "<div class='vazio'>" + esc(err.message) + "</div>"; });
+  }
+  function desenharSuporte() {
+    var so = $("filtroSuporte").value === "aberto";
+    var linhas = estado.suporte.filter(function (p) { return !so || (p.sup_situacao || "Aberto") !== "Resolvido"; })
+      .sort(function (a, b) { return (b.sup_data || "").localeCompare(a.sup_data || ""); });
+    if (!linhas.length) { $("listaSuporte").innerHTML = "<div class='vazio'>Nenhum pedido.</div>"; return; }
+    var h = "<table><thead><tr><th>Protocolo</th><th>Data</th><th>Escritório</th><th>Situação</th></tr></thead><tbody>";
+    linhas.forEach(function (p) {
+      var cor = p.sup_situacao === "Resolvido" ? "verde" : p.sup_situacao === "Em atendimento" ? "laranja" : "vermelho";
+      h += "<tr class='clicavel' data-id='" + esc(p.id) + "'><td>" + esc(p.sup_protocolo) + "</td><td>" + esc(p.sup_data) + "</td><td>" +
+        esc(p.sup_escritorio_nome || p.sup_escritorio) + "</td><td><span class='selo selo-" + cor + "'>" + esc(p.sup_situacao || "Aberto") + "</span></td></tr>";
+    });
+    h += "</tbody></table>";
+    $("listaSuporte").innerHTML = h;
+    Array.prototype.forEach.call($("listaSuporte").querySelectorAll("tr.clicavel"), function (tr) {
+      tr.onclick = function () { abrirSuporte(tr.dataset.id); };
+    });
+  }
+  function abrirSuporte(id) {
+    var p = estado.suporte.filter(function (x) { return String(x.id) === String(id); })[0];
+    if (!p) return;
+    $("detalheSuporteVazio").classList.add("oculto"); $("detalheSuporte").classList.remove("oculto");
+    var situacoes = ["Aberto", "Em atendimento", "Resolvido"];
+    $("detalheSuporte").innerHTML =
+      "<h3>" + esc(p.sup_protocolo) + "</h3>" +
+      "<p><b>Escritório:</b> " + esc(p.sup_escritorio_nome || p.sup_escritorio) + " &nbsp; <b>Usuário:</b> " + esc(p.sup_login || p.sup_usuario_encontrado || "—") + "</p>" +
+      "<p><b>Contato:</b> " + esc(p.sup_contato || "—") + "</p>" +
+      "<p style='white-space:pre-wrap;background:#F9FAFB;border-radius:8px;padding:10px'>" + esc(p.sup_mensagem) + "</p>" +
+      "<div class='campo'><label>Situação</label><select id='supSituacao'>" +
+      situacoes.map(function (s) { return "<option" + (s === (p.sup_situacao || "Aberto") ? " selected" : "") + ">" + s + "</option>"; }).join("") + "</select></div>" +
+      "<div class='campo'><label>Resposta</label><textarea id='supResposta'>" + esc(p.sup_resposta || "") + "</textarea></div>" +
+      (p.sup_historico ? "<p style='font-size:12px;color:var(--texto3);white-space:pre-wrap'>" + esc(p.sup_historico) + "</p>" : "") +
+      "<div class='msg' id='msgSup'></div><button class='btn btn-v' id='btSalvarSup'>Salvar</button>";
+    $("btSalvarSup").onclick = function () {
+      var bt = this; bt.disabled = true; bt.textContent = "Salvando...";
+      chamarSessao({ acao: "principal_web_suporte_salvar", id: p.id, situacao: $("supSituacao").value, resposta: $("supResposta").value })
+        .then(function () { toast("Pedido atualizado ✔"); carregarSuporte(); $("detalheSuporte").classList.add("oculto"); $("detalheSuporteVazio").classList.remove("oculto"); })
+        .catch(function (err) { $("msgSup").textContent = err.message; $("msgSup").className = "msg erro"; bt.disabled = false; bt.textContent = "Salvar"; });
+    };
+  }
+
+  // ------------------------------------------------------------ melhorias
+  $("filtroMelhoria").onchange = desenharMelhorias;
+  function carregarMelhorias() {
+    $("listaMelhorias").innerHTML = "Carregando...";
+    chamarSessao({ acao: "principal_web_melhoria_listar" }).then(function (d) {
+      estado.melhorias = d.melhorias || []; desenharMelhorias();
+    }).catch(function (err) { $("listaMelhorias").innerHTML = "<div class='vazio'>" + esc(err.message) + "</div>"; });
+  }
+  function desenharMelhorias() {
+    var abertas = $("filtroMelhoria").value === "abertas";
+    var linhas = estado.melhorias.filter(function (m) { return !abertas || !["Concluída", "Recusada"].includes(m.mel_situacao); })
+      .sort(function (a, b) { return (b.mel_data || "").localeCompare(a.mel_data || ""); });
+    if (!linhas.length) { $("listaMelhorias").innerHTML = "<div class='vazio'>Nenhuma solicitação.</div>"; return; }
+    var h = "<table><thead><tr><th>Código</th><th>Escritório</th><th>Título</th><th>Situação</th><th>Apoios</th></tr></thead><tbody>";
+    linhas.forEach(function (m) {
+      var novo = m.mel_novo_nucleo === "Sim";
+      h += "<tr class='clicavel' data-id='" + esc(m.id) + "'><td>" + esc(m.mel_codigo) + (novo ? " 🔵" : "") + "</td><td>" + esc(m.mel_escritorio_nome) +
+        "</td><td>" + esc(m.mel_titulo) + "</td><td><span class='selo selo-cinza'>" + esc(m.mel_situacao || "Recebida") + "</span></td><td>" + esc(m.mel_votos || 0) + "</td></tr>";
+    });
+    h += "</tbody></table>";
+    $("listaMelhorias").innerHTML = h;
+    Array.prototype.forEach.call($("listaMelhorias").querySelectorAll("tr.clicavel"), function (tr) {
+      tr.onclick = function () { abrirMelhoria(tr.dataset.id); };
+    });
+  }
+  function abrirMelhoria(id) {
+    var m = estado.melhorias.filter(function (x) { return String(x.id) === String(id); })[0];
+    if (!m) return;
+    $("detalheMelhoriaVazio").classList.add("oculto"); $("detalheMelhoria").classList.remove("oculto");
+    var situacoes = ["Recebida", "Em análise", "Aguardando informações", "Aprovada", "Em desenvolvimento", "Concluída", "Recusada"];
+    var msgs = (m.mel_mensagens || []).map(function (x) {
+      return "<div class='balao" + (x.nucleo ? " nucleo" : "") + "'><div class='meta'>" + esc(x.por) + " · " + esc(x.em) + "</div>" + esc(x.texto || x.nota || "") + "</div>";
+    }).join("");
+    $("detalheMelhoria").innerHTML =
+      "<h3>" + esc(m.mel_codigo) + " — " + esc(m.mel_titulo) + "</h3>" +
+      "<p><b>" + esc(m.mel_escritorio_nome) + "</b> · " + esc(m.mel_tipo) + " / " + esc(m.mel_modulo) + " · " + esc(m.mel_data) + "</p>" +
+      "<p style='white-space:pre-wrap;background:#F9FAFB;border-radius:8px;padding:10px'>" + esc(m.mel_descricao) + "</p>" +
+      "<div class='msgs'>" + (msgs || "<p class='vazio' style='padding:8px'>Sem mensagens ainda.</p>") + "</div>" +
+      "<div class='campo'><textarea id='melTexto' placeholder='Responder ao escritório...'></textarea></div>" +
+      "<button class='btn btn-c btn-p' id='btMelMsg' style='margin-bottom:14px'>Enviar mensagem</button>" +
+      "<hr style='border:0;border-top:1px solid var(--linha);margin:10px 0'>" +
+      "<div class='campo'><label>Mudar situação</label><select id='melSituacao'>" +
+      situacoes.map(function (s) { return "<option" + (s === (m.mel_situacao || "Recebida") ? " selected" : "") + ">" + s + "</option>"; }).join("") + "</select></div>" +
+      "<div class='campo'><label>Versão (opcional)</label><input type='text' id='melVersao' value='" + esc(m.mel_versao || "") + "' placeholder='2026.11.05.1200'></div>" +
+      "<div class='msg' id='msgMel'></div><button class='btn btn-v' id='btAvaliar'>Avaliar</button>";
+    $("btMelMsg").onclick = function () {
+      var texto = $("melTexto").value.trim(); if (!texto) return;
+      var bt = this; bt.disabled = true;
+      chamarSessao({ acao: "principal_web_melhoria_mensagem", id: m.id, texto: texto })
+        .then(function () { carregarMelhorias(); toast("Mensagem enviada ✔"); })
+        .catch(function (err) { $("msgMel").textContent = err.message; $("msgMel").className = "msg erro"; })
+        .then(function () { bt.disabled = false; });
+    };
+    $("btAvaliar").onclick = function () {
+      var bt = this; bt.disabled = true; bt.textContent = "Salvando...";
+      chamarSessao({ acao: "principal_web_melhoria_avaliar", id: m.id, situacao: $("melSituacao").value, versao: $("melVersao").value, mensagem: $("melTexto").value.trim() })
+        .then(function () { toast("Avaliação salva ✔"); carregarMelhorias(); $("detalheMelhoria").classList.add("oculto"); $("detalheMelhoriaVazio").classList.remove("oculto"); })
+        .catch(function (err) { $("msgMel").textContent = err.message; $("msgMel").className = "msg erro"; bt.disabled = false; bt.textContent = "Avaliar"; });
+    };
+  }
+
+  // ------------------------------------------------------------ retomar sessão
+  var guardada = ler(CHAVE_SESSAO);
+  if (guardada && guardada.sessao) {
+    estado.sessao = guardada.sessao; estado.cnpj = guardada.cnpj;
+    abrirApp(guardada.razao);
+  }
+})();
+</script>
+</body>
+</html>

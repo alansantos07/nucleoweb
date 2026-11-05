@@ -506,5 +506,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "05/11/2026 15:23"
+ "gerado_em": "05/11/2026 16:28"
 };
