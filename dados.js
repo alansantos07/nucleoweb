@@ -7,11 +7,20 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.11.04.2131",
-  "data": "04/11/2026 21:31",
-  "sha256": "9016d9204785ce0d3807e05ed9312eed48da38da8605ed58b9dc968485eee6cd"
+  "versao": "2026.11.05.1517",
+  "data": "05/11/2026 15:17",
+  "sha256": "6a58cceadfdc2ecc625bfa894e571e8d6e78221f5e59656d57ed4618d3650552"
  },
  "versoes": [
+  {
+   "versao": "2026.11.05.1517",
+   "data": "05/11/2026 15:17",
+   "titulo": "Correção: categorias de Cadastros (Leads, Clientes, Fornecedores, Parceiros, Equipe) desapareciam do menu ao reabrir o Núcleo",
+   "itens": [
+    "Uma categoria criada em Leads (ou em Clientes, Fornecedores, Parceiros, Equipe) ficava salva certinho, mas o botão dela no menu só aparecia dentro da mesma sessão — ao fechar e abrir o Núcleo de novo, a categoria \"desaparecia\" do menu (continuava existindo, só não aparecia como página).",
+    "Corrigido: o menu agora se atualiza sozinho assim que a lista de cada tipo (Visão Geral) termina de carregar os dados do escritório, sem precisar abrir \"Categorias...\" de novo."
+   ]
+  },
   {
    "versao": "2026.11.04.2131",
    "data": "04/11/2026 21:31",
@@ -79,24 +88,9 @@ window.NUCLEO = {
     "A largura das colunas que o usuário ajustar (arrastando a borda) agora fica salva de verdade — antes de hoje, fechar e abrir o Núcleo de novo voltava tudo ao padrão.",
     "A coluna Detalhes das árvores (Por empresa e Por tarefa) agora também aparece em \"☷ Colunas\" (marcada como fixa, pode só mudar de ordem)."
    ]
-  },
-  {
-   "versao": "2026.11.01.1947",
-   "data": "01/11/2026 19:47",
-   "titulo": "Gestão de Processos — barra de filtros numa linha só",
-   "itens": [
-    "Os botões \"📄 Excel\", \"📤 Relatório...\", \"⚙ Tarefas do processo\" e \"⚙ Configurar filtros...\" da Gestão de Processos (e da Visão Geral) foram reunidos num só botão \"⋯\", no canto da tela — mesmo padrão do \"⋯\" da tela de Empresas.",
-    "A busca foi para o lado da competência, e os filtros e o \"Visualizar por: Consolidado | Por empresa | Por tarefa\" ficaram todos numa linha só (antes eram duas linhas).",
-    "Em \"⚙ Configurar filtros...\": agora dá para escolher, tirar e ORDENAR qualquer filtro da barra (Responsável, Regime tributário e até 5 no total, incluindo colunas do cadastro) — só a Situação não pode ser tirada da seleção, mas também pode mudar de posição como as outras.",
-    "Botão novo \"☷ Colunas\" (no mesmo \"⋯\"): escolha, tire e ordene as colunas de apoio (Código, Regime, Responsável, Processo, Movimento) e as do cadastro de empresas — vale no Consolidado e também nas 2 árvores (Por empresa e Por tarefa), junto com as colunas do cadastro escolhidas.",
-    "Nas árvores (Por empresa e Por tarefa), as últimas colunas agora são sempre, nessa ordem: Categoria | Processo | Prazo | Status — as colunas do cadastro ficam antes desse bloco fixo (não mais na ponta, para não confundir com Prazo/Status). \"Situação\" e \"Status\" (mesma informação, em granularidades diferentes) viraram uma só coluna \"Status\"; \"Feito\"/\"Concluídas\"/\"Atrasadas\"/\"Pendência\" (mesma ideia) viraram uma só coluna \"Processo\", com tudo junto no texto. Aparecem marcadas \"(fixo)\" em \"☷ Colunas\" — não saem da seleção, mas a posição delas nas árvores nunca muda.",
-    "Filtros novos em \"⚙ Configurar filtros...\": Categoria, Processo (faixa de % concluído) e Prazo (vencido, vence hoje, vence em até 7 dias, vence este mês, sem prazo).",
-    "A largura que você ajustar arrastando a borda de uma coluna (no Consolidado e nas 2 árvores) não volta mais ao padrão — antes isso acontecia ao mudar um filtro, a competência ou só sair e voltar à página.",
-    "A coluna Status ganhou destaque na fonte (cor + negrito) para chamar mais a atenção: verde para Concluído/Concluída, vermelho para Pendente (status geral) e Atrasada — \"Com pendência\" mantém a cor laranja de sempre, só com o mesmo negrito."
-   ]
   }
  ],
- "total_versoes": 66,
+ "total_versoes": 67,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -512,5 +506,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "04/11/2026 21:46"
+ "gerado_em": "05/11/2026 15:23"
 };
