@@ -7,11 +7,22 @@ window.NUCLEO = {
  "download": {
   "publico": true,
   "url": "https://drive.usercontent.google.com/download?id=14DuTO0s3I8kVtsSwUHiaVWa8WkWQsjMG&export=download&confirm=t",
-  "versao": "2026.11.04.1601",
-  "data": "04/11/2026 16:01",
-  "sha256": "92599735b69b8bd37e82bdb23c6896f1d000f1a0370324cdbcc99b6571c3be81"
+  "versao": "2026.11.04.2131",
+  "data": "04/11/2026 21:31",
+  "sha256": "9016d9204785ce0d3807e05ed9312eed48da38da8605ed58b9dc968485eee6cd"
  },
  "versoes": [
+  {
+   "versao": "2026.11.04.2131",
+   "data": "04/11/2026 21:31",
+   "titulo": "Cadastro de empresas: campos da Receita/DF-e que não vieram ficam editáveis",
+   "itens": [
+    "Na ficha da empresa, um campo da atualização cadastral (Receita Federal ou DF-e) que não veio preenchido — como aconteceu com o Endereço de algumas empresas — agora pode ser digitado à mão.",
+    "Clicar em \"⟳ Atualizar\" de novo não apaga mais o que foi preenchido manualmente: a próxima atualização só grava o que a Receita/DF-e realmente trouxer, nunca apaga um campo já preenchido com um valor vazio.",
+    "O campo único \"Endereço\" virou três campos separados — Logradouro, Número e Complemento — iguais ao cadastro de CNPJ da Receita (antes vinham todos juntos num só campo).",
+    "A atualização do CNPJ agora tenta outra fonte quando a primeira não trouxer o Logradouro (acontecia em algumas empresas) — sem perder o que já tinha vindo certo (CEP, bairro, cidade, UF)."
+   ]
+  },
   {
    "versao": "2026.11.04.1601",
    "data": "04/11/2026 16:01",
@@ -83,17 +94,9 @@ window.NUCLEO = {
     "A largura que você ajustar arrastando a borda de uma coluna (no Consolidado e nas 2 árvores) não volta mais ao padrão — antes isso acontecia ao mudar um filtro, a competência ou só sair e voltar à página.",
     "A coluna Status ganhou destaque na fonte (cor + negrito) para chamar mais a atenção: verde para Concluído/Concluída, vermelho para Pendente (status geral) e Atrasada — \"Com pendência\" mantém a cor laranja de sempre, só com o mesmo negrito."
    ]
-  },
-  {
-   "versao": "2026.10.31.1300",
-   "data": "31/10/2026 13:00",
-   "titulo": "Gestão de Processos — filtros extras configuráveis",
-   "itens": [
-    "Nova linha \"Filtros adicionais\" na Gestão de Processos (e na Visão Geral), com o botão \"⚙ Configurar filtros...\": escolha até 4 colunas do cadastro de empresas (UF, Situação do CNPJ, Situação do Serviço, Grupo, Certificado...) para virarem filtro na barra, além de Responsável, Regime, Situação e a busca, que continuam fixos."
-   ]
   }
  ],
- "total_versoes": 65,
+ "total_versoes": 66,
  "em_breve": [
   "Gerar arquivo XML de NFCom pelo Portal DF-e a partir das chaves de acesso.",
   "Verificação de Débitos GDF, Download de NFS-e (ISS.net) e Consulta de Inscrições Estaduais usando o cadastro de empresas e as pastas fiscais.",
@@ -509,5 +512,5 @@ window.NUCLEO = {
   }
  ],
  "total_automacoes": 17,
- "gerado_em": "04/11/2026 16:09"
+ "gerado_em": "04/11/2026 21:46"
 };
