@@ -202,6 +202,11 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     <h3>+ Novo escritório</h3>
     <div class="campo"><label>CNPJ</label><input type="text" id="novoEscCnpj" placeholder="00.000.000/0000-00"></div>
     <div class="campo"><label>Nome do escritório</label><input type="text" id="novoEscNome"></div>
+    <div class="campo"><label>Sistema</label>
+      <select id="novoEscSistema" style="width:100%">
+        <option>Contabilidade</option><option>Agência de Viagens</option>
+      </select>
+    </div>
     <div class="campo"><label>Plano</label>
       <select id="novoEscPlano" style="width:100%">
         <option>Essencial</option><option>Profissional</option><option>Completo</option><option>Personalizado</option>
@@ -389,11 +394,11 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     });
     if (!estado.escritorios.length) { $("listaEscritorios").innerHTML = "<div class='vazio'>Nenhum escritório cadastrado.</div>"; return; }
     if (!linhas.length) { $("listaEscritorios").innerHTML = "<div class='vazio'>Nenhum escritório encontrado pra \"" + esc(termo) + "\".</div>"; return; }
-    var h = "<table><thead><tr><th>Código</th><th>Escritório</th><th>CNPJ</th><th>Plano</th><th>Situação</th><th>Vencimento</th><th>Usuários</th><th>Empresas</th></tr></thead><tbody>";
+    var h = "<table><thead><tr><th>Código</th><th>Escritório</th><th>CNPJ</th><th>Sistema</th><th>Plano</th><th>Situação</th><th>Vencimento</th><th>Usuários</th><th>Empresas</th></tr></thead><tbody>";
     linhas.forEach(function (e) {
       var i = estado.escritorios.indexOf(e);
       h += "<tr class='clicavel' data-i='" + i + "'><td>" + esc(e.esc_codigo) + "</td><td>" + esc(e.esc_nome) + "</td><td>" + esc(e.esc_cnpj) +
-        "</td><td>" + esc(e.plano_nome || "—") + "</td><td>" + seloSituacao(e.plano_situacao) + "</td><td>" + esc(e.plano_vencimento || "—") +
+        "</td><td>" + esc(e.esc_sistema || "Contabilidade") + "</td><td>" + esc(e.plano_nome || "—") + "</td><td>" + seloSituacao(e.plano_situacao) + "</td><td>" + esc(e.plano_vencimento || "—") +
         "</td><td>" + limite(e.uso_usuarios || 0, e.plano_limite_usuarios, "") + "</td><td>" + limite(e.uso_empresas || 0, e.plano_limite_empresas, "") + "</td></tr>";
     });
     h += "</tbody></table>";
@@ -473,7 +478,8 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     if (s1.length < 8 || !/[A-Za-z]/.test(s1) || !/\d/.test(s1)) { m.textContent = "A senha precisa de 8+ caracteres, com letra e número."; return; }
     if (s1 !== s2) { m.textContent = "As duas senhas não são iguais."; return; }
     var cat = CATALOGO_PLANOS[$("novoEscPlano").value] || {};
-    var registro = { esc_cnpj: cnpj, esc_nome: nome, plano_nome: $("novoEscPlano").value, plano_situacao: "Em teste",
+    var registro = { esc_cnpj: cnpj, esc_nome: nome, esc_sistema: $("novoEscSistema").value,
+      plano_nome: $("novoEscPlano").value, plano_situacao: "Em teste",
       plano_limite_usuarios: String(cat.usuarios || 0), plano_limite_empresas: String(cat.empresas || 0),
       plano_limite_certificados: String(cat.certificados || 0) };
     MODULOS.forEach(function (mm) { registro[mm[0]] = (cat.modulos || []).indexOf(mm[0]) >= 0 ? "Sim" : "Não"; });
