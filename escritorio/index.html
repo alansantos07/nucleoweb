@@ -57,6 +57,10 @@ main{max-width:900px;margin:0 auto;padding:22px 22px 40px}
 .selo-cinza{background:#F3F4F6;color:var(--texto3)}
 .selo-vermelho{background:var(--verm-claro);color:var(--verm)}
 .aviso-em-breve{background:var(--azul-claro);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--azul-esc)}
+.comunicado{background:#fff;border:1px solid var(--linha);border-left:4px solid var(--azul);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.comunicado.imp{border-left-color:var(--lar);background:var(--lar-claro)}
+.comunicado h4{margin:0;font-size:14.5px}
+.comunicado p{margin:6px 0 0;font-size:13.5px;white-space:pre-wrap;color:var(--texto2)}
 </style>
 </head>
 <body>
@@ -94,6 +98,7 @@ main{max-width:900px;margin:0 auto;padding:22px 22px 40px}
       <h3>Dados do escritório</h3>
       <div id="dadosEscritorio"></div>
     </div>
+    <div class="painel oculto" id="painelComunicados"><h3>Comunicados do Núcleo</h3><div id="listaComunicadosEsc"></div></div>
     <div class="aviso-em-breve">Mais funções desta área chegam em breve — por ora, esta é uma visão de leitura do contrato com o Núcleo. Para cadastrar empresas, usuários e rodar as automações, use o aplicativo do Núcleo no computador.</div>
     <p class="msg" id="avisoGeral"></p>
   </main>
@@ -185,8 +190,8 @@ main{max-width:900px;margin:0 auto;padding:22px 22px 40px}
         "<div class='card'><div class='rot'>Plano</div><div class='val'>" + esc(d.escritorio.plano_nome || "—") + "</div>" +
         "<div class='sub'>" + seloSituacao(d.escritorio.plano_situacao) + "</div></div>" +
         "<div class='card'><div class='rot'>Vencimento</div><div class='val' style='font-size:17px'>" + esc(d.escritorio.plano_vencimento || "—") + "</div></div>" +
-        "<div class='card'><div class='rot'>Usuários ativos</div><div class='val'>" + limite(d.escritorio.uso_usuarios || 0, d.escritorio.plano_usuarios) + "</div></div>" +
-        "<div class='card'><div class='rot'>Empresas cadastradas</div><div class='val'>" + limite(d.escritorio.uso_empresas || 0, d.escritorio.plano_empresas) + "</div></div>";
+        "<div class='card'><div class='rot'>Usuários ativos</div><div class='val'>" + limite(d.escritorio.uso_usuarios || 0, d.escritorio.plano_limite_usuarios) + "</div></div>" +
+        "<div class='card'><div class='rot'>Empresas cadastradas</div><div class='val'>" + limite(d.escritorio.uso_empresas || 0, d.escritorio.plano_limite_empresas) + "</div></div>";
       var dados = d.dados || {};
       var linhas = [["Código no Núcleo", d.escritorio.esc_codigo], ["CNPJ", d.escritorio.esc_cnpj],
         ["Razão social", dados.escritorio_razao || d.escritorio.esc_nome], ["Nome fantasia", dados.escritorio_fantasia],
@@ -195,6 +200,12 @@ main{max-width:900px;margin:0 auto;padding:22px 22px 40px}
       $("dadosEscritorio").innerHTML = linhas.filter(function (l) { return l[1]; })
         .map(function (l) { return "<div class='linha-dado'><span>" + esc(l[0]) + "</span><span>" + esc(l[1]) + "</span></div>"; }).join("") ||
         "<div style='color:var(--texto3);font-size:13px'>Sem dados cadastrados ainda.</div>";
+      var comunicados = d.comunicados || [];
+      $("painelComunicados").classList.toggle("oculto", !comunicados.length);
+      $("listaComunicadosEsc").innerHTML = comunicados.map(function (c) {
+        return "<div class='comunicado" + (c.importante ? " imp" : "") + "'><h4>" + (c.importante ? "⭐ " : "") + esc(c.titulo) +
+          "</h4><p>" + esc(c.texto) + "</p></div>";
+      }).join("");
     }).catch(function (err) {
       if (err.message === "SESSAO_EXPIRADA") { aviso("Sua sessão expirou. Entre de novo."); $("btSair").click(); return; }
       aviso(err.message, true);

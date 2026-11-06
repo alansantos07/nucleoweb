@@ -67,6 +67,23 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
 .campo label{margin-top:0}
 .vazio{color:var(--texto3);font-size:13.5px;padding:20px;text-align:center}
 @media (max-width:860px){.detalhe{grid-template-columns:1fr}}
+.grade-ind{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.card{background:#fff;border:1px solid var(--linha);border-radius:12px;padding:14px 16px}
+.card .rot{font-size:11px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.card .val{font-size:22px;font-weight:800;margin-top:4px}
+.card.alerta .val{color:var(--lar)}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.toolbar input[type=text]{width:260px;padding:9px 12px;border:1px solid #D1D5DB;border-radius:9px;font-size:13.5px}
+.toolbar .empurra{margin-left:auto}
+.modal-fundo{position:fixed;inset:0;background:rgba(17,24,39,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal{background:#fff;border-radius:16px;padding:24px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto}
+.modal h3{margin-top:0}
+.mods{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:8px 0 14px}
+.mods label{display:flex;align-items:center;gap:6px;font-weight:500;font-size:13.5px;margin:0}
+.limites{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.limites .campo{margin-bottom:0}
+.limites input{width:100%;padding:9px 10px;border:1px solid #D1D5DB;border-radius:9px;font-size:13.5px}
+.limites small{display:block;color:var(--texto3);font-size:11px;margin-top:3px}
 </style>
 </head>
 <body>
@@ -92,6 +109,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     <div class="topo">
       <a class="marca" href="../" style="font-size:14px"><span><svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0B3D91"/><path d="M18 46V18h6l16 18V18h6v28h-6L24 28v18z" fill="#fff"/><circle cx="48" cy="48" r="6" fill="#16A34A"/></svg></span><b>Núcleo</b></a>
       <div class="quem"><b id="quemRazao"></b><span>Proprietário do Núcleo</span></div>
+      <button class="btn btn-c btn-p" id="btTrocarSenha">🔑 Senha</button>
       <button class="btn btn-c btn-p" id="btSair">Sair</button>
     </div>
   </header>
@@ -100,11 +118,19 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
       <button class="at" data-aba="escritorios">🏢 Escritórios</button>
       <button data-aba="suporte">🛟 Suporte</button>
       <button data-aba="melhorias">💡 Melhorias</button>
+      <button data-aba="comunicados">📢 Comunicados</button>
     </div>
 
     <div id="abaEscritorios">
+      <div class="grade-ind" id="indEscritorios"></div>
       <div class="painel">
-        <h3>Escritórios cadastrados no Núcleo</h3>
+        <div class="toolbar">
+          <h3 style="margin:0">Escritórios cadastrados no Núcleo</h3>
+          <button class="btn btn-v btn-p empurra" id="btNovoEscritorio">+ Novo escritório</button>
+        </div>
+        <div class="toolbar">
+          <input type="text" id="buscaEscritorio" placeholder="Buscar por nome, código ou CNPJ...">
+        </div>
         <div id="listaEscritorios"></div>
       </div>
     </div>
@@ -136,17 +162,81 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
         <div class="painel oculto" id="detalheMelhoria"></div>
       </div>
     </div>
+
+    <div id="abaComunicados" class="oculto">
+      <div class="detalhe">
+        <div class="painel">
+          <div class="toolbar">
+            <h3 style="margin:0">Comunicados para os escritórios</h3>
+            <button class="btn btn-v btn-p empurra" id="btNovoComunicado">+ Novo comunicado</button>
+          </div>
+          <div id="listaComunicados"></div>
+        </div>
+        <div class="painel" id="detalheComunicadoVazio"><div class="vazio">Clique num comunicado para editar, ou crie um novo.</div></div>
+        <div class="painel oculto" id="detalheComunicado"></div>
+      </div>
+    </div>
     <p class="msg" id="avisoGeral"></p>
   </main>
 </div>
 <div class="toast" id="toast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;transition:.2s;background:var(--texto);color:#fff;padding:10px 18px;border-radius:10px;font-size:13.5px;pointer-events:none"></div>
+
+<!-- trocar a própria senha -->
+<div class="modal-fundo oculto" id="modalSenha">
+  <div class="modal">
+    <h3>Trocar minha senha</h3>
+    <div class="campo"><label>Senha atual</label><input type="password" id="senhaAtualTroca" autocomplete="current-password"></div>
+    <div class="campo"><label>Nova senha</label><input type="password" id="senhaNova1" autocomplete="new-password" placeholder="8+ caracteres, com letra e número"></div>
+    <div class="campo"><label>Confirme a nova senha</label><input type="password" id="senhaNova2" autocomplete="new-password"></div>
+    <div class="msg" id="msgSenhaTroca"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+      <button class="btn btn-c" id="btCancelarSenha">Cancelar</button>
+      <button class="btn btn-v" id="btSalvarSenha">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- + novo escritório -->
+<div class="modal-fundo oculto" id="modalNovoEscritorio">
+  <div class="modal" style="max-width:640px">
+    <h3>+ Novo escritório</h3>
+    <div class="campo"><label>CNPJ</label><input type="text" id="novoEscCnpj" placeholder="00.000.000/0000-00"></div>
+    <div class="campo"><label>Nome do escritório</label><input type="text" id="novoEscNome"></div>
+    <div class="campo"><label>Plano</label>
+      <select id="novoEscPlano" style="width:100%">
+        <option>Essencial</option><option>Profissional</option><option>Completo</option><option>Personalizado</option>
+      </select>
+    </div>
+    <h3 style="font-size:14px;margin-top:18px">1º Administrador</h3>
+    <div class="campo"><label>Nome</label><input type="text" id="novoAdmNome"></div>
+    <div class="campo"><label>Usuário (login)</label><input type="text" id="novoAdmLogin" placeholder="sem espaço, ex.: maria.silva"></div>
+    <div class="campo"><label>E-mail</label><input type="text" id="novoAdmEmail"></div>
+    <div class="campo"><label>Senha</label><input type="password" id="novoAdmSenha1" autocomplete="new-password"></div>
+    <div class="campo"><label>Confirme a senha</label><input type="password" id="novoAdmSenha2" autocomplete="new-password"></div>
+    <div class="msg" id="msgNovoEsc"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+      <button class="btn btn-c" id="btCancelarNovoEsc">Cancelar</button>
+      <button class="btn btn-v" id="btCriarEscritorio">Criar escritório</button>
+    </div>
+  </div>
+</div>
 
 <script src="config.js"></script>
 <script>
 (function () {
   var URL_CENTRAL = (window.PROPRIETARIO || {}).central || "";
   var CHAVE_SESSAO = "nucleo_proprietario";
-  var estado = { sessao: null, cnpj: "", sal: "", escritorios: [], suporte: [], melhorias: [] };
+  var estado = { sessao: null, cnpj: "", sal: "", escritorios: [], suporte: [], melhorias: [], comunicados: [] };
+  // mesmo catálogo de automations/escritorio.py (PLANOS) — escolher o plano já sugere módulos/limites
+  var MODULOS = [["plano_mod_federal", "Federal"], ["plano_mod_estadual", "Estadual"],
+                ["plano_mod_municipal", "Municipal"], ["plano_mod_dominio", "Domínio"], ["plano_mod_outros", "Outros"]];
+  var CATALOGO_PLANOS = {
+    "Essencial": { usuarios: 3, empresas: 50, certificados: 20, modulos: ["plano_mod_federal", "plano_mod_outros"] },
+    "Profissional": { usuarios: 10, empresas: 300, certificados: 150,
+      modulos: ["plano_mod_federal", "plano_mod_estadual", "plano_mod_municipal", "plano_mod_outros"] },
+    "Completo": { usuarios: 0, empresas: 0, certificados: 0, modulos: MODULOS.map(function (m) { return m[0]; }) },
+    "Personalizado": { usuarios: 0, empresas: 0, certificados: 0, modulos: MODULOS.map(function (m) { return m[0]; }) }
+  };
 
   function $(id) { return document.getElementById(id); }
   function esc(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : String(t); return d.innerHTML; }
@@ -191,7 +281,7 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     tentar(0).then(function (d) {
       guardarSal(cnpj, sal);
       estado.sessao = d.sessao; estado.cnpj = cnpj; estado.sal = sal;
-      guardar(CHAVE_SESSAO, { sessao: d.sessao, cnpj: cnpj, razao: d.razao });
+      guardar(CHAVE_SESSAO, { sessao: d.sessao, cnpj: cnpj, razao: d.razao, sal: sal });
       abrirApp(d.razao);
     }).catch(function (err) { msgLogin(err.message); $("senha").value = ""; })
       .then(function () { bt.disabled = false; bt.textContent = "Entrar"; });
@@ -214,11 +304,39 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
   Array.prototype.forEach.call(document.querySelectorAll(".abas button"), function (b) {
     b.onclick = function () {
       Array.prototype.forEach.call(document.querySelectorAll(".abas button"), function (x) { x.classList.toggle("at", x === b); });
-      ["escritorios", "suporte", "melhorias"].forEach(function (a) { $("aba" + a.charAt(0).toUpperCase() + a.slice(1)).classList.toggle("oculto", a !== b.dataset.aba); });
+      ["escritorios", "suporte", "melhorias", "comunicados"].forEach(function (a) { $("aba" + a.charAt(0).toUpperCase() + a.slice(1)).classList.toggle("oculto", a !== b.dataset.aba); });
       if (b.dataset.aba === "suporte" && !estado.suporte.length) carregarSuporte();
       if (b.dataset.aba === "melhorias" && !estado.melhorias.length) carregarMelhorias();
+      if (b.dataset.aba === "comunicados" && !estado.comunicados.length) carregarComunicados();
     };
   });
+
+  // ------------------------------------------------------------ trocar a própria senha
+  function abrirModal(id) { $(id).classList.remove("oculto"); }
+  function fecharModal(id) { $(id).classList.add("oculto"); }
+  $("btTrocarSenha").onclick = function () {
+    ["senhaAtualTroca", "senhaNova1", "senhaNova2"].forEach(function (i) { $(i).value = ""; });
+    $("msgSenhaTroca").textContent = "";
+    abrirModal("modalSenha");
+  };
+  $("btCancelarSenha").onclick = function () { fecharModal("modalSenha"); };
+  $("btSalvarSenha").onclick = function () {
+    var atual = $("senhaAtualTroca").value, n1 = $("senhaNova1").value, n2 = $("senhaNova2").value;
+    var m = $("msgSenhaTroca"); m.className = "msg erro";
+    if (!atual) { m.textContent = "Informe a senha atual."; return; }
+    if (n1.length < 8 || !/[A-Za-z]/.test(n1) || !/\d/.test(n1)) { m.textContent = "A senha nova precisa de 8+ caracteres, com letra e número."; return; }
+    if (n1 !== n2) { m.textContent = "As duas senhas novas não são iguais."; return; }
+    var bt = $("btSalvarSenha"); bt.disabled = true; bt.textContent = "Salvando...";
+    var novoSal = b64(crypto.getRandomValues(new Uint8Array(16)));
+    Promise.all([resumo(atual, estado.sal), resumo(n1, novoSal)]).then(function (r) {
+      return chamarSessao({ acao: "principal_web_senha", resumo_atual: r[0], novo_hash: r[1], novo_sal: novoSal });
+    }).then(function () {
+      estado.sal = novoSal; guardarSal(estado.cnpj, novoSal);
+      guardar(CHAVE_SESSAO, { sessao: estado.sessao, cnpj: estado.cnpj, razao: $("quemRazao").textContent, sal: novoSal });
+      fecharModal("modalSenha"); toast("Senha alterada ✔");
+    }).catch(function (err) { m.textContent = err.message; })
+      .then(function () { bt.disabled = false; bt.textContent = "Salvar"; });
+  };
 
   function aviso(t, erro) { var a = $("avisoGeral"); a.textContent = t || ""; a.className = "msg " + (erro ? "erro" : "ok"); }
   function chamarSessao(corpo) {
@@ -244,16 +362,39 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     $("listaEscritorios").innerHTML = "Carregando...";
     chamarSessao({ acao: "principal_web_painel" }).then(function (d) {
       estado.escritorios = d.escritorios || [];
-      desenharEscritorios();
+      desenharIndicadores(); desenharEscritorios();
     }).catch(function (err) { $("listaEscritorios").innerHTML = "<div class='vazio'>" + esc(err.message) + "</div>"; });
   }
+  function desenharIndicadores() {
+    var lista = estado.escritorios, hoje = new Date();
+    var ativos = 0, vencendo = 0, suspensos = 0;
+    lista.forEach(function (e) {
+      var sit = e.plano_situacao || "Ativa";
+      if (sit === "Ativa") ativos++;
+      if (sit === "Suspensa" || sit === "Cancelada") suspensos++;
+      var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(e.plano_vencimento || "");
+      if (m) { var d = new Date(+m[3], +m[2] - 1, +m[1]); var dias = (d - hoje) / 86400000; if (dias >= 0 && dias <= 30) vencendo++; }
+    });
+    $("indEscritorios").innerHTML =
+      "<div class='card'><div class='rot'>Total de escritórios</div><div class='val'>" + lista.length + "</div></div>" +
+      "<div class='card'><div class='rot'>Ativos</div><div class='val'>" + ativos + "</div></div>" +
+      "<div class='card" + (vencendo ? " alerta" : "") + "'><div class='rot'>Vencendo em 30 dias</div><div class='val'>" + vencendo + "</div></div>" +
+      "<div class='card" + (suspensos ? " alerta" : "") + "'><div class='rot'>Suspensos/Cancelados</div><div class='val'>" + suspensos + "</div></div>";
+  }
+  $("buscaEscritorio").addEventListener("input", desenharEscritorios);
   function desenharEscritorios() {
+    var termo = $("buscaEscritorio").value.toLowerCase().trim();
+    var linhas = estado.escritorios.filter(function (e) {
+      return !termo || [e.esc_nome, e.esc_codigo, e.esc_cnpj].some(function (v) { return String(v || "").toLowerCase().indexOf(termo) >= 0; });
+    });
     if (!estado.escritorios.length) { $("listaEscritorios").innerHTML = "<div class='vazio'>Nenhum escritório cadastrado.</div>"; return; }
+    if (!linhas.length) { $("listaEscritorios").innerHTML = "<div class='vazio'>Nenhum escritório encontrado pra \"" + esc(termo) + "\".</div>"; return; }
     var h = "<table><thead><tr><th>Código</th><th>Escritório</th><th>CNPJ</th><th>Plano</th><th>Situação</th><th>Vencimento</th><th>Usuários</th><th>Empresas</th></tr></thead><tbody>";
-    estado.escritorios.forEach(function (e, i) {
+    linhas.forEach(function (e) {
+      var i = estado.escritorios.indexOf(e);
       h += "<tr class='clicavel' data-i='" + i + "'><td>" + esc(e.esc_codigo) + "</td><td>" + esc(e.esc_nome) + "</td><td>" + esc(e.esc_cnpj) +
         "</td><td>" + esc(e.plano_nome || "—") + "</td><td>" + seloSituacao(e.plano_situacao) + "</td><td>" + esc(e.plano_vencimento || "—") +
-        "</td><td>" + limite(e.uso_usuarios || 0, e.plano_usuarios, "") + "</td><td>" + limite(e.uso_empresas || 0, e.plano_empresas, "") + "</td></tr>";
+        "</td><td>" + limite(e.uso_usuarios || 0, e.plano_limite_usuarios, "") + "</td><td>" + limite(e.uso_empresas || 0, e.plano_limite_empresas, "") + "</td></tr>";
     });
     h += "</tbody></table>";
     $("listaEscritorios").innerHTML = h;
@@ -263,30 +404,89 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
   }
   function abrirEdicaoEscritorio(e) {
     var situacoes = ["Ativa", "Em teste", "Suspensa", "Cancelada"];
+    var planos = Object.keys(CATALOGO_PLANOS);
+    var modsAtivos = (e.plano_nome === "Personalizado" || !e.plano_nome)
+      ? MODULOS.filter(function (m) { return e[m[0]] === "Sim"; }).map(function (m) { return m[0]; })
+      : (CATALOGO_PLANOS[e.plano_nome] || {}).modulos || [];
     var h = "<h3>" + esc(e.esc_nome) + " (código " + esc(e.esc_codigo) + ")</h3>" +
-      "<p style='color:var(--texto3);font-size:13px;margin-top:-6px'>Plano completo (módulos, limites) só pelo aplicativo do Núcleo. " +
-      "Aqui dá para mudar a situação e o vencimento.</p>" +
+      "<div class='campo'><label>Plano</label><select id='edPlano'>" +
+      "<option value=''" + (!e.plano_nome ? " selected" : "") + ">(sem plano — sem restrição)</option>" +
+      planos.map(function (p) { return "<option value='" + p + "'" + (p === e.plano_nome ? " selected" : "") + ">" + p + "</option>"; }).join("") +
+      "</select></div>" +
       "<div class='campo'><label>Situação</label><select id='edSituacao'>" +
       situacoes.map(function (s) { return "<option value='" + s + "'" + (s === (e.plano_situacao || "Ativa") ? " selected" : "") + ">" + s + "</option>"; }).join("") +
       "</select></div>" +
       "<div class='campo'><label>Vencimento (dd/mm/aaaa)</label><input type='text' id='edVencimento' value='" + esc(e.plano_vencimento || "") + "' placeholder='31/12/2027'></div>" +
+      "<div class='campo'><label>Módulos liberados</label><div class='mods' id='edMods'>" +
+      MODULOS.map(function (m) { return "<label><input type='checkbox' value='" + m[0] + "'" + (modsAtivos.indexOf(m[0]) >= 0 ? " checked" : "") + "> " + m[1] + "</label>"; }).join("") +
+      "</div></div>" +
+      "<div class='campo'><label>Limites (0 = sem limite)</label><div class='limites'>" +
+      "<div><input type='number' min='0' id='edLimUsuarios' value='" + esc(e.plano_limite_usuarios || 0) + "'><small>usuários</small></div>" +
+      "<div><input type='number' min='0' id='edLimEmpresas' value='" + esc(e.plano_limite_empresas || 0) + "'><small>empresas</small></div>" +
+      "<div><input type='number' min='0' id='edLimCertificados' value='" + esc(e.plano_limite_certificados || 0) + "'><small>certificados</small></div>" +
+      "</div></div>" +
       "<div class='msg' id='msgEdEsc'></div>" +
-      "<button class='btn btn-v' id='btSalvarEsc'>Salvar</button>";
-    var modal = window.prompt ? null : null; // sem modal nativo (evitar dialogs) — usa um painel inline
+      "<div style='display:flex;gap:8px'><button class='btn btn-v' id='btSalvarEsc'>Salvar</button>" +
+      "<button class='btn btn-c' id='btFecharEdEsc'>Fechar</button></div>";
     var alvo = document.createElement("div"); alvo.className = "painel"; alvo.innerHTML = h;
     var anterior = document.getElementById("edicaoEscritorio"); if (anterior) anterior.remove();
     alvo.id = "edicaoEscritorio";
     $("abaEscritorios").appendChild(alvo);
     alvo.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    $("edPlano").onchange = function () {
+      var cat = CATALOGO_PLANOS[this.value];
+      if (!cat) return; // "(sem plano)" -- não mexe no que já está marcado
+      $("edLimUsuarios").value = cat.usuarios; $("edLimEmpresas").value = cat.empresas; $("edLimCertificados").value = cat.certificados;
+      Array.prototype.forEach.call($("edMods").querySelectorAll("input"), function (c) { c.checked = cat.modulos.indexOf(c.value) >= 0; });
+    };
+    $("btFecharEdEsc").onclick = function () { alvo.remove(); };
     $("btSalvarEsc").onclick = function () {
       var venc = $("edVencimento").value.trim();
       if (venc && !/^\d{2}\/\d{2}\/\d{4}$/.test(venc)) { $("msgEdEsc").textContent = "Data inválida (use dd/mm/aaaa)."; $("msgEdEsc").className = "msg erro"; return; }
       var bt = this; bt.disabled = true; bt.textContent = "Salvando...";
-      chamarSessao({ acao: "principal_web_escritorio_salvar", registro: { id: e.id, plano_situacao: $("edSituacao").value, plano_vencimento: venc } })
+      var registro = { id: e.id, plano_nome: $("edPlano").value, plano_situacao: $("edSituacao").value, plano_vencimento: venc,
+        plano_limite_usuarios: $("edLimUsuarios").value || "0", plano_limite_empresas: $("edLimEmpresas").value || "0",
+        plano_limite_certificados: $("edLimCertificados").value || "0" };
+      MODULOS.forEach(function (m) { registro[m[0]] = $("edMods").querySelector("input[value='" + m[0] + "']").checked ? "Sim" : "Não"; });
+      chamarSessao({ acao: "principal_web_escritorio_salvar", registro: registro })
         .then(function () { toast("Escritório atualizado ✔"); alvo.remove(); carregarEscritorios(); })
         .catch(function (err) { $("msgEdEsc").textContent = err.message; $("msgEdEsc").className = "msg erro"; bt.disabled = false; bt.textContent = "Salvar"; });
     };
   }
+
+  // ------------------------------------------------------------ + novo escritório
+  $("btNovoEscritorio").onclick = function () {
+    ["novoEscCnpj", "novoEscNome", "novoAdmNome", "novoAdmLogin", "novoAdmEmail", "novoAdmSenha1", "novoAdmSenha2"].forEach(function (i) { $(i).value = ""; });
+    $("novoEscPlano").value = "Essencial"; $("msgNovoEsc").textContent = "";
+    abrirModal("modalNovoEscritorio");
+  };
+  $("btCancelarNovoEsc").onclick = function () { fecharModal("modalNovoEscritorio"); };
+  $("btCriarEscritorio").onclick = function () {
+    var cnpj = digitos($("novoEscCnpj").value), nome = $("novoEscNome").value.trim();
+    var login = $("novoAdmLogin").value.trim().toLowerCase(), admNome = $("novoAdmNome").value.trim();
+    var email = $("novoAdmEmail").value.trim().toLowerCase(), s1 = $("novoAdmSenha1").value, s2 = $("novoAdmSenha2").value;
+    var m = $("msgNovoEsc"); m.className = "msg erro";
+    if (cnpj.length !== 14) { m.textContent = "CNPJ inválido."; return; }
+    if (!nome) { m.textContent = "Informe o nome do escritório."; return; }
+    if (!login || /\s/.test(login)) { m.textContent = "Informe um usuário (login) sem espaços."; return; }
+    if (!admNome) { m.textContent = "Informe o nome do 1º Administrador."; return; }
+    if (s1.length < 8 || !/[A-Za-z]/.test(s1) || !/\d/.test(s1)) { m.textContent = "A senha precisa de 8+ caracteres, com letra e número."; return; }
+    if (s1 !== s2) { m.textContent = "As duas senhas não são iguais."; return; }
+    var cat = CATALOGO_PLANOS[$("novoEscPlano").value] || {};
+    var registro = { esc_cnpj: cnpj, esc_nome: nome, plano_nome: $("novoEscPlano").value, plano_situacao: "Em teste",
+      plano_limite_usuarios: String(cat.usuarios || 0), plano_limite_empresas: String(cat.empresas || 0),
+      plano_limite_certificados: String(cat.certificados || 0) };
+    MODULOS.forEach(function (mm) { registro[mm[0]] = (cat.modulos || []).indexOf(mm[0]) >= 0 ? "Sim" : "Não"; });
+    var bt = $("btCriarEscritorio"); bt.disabled = true; bt.textContent = "Criando...";
+    var sal = b64(crypto.getRandomValues(new Uint8Array(16)));
+    resumo(s1, sal).then(function (h) {
+      return chamarSessao({ acao: "principal_web_escritorio_criar", registro: registro,
+        administrador: { usuario_login: login, usuario_nome: admNome, usuario_email: email, usuario_senha_hash: h, usuario_senha_sal: sal } });
+    }).then(function () {
+      toast("Escritório criado ✔"); fecharModal("modalNovoEscritorio"); carregarEscritorios();
+    }).catch(function (err) { m.textContent = err.message; })
+      .then(function () { bt.disabled = false; bt.textContent = "Criar escritório"; });
+  };
 
   // ------------------------------------------------------------ suporte
   $("filtroSuporte").onchange = desenharSuporte;
@@ -397,10 +597,84 @@ textarea{width:100%;padding:10px 12px;border:1px solid #D1D5DB;border-radius:10p
     };
   }
 
+  // ------------------------------------------------------------ comunicados pros escritórios
+  $("btNovoComunicado").onclick = function () { abrirComunicado(null); };
+  function carregarComunicados() {
+    $("listaComunicados").innerHTML = "Carregando...";
+    chamarSessao({ acao: "principal_web_comunicado_listar" }).then(function (d) {
+      estado.comunicados = d.comunicados || []; desenharComunicados();
+    }).catch(function (err) { $("listaComunicados").innerHTML = "<div class='vazio'>" + esc(err.message) + "</div>"; });
+  }
+  function situacaoComunicado(c) {
+    if (!c.ativo) return { texto: "Desligado", cor: "cinza" };
+    var hoje = Utilities_hoje();
+    if (c.inicio && c.inicio.split("/").reverse().join("") > hoje) return { texto: "Agendado", cor: "laranja" };
+    if (c.fim && c.fim.split("/").reverse().join("") < hoje) return { texto: "Encerrado", cor: "cinza" };
+    return { texto: "No ar", cor: "verde" };
+  }
+  function Utilities_hoje() { var d = new Date(); return String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0"); }
+  function desenharComunicados() {
+    if (!estado.comunicados.length) { $("listaComunicados").innerHTML = "<div class='vazio'>Nenhum comunicado ainda.</div>"; return; }
+    var h = "<table><thead><tr><th>Título</th><th>Destino</th><th>Situação</th><th></th></tr></thead><tbody>";
+    estado.comunicados.forEach(function (c) {
+      var s = situacaoComunicado(c);
+      var destino = c.destino === "todas" ? "Todos os escritórios" : (c.destino || []).length + " escritório(s)";
+      h += "<tr class='clicavel' data-id='" + esc(c.id) + "'><td>" + (c.importante ? "⭐ " : "") + esc(c.titulo) + "</td><td>" + esc(destino) +
+        "</td><td><span class='selo selo-" + s.cor + "'>" + s.texto + "</span></td><td></td></tr>";
+    });
+    h += "</tbody></table>";
+    $("listaComunicados").innerHTML = h;
+    Array.prototype.forEach.call($("listaComunicados").querySelectorAll("tr.clicavel"), function (tr) {
+      tr.onclick = function () { abrirComunicado(tr.dataset.id); };
+    });
+  }
+  function abrirComunicado(id) {
+    var c = id ? estado.comunicados.filter(function (x) { return String(x.id) === String(id); })[0] : null;
+    c = c || { destino: "todas" };
+    $("detalheComunicadoVazio").classList.add("oculto"); $("detalheComunicado").classList.remove("oculto");
+    var checks = estado.escritorios.map(function (e) {
+      var marcado = c.destino === "todas" ? false : (c.destino || []).indexOf(e.esc_codigo) >= 0;
+      return "<label style='display:flex;gap:6px;align-items:center;font-weight:500;font-size:13.5px;margin:4px 0'>" +
+        "<input type='checkbox' class='chkDestino' value='" + esc(e.esc_codigo) + "'" + (marcado ? " checked" : "") + "> " +
+        esc(e.esc_codigo) + " — " + esc(e.esc_nome) + "</label>";
+    }).join("");
+    $("detalheComunicado").innerHTML =
+      "<h3>" + (id ? "Editar comunicado" : "Novo comunicado") + "</h3>" +
+      "<div class='campo'><label>Título</label><input type='text' id='comTitulo' value='" + esc(c.titulo || "") + "'></div>" +
+      "<div class='campo'><label>Texto</label><textarea id='comTexto'>" + esc(c.texto || "") + "</textarea></div>" +
+      "<div class='campo'><label><input type='checkbox' id='comImportante'" + (c.importante ? " checked" : "") + "> Importante (destaca pro escritório)</label></div>" +
+      "<div class='limites' style='margin-bottom:10px'><div><label>Início (dd/mm/aaaa)</label><input type='text' id='comInicio' value='" + esc(c.inicio || "") + "'></div>" +
+      "<div><label>Fim (dd/mm/aaaa)</label><input type='text' id='comFim' value='" + esc(c.fim || "") + "'></div>" +
+      "<div><label><input type='checkbox' id='comTodas'" + (c.destino === "todas" || !id ? " checked" : "") + "> Todos os escritórios</label></div></div>" +
+      "<div id='comEscolheDestino' class='" + (c.destino === "todas" || !id ? "oculto" : "") + "' style='margin-bottom:10px'>" + checks + "</div>" +
+      "<div class='campo' id='comAtivoCampo'" + (id ? "" : " style='display:none'") + "><label><input type='checkbox' id='comAtivo'" + (c.ativo !== false ? " checked" : "") + "> Ativo</label></div>" +
+      "<div class='msg' id='msgCom'></div>" +
+      "<div style='display:flex;gap:8px'><button class='btn btn-v' id='btSalvarCom'>Salvar</button>" +
+      "<button class='btn btn-c' id='btFecharCom'>Fechar</button></div>";
+    $("comTodas").onchange = function () { $("comEscolheDestino").classList.toggle("oculto", this.checked); };
+    $("btFecharCom").onclick = function () { $("detalheComunicado").classList.add("oculto"); $("detalheComunicadoVazio").classList.remove("oculto"); };
+    $("btSalvarCom").onclick = function () {
+      var m = $("msgCom"); m.className = "msg erro";
+      var inicio = $("comInicio").value.trim(), fim = $("comFim").value.trim();
+      if ((inicio && !/^\d{2}\/\d{2}\/\d{4}$/.test(inicio)) || (fim && !/^\d{2}\/\d{2}\/\d{4}$/.test(fim))) { m.textContent = "Data inválida (use dd/mm/aaaa)."; return; }
+      var destino = "todas";
+      if (!$("comTodas").checked) {
+        destino = Array.prototype.filter.call($("detalheComunicado").querySelectorAll(".chkDestino"), function (x) { return x.checked; }).map(function (x) { return x.value; });
+        if (!destino.length) { m.textContent = "Escolha pelo menos um escritório."; return; }
+      }
+      var registro = { id: id || undefined, titulo: $("comTitulo").value.trim(), texto: $("comTexto").value.trim(),
+        importante: $("comImportante").checked, inicio: inicio, fim: fim, destino: destino, ativo: id ? $("comAtivo").checked : true };
+      var bt = $("btSalvarCom"); bt.disabled = true; bt.textContent = "Salvando...";
+      chamarSessao({ acao: "principal_web_comunicado_salvar", registro: registro })
+        .then(function () { toast("Comunicado salvo ✔"); $("btFecharCom").click(); carregarComunicados(); })
+        .catch(function (err) { m.textContent = err.message; bt.disabled = false; bt.textContent = "Salvar"; });
+    };
+  }
+
   // ------------------------------------------------------------ retomar sessão
   var guardada = ler(CHAVE_SESSAO);
   if (guardada && guardada.sessao) {
-    estado.sessao = guardada.sessao; estado.cnpj = guardada.cnpj;
+    estado.sessao = guardada.sessao; estado.cnpj = guardada.cnpj; estado.sal = guardada.sal || "";
     abrirApp(guardada.razao);
   }
 })();
